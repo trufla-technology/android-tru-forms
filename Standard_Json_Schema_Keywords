@@ -1,0 +1,69 @@
+** This file should do contain all standard Json Schema Keywords even if it's not implemented in the library .. 
+No vocabulary keywords are allowed here**
+
+Json Schema Keywords
+
+***Validation Keywords for Any Instance Type***
+
+type (string,boolean,number,null,object)
+enum
+const (instead of enums with one value)
+format
+***Validation Keywords for Numeric Instances***
+
+multipleOf
+maximum
+minimum
+exclusiveMaximum
+exclusiveMinimum
+
+
+***Validation Keywords for Strings***
+
+maxLength
+minLength
+pattern
+
+*****Validation Keywords for Arrays*****
+
+items
+additionalItems
+maxItems
+minItems
+uniqueItems
+contains
+
+***Validation Keywords for Objects**
+
+maxProperties
+minProperties
+required
+properties
+patternProperties
+additionalProperties
+dependencies
+propertyNames ( validates the names of all properties rather than their values )
+
+*** Keywords for Applying Subschemas Conditionally***
+
+if
+then
+else
+
+**Keywords for Applying Subschemas With Boolean Logic***
+
+anyOf
+allOf
+oneOf
+not
+
+
+*** Schema Re-Use ** 
+definitions
+
+*** Annotation ***
+title
+default
+description
+readOnly
+writeOnly
