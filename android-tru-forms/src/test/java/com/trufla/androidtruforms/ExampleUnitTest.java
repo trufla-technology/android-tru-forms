@@ -10,6 +10,8 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+    //todo test if json will be casted to proper Number/Boolean/String/Array/Object Instance
+    //todo test if enum arraylist is converted to int or strings
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
