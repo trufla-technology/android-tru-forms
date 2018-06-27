@@ -1,9 +1,7 @@
-package com.trufla.androidtruforms.SchemaModels;
+package com.trufla.androidtruforms.schema_models;
 
 import com.google.gson.annotations.SerializedName;
-import com.trufla.androidtruforms.SchemaViews.SchemaBaseView;
-
-import java.util.ArrayList;
+import com.trufla.androidtruforms.schema_views.SchemaBaseView;
 
 /**
  * Created by ohefny on 6/26/18.
@@ -15,8 +13,6 @@ public abstract class SchemaInstance {
     protected String title;
     @SerializedName("type")
     protected String type="";
-    @SerializedName("enum")
-    protected ArrayList<Object> enumArray; //instance of String or Number or Boolean
     @SerializedName("const")
     protected Object constItem;
 
@@ -34,14 +30,6 @@ public abstract class SchemaInstance {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public ArrayList<Object> getEnumArray() {
-        return enumArray;
-    }
-
-    public void setEnumArray(ArrayList<Object> enumArray) {
-        this.enumArray = enumArray;
     }
 
     public Object getConstItem() {

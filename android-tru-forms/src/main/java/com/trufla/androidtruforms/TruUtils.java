@@ -26,7 +26,7 @@ public class TruUtils {
      * @return true if text contains whitespace or no content otherwise false
      */
     public static boolean isEmpty(CharSequence charSequence) {
-        return charSequence == null || TextUtils.isEmpty(charSequence.toString().trim());
+        return charSequence == null || charSequence.equals("");
     }
 
     /**
