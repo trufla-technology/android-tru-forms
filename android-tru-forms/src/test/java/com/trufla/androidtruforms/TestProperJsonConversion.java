@@ -2,10 +2,10 @@ package com.trufla.androidtruforms;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.trufla.androidtruforms.schema_models.ObjectInstance;
-import com.trufla.androidtruforms.schema_models.ObjectProperties;
-import com.trufla.androidtruforms.schema_models.SchemaInstance;
-import com.trufla.androidtruforms.schema_models.StringInstance;
+import com.trufla.androidtruforms.models.ObjectInstance;
+import com.trufla.androidtruforms.models.ObjectProperties;
+import com.trufla.androidtruforms.models.SchemaInstance;
+import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesAdapter;
 import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceAdapter;
 

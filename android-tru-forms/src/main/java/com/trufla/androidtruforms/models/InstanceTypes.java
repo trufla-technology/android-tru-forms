@@ -1,4 +1,4 @@
-package com.trufla.androidtruforms.schema_models;
+package com.trufla.androidtruforms.models;
 
 /**
  * Created by ohefny on 6/26/18.

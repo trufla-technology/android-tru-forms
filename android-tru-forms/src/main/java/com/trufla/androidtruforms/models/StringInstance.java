@@ -1,7 +1,7 @@
-package com.trufla.androidtruforms.schema_models;
+package com.trufla.androidtruforms.models;
 
 import com.google.gson.annotations.SerializedName;
-import com.trufla.androidtruforms.schema_views.TruStringView;
+import com.trufla.androidtruforms.truviews.TruStringView;
 
 import java.util.ArrayList;
 
