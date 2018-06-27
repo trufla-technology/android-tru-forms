@@ -3,7 +3,6 @@ package com.trufla.androidtruforms.SchemaViews;
 import android.view.View;
 
 import com.trufla.androidtruforms.SchemaModels.ObjectInstance;
-import com.trufla.androidtruforms.SchemaModels.SchemaInstance;
 
 /**
  * Created by ohefny on 6/26/18.

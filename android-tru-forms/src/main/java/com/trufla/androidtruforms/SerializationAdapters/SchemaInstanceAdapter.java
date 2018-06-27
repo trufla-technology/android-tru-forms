@@ -1,4 +1,4 @@
-package com.trufla.androidtruforms;
+package com.trufla.androidtruforms.SerializationAdapters;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -8,6 +8,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.trufla.androidtruforms.SchemaModels.InstanceTypes;
 import com.trufla.androidtruforms.SchemaModels.SchemaInstance;
+import com.trufla.androidtruforms.TruUtils;
 
 import java.lang.reflect.Type;
 
@@ -27,11 +28,11 @@ public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
     public SchemaInstance deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         JsonPrimitive prim = (JsonPrimitive) jsonObject.get(TYPE_KEY);
-        String type = prim.getAsString();
+        String type = TruUtils.getText(prim.getAsString(),"No_Type");
         String className;
 
         Class<?> klass = null;
-        switch (TYPE_KEY){
+        switch (type){
             case InstanceTypes.ARRAY:
                 className=ARRAY_INSTANCE_CLASS;
                 break;
@@ -60,4 +61,6 @@ public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
         }
         return context.deserialize(json,klass);
     }
+
+
 }
