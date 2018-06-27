@@ -1,8 +1,8 @@
-package com.trufla.androidtruforms.SchemaViews;
+package com.trufla.androidtruforms.schema_views;
 
 import android.view.View;
 
-import com.trufla.androidtruforms.SchemaModels.ObjectInstance;
+import com.trufla.androidtruforms.schema_models.ObjectInstance;
 
 /**
  * Created by ohefny on 6/26/18.

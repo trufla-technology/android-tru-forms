@@ -1,4 +1,4 @@
-package com.trufla.androidtruforms.SerializationAdapters;
+package com.trufla.androidtruforms.adapters.deserializers;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -6,8 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
-import com.trufla.androidtruforms.SchemaModels.InstanceTypes;
-import com.trufla.androidtruforms.SchemaModels.SchemaInstance;
+import com.trufla.androidtruforms.schema_models.InstanceTypes;
+import com.trufla.androidtruforms.schema_models.SchemaInstance;
 import com.trufla.androidtruforms.TruUtils;
 
 import java.lang.reflect.Type;
@@ -19,7 +19,7 @@ import java.lang.reflect.Type;
 public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
     final String TYPE_KEY="type";
     final String STRING_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.StringInstance";
-    final String NUMBER_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.Numeric";
+    final String NUMBER_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.NumericInstance";
     final String BOOLEAN_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.BooleanInstance";
     final String ARRAY_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.ArrayInstance";
     final String OBJECT_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.ObjectInstance";
@@ -59,7 +59,8 @@ public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
             throw new JsonParseException(e.getMessage());
 
         }
-        return context.deserialize(json,klass);
+        SchemaInstance schemaInstance= context.deserialize(json,klass);
+        return schemaInstance;
     }
 
 

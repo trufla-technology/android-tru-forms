@@ -1,16 +1,15 @@
-package com.trufla.androidtruforms.SerializationAdapters;
+package com.trufla.androidtruforms.adapters.deserializers;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.trufla.androidtruforms.SchemaModels.ObjectInstance;
-import com.trufla.androidtruforms.SchemaModels.ObjectProperties;
-import com.trufla.androidtruforms.SchemaModels.SchemaInstance;
-
-import org.json.JSONObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.trufla.androidtruforms.schema_models.ObjectProperties;
+import com.trufla.androidtruforms.schema_models.SchemaInstance;
+import com.trufla.androidtruforms.TruUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
  * Created by ohefny on 6/27/18.
  */
 
-public class ObjectPropertiesAdapter implements JsonDeserializer<ObjectProperties> {
+public class ObjectPropertiesAdapter implements JsonDeserializer<ObjectProperties> ,JsonSerializer<ObjectProperties>{
     @Override
     public ObjectProperties deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
@@ -33,7 +32,13 @@ public class ObjectPropertiesAdapter implements JsonDeserializer<ObjectPropertie
 
     public SchemaInstance getPropertyItem(String key, JsonObject jsonObject,JsonDeserializationContext context){
         SchemaInstance schemaInstance=context.deserialize(jsonObject,SchemaInstance.class);
-        schemaInstance.setTitle(key);
+        if(TruUtils.isEmpty(schemaInstance.getTitle()))
+            schemaInstance.setTitle(key);
         return schemaInstance;
+    }
+
+    @Override
+    public JsonElement serialize(ObjectProperties src, Type typeOfSrc, JsonSerializationContext context) {
+        return null;
     }
 }

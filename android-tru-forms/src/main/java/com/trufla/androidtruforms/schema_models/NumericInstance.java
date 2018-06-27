@@ -1,7 +1,9 @@
-package com.trufla.androidtruforms.SchemaModels;
+package com.trufla.androidtruforms.schema_models;
 
-import com.trufla.androidtruforms.SchemaViews.SchemaBaseView;
-import com.trufla.androidtruforms.SchemaViews.TruNumericView;
+import com.google.gson.annotations.SerializedName;
+import com.trufla.androidtruforms.schema_views.TruNumericView;
+
+import java.util.ArrayList;
 
 /**
  * Created by ohefny on 6/26/18.
@@ -12,7 +14,8 @@ public class NumericInstance extends SchemaInstance {
     protected double minimum;
     protected double exclusiveMaximum;
     protected double exclusiveMinimum;
-
+    @SerializedName("enum")
+    protected ArrayList<Double> enumArray; //instance of String or Number or Boolean
     public double getMaximum() {
         return maximum;
     }
@@ -43,6 +46,10 @@ public class NumericInstance extends SchemaInstance {
 
     public void setExclusiveMinimum(double exclusiveMinimum) {
         this.exclusiveMinimum = exclusiveMinimum;
+    }
+
+    public ArrayList<Double> getEnumArray() {
+        return enumArray;
     }
 
     @Override

@@ -1,8 +1,7 @@
-package com.trufla.androidtruforms.SchemaModels;
+package com.trufla.androidtruforms.schema_models;
 
 import com.google.gson.annotations.SerializedName;
-import com.trufla.androidtruforms.SchemaViews.SchemaBaseView;
-import com.trufla.androidtruforms.SchemaViews.TruSectionView;
+import com.trufla.androidtruforms.schema_views.TruSectionView;
 
 import java.util.ArrayList;
 
@@ -11,12 +10,16 @@ import java.util.ArrayList;
  */
 
 public class ObjectInstance extends SchemaInstance{
+    @SerializedName("maxProperties")
     protected int maxProperties;
+    @SerializedName("minProperties")
     protected int minProperties;
     @SerializedName("required")
     protected ArrayList<String> required;
     @SerializedName("properties")
     protected ObjectProperties properties;
+    @SerializedName("description")
+    protected String description;
     public ObjectInstance(int maxProperties, int minProperties, ArrayList<String> required) {
         this.maxProperties = maxProperties;
         this.minProperties = minProperties;
@@ -45,6 +48,18 @@ public class ObjectInstance extends SchemaInstance{
 
     public void setRequired(ArrayList<String> required) {
         this.required = required;
+    }
+
+    public ObjectProperties getProperties() {
+        return properties;
+    }
+
+    public void setProperties(ObjectProperties properties) {
+        this.properties = properties;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
