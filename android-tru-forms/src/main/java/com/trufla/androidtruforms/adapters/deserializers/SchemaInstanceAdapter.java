@@ -6,9 +6,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
+import com.trufla.androidtruforms.models.ArrayInstance;
+import com.trufla.androidtruforms.models.BooleanInstance;
 import com.trufla.androidtruforms.models.InstanceTypes;
+import com.trufla.androidtruforms.models.NumericInstance;
+import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.TruUtils;
+import com.trufla.androidtruforms.models.StringInstance;
 
 import java.lang.reflect.Type;
 
@@ -18,12 +23,12 @@ import java.lang.reflect.Type;
 
 public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
     final String TYPE_KEY="type";
-    final String STRING_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.StringInstance";
-    final String NUMBER_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.NumericInstance";
-    final String BOOLEAN_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.BooleanInstance";
-    final String ARRAY_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.ArrayInstance";
-    final String OBJECT_INSTANCE_CLASS="com.trufla.androidtruforms.SchemaModels.ObjectInstance";
-
+    final String STRING_INSTANCE_CLASS="com.trufla.androidtruforms.models.StringInstance";
+    final String NUMBER_INSTANCE_CLASS="com.trufla.androidtruforms.models.NumericInstance";
+    final String BOOLEAN_INSTANCE_CLASS="com.trufla.androidtruforms.models.BooleanInstance";
+    final String ARRAY_INSTANCE_CLASS="com.trufla.androidtruforms.models.ArrayInstance";
+    final String OBJECT_INSTANCE_CLASS="com.trufla.androidtruforms.models.ObjectInstance";
+    //todo make this adapter accept custom classes types
     @Override
     public SchemaInstance deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
@@ -34,33 +39,25 @@ public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
         Class<?> klass = null;
         switch (type){
             case InstanceTypes.ARRAY:
-                className=ARRAY_INSTANCE_CLASS;
+                klass= ArrayInstance.class;
                 break;
             case InstanceTypes.BOOLEAN:
-                className=BOOLEAN_INSTANCE_CLASS;
+                klass= BooleanInstance.class;
                 break;
             case InstanceTypes.STRING:
-                className=STRING_INSTANCE_CLASS;
+                klass= StringInstance.class;
                 break;
             case InstanceTypes.OBJECT:
-                className=OBJECT_INSTANCE_CLASS;
+                klass= ObjectInstance.class;
                 break;
             case InstanceTypes.NUMBER:
-                className=NUMBER_INSTANCE_CLASS;
+                klass= NumericInstance.class;
                 break;
             default:
                 throw new JsonParseException(String.format("this type is not supported %s",type));
 
         }
-        try {
-            klass=Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new JsonParseException(e.getMessage());
-
-        }
-        SchemaInstance schemaInstance= context.deserialize(json,klass);
-        return schemaInstance;
+        return context.deserialize(json,klass);
     }
 
 
