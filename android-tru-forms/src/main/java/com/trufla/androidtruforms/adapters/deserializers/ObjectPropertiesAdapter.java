@@ -7,8 +7,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.trufla.androidtruforms.schema_models.ObjectProperties;
-import com.trufla.androidtruforms.schema_models.SchemaInstance;
+import com.trufla.androidtruforms.models.ObjectProperties;
+import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.TruUtils;
 
 import java.lang.reflect.Type;

@@ -6,8 +6,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
-import com.trufla.androidtruforms.schema_models.InstanceTypes;
-import com.trufla.androidtruforms.schema_models.SchemaInstance;
+import com.trufla.androidtruforms.models.InstanceTypes;
+import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.TruUtils;
 
 import java.lang.reflect.Type;

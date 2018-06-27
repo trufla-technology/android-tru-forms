@@ -3,7 +3,7 @@ package com.trufla.androidtruforms.adapters.serializers;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.trufla.androidtruforms.schema_models.SchemaDocument;
+import com.trufla.androidtruforms.models.SchemaDocument;
 
 import java.lang.reflect.Type;
 
