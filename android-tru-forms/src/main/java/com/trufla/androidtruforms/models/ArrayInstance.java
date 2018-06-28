@@ -18,6 +18,23 @@ public class ArrayInstance extends SchemaInstance {
     protected int minItems;
     @SerializedName("uniqueItems")
     protected boolean uniqueItems;
+
+    public SchemaInstance getItems() {
+        return items;
+    }
+
+    public int getMaxItems() {
+        return maxItems;
+    }
+
+    public int getMinItems() {
+        return minItems;
+    }
+
+    public boolean isUniqueItems() {
+        return uniqueItems;
+    }
+
     @Override
     public TruArrayView getViewBuilder(Context context) {
         return new TruArrayView(context,this);

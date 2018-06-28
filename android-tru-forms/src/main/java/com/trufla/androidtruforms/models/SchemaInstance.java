@@ -3,6 +3,7 @@ package com.trufla.androidtruforms.models;
 import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
+import com.trufla.androidtruforms.TruUtils;
 import com.trufla.androidtruforms.truviews.SchemaBaseView;
 
 /**
@@ -24,6 +25,9 @@ public abstract class SchemaInstance {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+    public String getPresentationTitle(){
+        return TruUtils.removeUnderscoresAndCapitalize(title);
     }
 
     public String getType() {
