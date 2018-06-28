@@ -36,14 +36,18 @@ public class TruSectionView extends SchemaBaseView<ObjectInstance>{
             mView.findViewById(R.id.container).setVisibility(View.GONE);
         }
         for(SchemaInstance child:instance.getProperties().getVals()){
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0, 0,0, 8);
-            View childView=child.getViewBuilder(mContext).build();
-            childView.setLayoutParams(layoutParams);
-            ((ViewGroup)mView.findViewById(R.id.container)).addView(childView);
+            addChildView(child);
         }
 
         return mView;
+    }
+
+    private void addChildView(SchemaInstance child) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0, 0,0, 8);
+        View childView=child.getViewBuilder(mContext).build();
+        childView.setLayoutParams(layoutParams);
+        ((ViewGroup)mView.findViewById(R.id.container)).addView(childView);
     }
 
     private void handleExpandBehavior() {
