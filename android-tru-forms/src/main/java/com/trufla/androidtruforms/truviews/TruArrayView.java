@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms.truviews;
 
+import android.content.Context;
 import android.view.View;
 
 import com.trufla.androidtruforms.models.ArrayInstance;
@@ -9,8 +10,10 @@ import com.trufla.androidtruforms.models.ArrayInstance;
  */
 
 public class TruArrayView extends SchemaBaseView<ArrayInstance>{
-    public TruArrayView(ArrayInstance instance) {
-        super(instance);
+
+
+    public TruArrayView(Context context, ArrayInstance instance) {
+        super(context, instance);
     }
 
     @Override

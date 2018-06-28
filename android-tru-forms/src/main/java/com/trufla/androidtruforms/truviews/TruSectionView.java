@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms.truviews;
 
+import android.content.Context;
 import android.view.View;
 
 import com.trufla.androidtruforms.models.ObjectInstance;
@@ -10,8 +11,9 @@ import com.trufla.androidtruforms.models.ObjectInstance;
 
 public class TruSectionView extends SchemaBaseView<ObjectInstance>{
 
-    public TruSectionView(ObjectInstance instance) {
-        super(instance);
+
+    public TruSectionView(Context context, ObjectInstance instance) {
+        super(context, instance);
     }
 
     @Override

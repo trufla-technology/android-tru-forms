@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms.truviews;
 
+import android.content.Context;
 import android.view.View;
 
 import com.trufla.androidtruforms.models.BooleanInstance;
@@ -10,8 +11,9 @@ import com.trufla.androidtruforms.models.BooleanInstance;
 
 public class TruBooleanView extends SchemaBaseView<BooleanInstance>{
 
-    public TruBooleanView(BooleanInstance instance) {
-        super(instance);
+
+    public TruBooleanView(Context context, BooleanInstance instance) {
+        super(context, instance);
     }
 
     @Override

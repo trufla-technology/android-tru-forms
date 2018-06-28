@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms.truviews;
 
+import android.content.Context;
 import android.view.View;
 
 import com.trufla.androidtruforms.models.NumericInstance;
@@ -9,9 +10,11 @@ import com.trufla.androidtruforms.models.NumericInstance;
  */
 
 public class TruNumericView extends SchemaBaseView<NumericInstance>{
-    public TruNumericView(NumericInstance instance) {
-        super(instance);
+
+    public TruNumericView(Context context, NumericInstance instance) {
+        super(context, instance);
     }
+
     @Override
     public View build() {
         return null;

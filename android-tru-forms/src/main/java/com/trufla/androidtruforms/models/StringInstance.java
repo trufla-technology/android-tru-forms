@@ -1,5 +1,7 @@
 package com.trufla.androidtruforms.models;
 
+import android.content.Context;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruStringView;
 
@@ -27,7 +29,7 @@ public class StringInstance extends SchemaInstance {
     }
 
     @Override
-    public TruStringView getViewBuilder() {
-        return new TruStringView(this);
+    public TruStringView getViewBuilder(Context context) {
+        return new TruStringView(context,this);
     }
 }

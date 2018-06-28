@@ -1,5 +1,7 @@
 package com.trufla.androidtruforms.models;
 
+import android.content.Context;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.SchemaBaseView;
 
@@ -39,5 +41,5 @@ public abstract class SchemaInstance {
     public void setConstItem(Object constItem) {
         this.constItem = constItem;
     }
-    public abstract <T extends SchemaBaseView> T getViewBuilder();
+    public abstract <T extends SchemaBaseView> T getViewBuilder(Context context);
 }

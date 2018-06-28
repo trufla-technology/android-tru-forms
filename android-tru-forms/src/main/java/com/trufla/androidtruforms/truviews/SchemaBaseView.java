@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms.truviews;
 
+import android.content.Context;
 import android.view.View;
 
 import com.trufla.androidtruforms.models.SchemaInstance;
@@ -9,9 +10,11 @@ import com.trufla.androidtruforms.models.SchemaInstance;
  */
 
 public abstract class SchemaBaseView<T extends SchemaInstance> {
-    T instance;
-    public SchemaBaseView(T instance){
+    protected T instance;
+    protected Context mContext;
+    public SchemaBaseView(Context context, T instance){
         this.instance=instance;
+        this.mContext=context;
     }
     public abstract View build();
 }

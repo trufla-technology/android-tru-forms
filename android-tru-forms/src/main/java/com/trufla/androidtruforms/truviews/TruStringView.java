@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms.truviews;
 
+import android.content.Context;
 import android.view.View;
 
 import com.trufla.androidtruforms.models.StringInstance;
@@ -10,8 +11,9 @@ import com.trufla.androidtruforms.models.StringInstance;
 
 public class TruStringView extends SchemaBaseView<StringInstance> {
 
-    public TruStringView(StringInstance instance) {
-        super(instance);
+
+    public TruStringView(Context context, StringInstance instance) {
+        super(context, instance);
     }
 
     @Override
