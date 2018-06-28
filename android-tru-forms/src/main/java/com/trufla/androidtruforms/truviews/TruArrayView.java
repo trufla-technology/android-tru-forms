@@ -1,7 +1,12 @@
 package com.trufla.androidtruforms.truviews;
 
+import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ArrayInstance;
 
 /**
@@ -9,12 +14,23 @@ import com.trufla.androidtruforms.models.ArrayInstance;
  */
 
 public class TruArrayView extends SchemaBaseView<ArrayInstance>{
-    public TruArrayView(ArrayInstance instance) {
-        super(instance);
+
+
+    public TruArrayView(Context context, ArrayInstance instance) {
+        super(context, instance);
+        layoutId= R.layout.tru_array_view;
     }
 
     @Override
     public View build() {
-        return null;
+        //todo be careful of attach children views multiple times
+        super.build();
+        ((ViewGroup) mView).addView(instance.getItems().getViewBuilder(mContext).build());
+        return mView;
+    }
+
+    @Override
+    protected void setInstanceData() {
+        ((TextView)(mView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
     }
 }

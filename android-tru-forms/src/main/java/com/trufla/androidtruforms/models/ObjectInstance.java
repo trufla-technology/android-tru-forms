@@ -1,5 +1,7 @@
 package com.trufla.androidtruforms.models;
 
+import android.content.Context;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruSectionView;
 
@@ -63,7 +65,7 @@ public class ObjectInstance extends SchemaInstance{
     }
 
     @Override
-    public TruSectionView getViewBuilder() {
-        return new TruSectionView(this);
+    public TruSectionView getViewBuilder(Context context) {
+        return new TruSectionView(context,this);
     }
 }

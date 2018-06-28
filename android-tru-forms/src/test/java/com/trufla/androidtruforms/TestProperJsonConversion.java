@@ -35,7 +35,7 @@ public class TestProperJsonConversion {
 
     private void buildClaimsJson() {
         claimsJson = new StringBuilder();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("claims.json");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("claims");
         Scanner scanner = new Scanner(inputStream);
         while (scanner.hasNext()) {
             claimsJson.append(scanner.nextLine());

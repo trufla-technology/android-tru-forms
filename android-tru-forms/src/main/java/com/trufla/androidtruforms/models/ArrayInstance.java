@@ -1,5 +1,7 @@
 package com.trufla.androidtruforms.models;
 
+import android.content.Context;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruArrayView;
 
@@ -16,8 +18,25 @@ public class ArrayInstance extends SchemaInstance {
     protected int minItems;
     @SerializedName("uniqueItems")
     protected boolean uniqueItems;
+
+    public SchemaInstance getItems() {
+        return items;
+    }
+
+    public int getMaxItems() {
+        return maxItems;
+    }
+
+    public int getMinItems() {
+        return minItems;
+    }
+
+    public boolean isUniqueItems() {
+        return uniqueItems;
+    }
+
     @Override
-    public TruArrayView getViewBuilder() {
-        return new TruArrayView(this);
+    public TruArrayView getViewBuilder(Context context) {
+        return new TruArrayView(context,this);
     }
 }

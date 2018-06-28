@@ -48,4 +48,10 @@ public class TruUtils {
 
         return val;
     }
+    public static String removeUnderscoresAndCapitalize(String value) {
+        if(!isEmpty(value)) {
+            return value.replaceAll("_", " ");
+        }
+        return value;
+    }
 }

@@ -1,5 +1,7 @@
 package com.trufla.androidtruforms.models;
 
+import android.content.Context;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruNumericView;
 
@@ -53,7 +55,7 @@ public class NumericInstance extends SchemaInstance {
     }
 
     @Override
-    public TruNumericView getViewBuilder() {
-        return new TruNumericView(this);
+    public TruNumericView getViewBuilder(Context context) {
+        return new TruNumericView(context,this);
     }
 }
