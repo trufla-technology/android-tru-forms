@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesAdapter;
 import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceAdapter;
 import com.trufla.androidtruforms.models.ObjectProperties;
+import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
 import java.io.InputStream;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             claimsJson.append(scanner.nextLine());
         }
         gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceAdapter()).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesAdapter()).create();
-        SchemaInstance schemaObjInstance = gson.fromJson(claimsJson.toString(), SchemaInstance.class);
+        SchemaDocument schemaObjInstance = gson.fromJson(claimsJson.toString(), SchemaDocument.class);
         View view=schemaObjInstance.getViewBuilder(this).build();
         ((LinearLayout)(findViewById(R.id.container))).addView(view);
     }
