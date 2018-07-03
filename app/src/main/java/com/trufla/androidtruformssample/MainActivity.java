@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        InputStream inputStream = getResources().openRawResource(R.raw.claims);
+        InputStream inputStream = getResources().openRawResource(R.raw.claims_edited);
         Scanner scanner = new Scanner(inputStream);
         while (scanner.hasNext()) {
             claimsJson.append(scanner.nextLine());

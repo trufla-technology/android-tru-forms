@@ -2,10 +2,7 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
-import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruNumericView;
-
-import java.util.ArrayList;
 
 /**
  * Created by ohefny on 6/26/18.
@@ -16,8 +13,7 @@ public class NumericInstance extends SchemaInstance {
     protected double minimum;
     protected double exclusiveMaximum;
     protected double exclusiveMinimum;
-    @SerializedName("enum")
-    protected ArrayList<Double> enumArray; //instance of String or Number or Boolean
+
     public double getMaximum() {
         return maximum;
     }
@@ -50,12 +46,13 @@ public class NumericInstance extends SchemaInstance {
         this.exclusiveMinimum = exclusiveMinimum;
     }
 
-    public ArrayList<Double> getEnumArray() {
-        return enumArray;
-    }
-
     @Override
     public TruNumericView getViewBuilder(Context context) {
         return new TruNumericView(context,this);
+    }
+
+    //todo remember to remove if no us is found for it
+    public static class NumericEnum extends EnumInstance<Double> {
+
     }
 }

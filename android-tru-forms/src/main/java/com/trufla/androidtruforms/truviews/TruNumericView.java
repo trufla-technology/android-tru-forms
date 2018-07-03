@@ -12,7 +12,7 @@ import com.trufla.androidtruforms.models.NumericInstance;
  * Created by ohefny on 6/26/18.
  */
 
-public class TruNumericView extends SchemaBaseView<NumericInstance>{
+public class TruNumericView extends SchemaBaseView<NumericInstance> {
 
     public TruNumericView(Context context, NumericInstance instance) {
         super(context, instance);
@@ -20,11 +20,12 @@ public class TruNumericView extends SchemaBaseView<NumericInstance>{
 
     @Override
     protected void setInstanceData() {
-        ((TextInputLayout)(mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
+        ((TextInputLayout) (mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.tru_number_view;
+
     }
 }
