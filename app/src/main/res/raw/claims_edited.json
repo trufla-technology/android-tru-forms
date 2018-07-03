@@ -35,6 +35,11 @@
           "type": "string",
           "enum": ["Yes", "No"]
         },
+        "number_of_people": {
+          "type": "number",
+          "enum": [1, 2,3,4],
+          "enumNames":["One","Two","Three","Four"]
+        },
         "who_was_driving": {
           "type": "string"
         },

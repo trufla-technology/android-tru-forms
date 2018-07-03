@@ -22,13 +22,13 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @Override
     protected void setInstanceData() {
-        ((TextInputLayout)(mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
-
+        ((TextInputLayout) (mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.tru_string_view;
     }
+
 
 }
