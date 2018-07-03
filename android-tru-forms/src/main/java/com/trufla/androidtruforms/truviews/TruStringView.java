@@ -18,13 +18,17 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     public TruStringView(Context context, StringInstance instance) {
         super(context, instance);
-        layoutId = R.layout.tru_string_view;
     }
 
     @Override
     protected void setInstanceData() {
         ((TextInputLayout)(mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.tru_string_view;
     }
 
 }

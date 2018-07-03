@@ -17,11 +17,16 @@ public class TruBooleanView extends SchemaBaseView<BooleanInstance>{
 
     public TruBooleanView(Context context, BooleanInstance instance) {
         super(context, instance);
-        layoutId= R.layout.tru_boolean_view;
+
     }
 
     @Override
     protected void setInstanceData() {
         ((TextView)(mView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.tru_boolean_view;
     }
 }

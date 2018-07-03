@@ -1,16 +1,19 @@
 package com.trufla.androidtruforms.models;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.TruUtils;
 import com.trufla.androidtruforms.truviews.SchemaBaseView;
 
+import java.sql.Types;
+
 /**
  * Created by ohefny on 6/26/18.
  */
 
-public abstract class SchemaInstance {
+public abstract class SchemaInstance implements Comparable<SchemaInstance>{
     //the key of the object ex: "date_of_loss":{} here we use data_of_loss as title
     @SerializedName("title")
     protected String title;
@@ -46,4 +49,18 @@ public abstract class SchemaInstance {
         this.constItem = constItem;
     }
     public abstract <T extends SchemaBaseView> T getViewBuilder(Context context);
+
+    @Override
+    public int compareTo(@NonNull SchemaInstance o) {
+        //instances then array then objects
+        if(this.getType().equals(InstanceTypes.OBJECT))
+            return 1;
+        if(o.getType().equals(this.getType()))
+            return 0;
+        if(o.getType().equals(InstanceTypes.OBJECT))
+            return -1;
+        if(o.getType().equals(InstanceTypes.ARRAY))
+            return -1;
+        return 0;
+    }
 }

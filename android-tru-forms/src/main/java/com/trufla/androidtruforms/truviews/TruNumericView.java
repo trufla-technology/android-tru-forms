@@ -16,11 +16,15 @@ public class TruNumericView extends SchemaBaseView<NumericInstance>{
 
     public TruNumericView(Context context, NumericInstance instance) {
         super(context, instance);
-        layoutId= R.layout.tru_number_view;
     }
 
     @Override
     protected void setInstanceData() {
         ((TextInputLayout)(mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.tru_number_view;
     }
 }

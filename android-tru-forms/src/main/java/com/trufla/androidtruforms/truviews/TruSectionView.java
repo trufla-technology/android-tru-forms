@@ -17,12 +17,11 @@ import com.trufla.androidtruforms.models.SchemaInstance;
  * Created by ohefny on 6/26/18.
  */
 
-public class TruSectionView extends SchemaBaseView<ObjectInstance>{
+public class TruSectionView extends TruObjectView{
 
     boolean expanded=false;
     public TruSectionView(Context context, ObjectInstance instance) {
         super(context, instance);
-        layoutId= R.layout.tru_group_view;
     }
 
     @Override
@@ -41,24 +40,27 @@ public class TruSectionView extends SchemaBaseView<ObjectInstance>{
 
         return mView;
     }
-
-    private void addChildView(SchemaInstance child) {
+    @Override
+    protected void addChildView(SchemaInstance child) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0, 0,0, 8);
         View childView=child.getViewBuilder(mContext).build();
         childView.setLayoutParams(layoutParams);
         ((ViewGroup)mView.findViewById(R.id.container)).addView(childView);
     }
-
+    @Override
+    protected ViewGroup getContainerView(){
+        return ((ViewGroup)mView.findViewById(R.id.container));
+    }
     private void handleExpandBehavior() {
-        mView.findViewById(R.id.expand_collapse_img).setOnClickListener(view->{
+        mView.findViewById(R.id.section_header).setOnClickListener(view->{
             if(expanded) {
-                ((ImageView) (view)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_expand_more_white_24dp));
+                ((ImageView) (view.findViewById(R.id.expand_collapse_img))).setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_expand_more_white_24dp));
                 mView.findViewById(R.id.container).setVisibility(View.GONE);
 
             }
             else{
-                ((ImageView) (view)).setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_expand_less_white_24dp));
+                ((ImageView) (view.findViewById(R.id.expand_collapse_img))).setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_expand_less_white_24dp));
                 mView.findViewById(R.id.container).setVisibility(View.VISIBLE);
             }
             expanded=!expanded;
@@ -69,6 +71,11 @@ public class TruSectionView extends SchemaBaseView<ObjectInstance>{
     protected void setInstanceData() {
         ((TextView)(mView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
 
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.tru_group_view;
     }
 
 }

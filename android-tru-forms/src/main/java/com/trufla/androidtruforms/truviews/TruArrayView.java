@@ -18,12 +18,10 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance>{
 
     public TruArrayView(Context context, ArrayInstance instance) {
         super(context, instance);
-        layoutId= R.layout.tru_array_view;
     }
 
     @Override
     public View build() {
-        //todo be careful of attach children views multiple times
         super.build();
         ((ViewGroup) mView).addView(instance.getItems().getViewBuilder(mContext).build());
         return mView;
@@ -32,5 +30,10 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance>{
     @Override
     protected void setInstanceData() {
         ((TextView)(mView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.tru_array_view;
     }
 }

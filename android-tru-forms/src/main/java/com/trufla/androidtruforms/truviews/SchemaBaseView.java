@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
 /**
@@ -24,12 +25,13 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         this.instance=instance;
         this.mContext=context;
         this.layoutInflater=LayoutInflater.from(context);
+        layoutId=getLayoutId();
     }
 
     public SchemaBaseView(Context mContext,T instance, int layoutId) {
-        this.instance = instance;
-        this.mContext = mContext;
-        this.layoutId = layoutId;
+       this(mContext,instance);
+       this.layoutId= layoutId;
+
     }
     @CallSuper
     public  View build(){
@@ -48,4 +50,5 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         return mView;
     }
     protected abstract void setInstanceData();
+    protected @LayoutRes abstract int getLayoutId();
 }
