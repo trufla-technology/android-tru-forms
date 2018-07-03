@@ -17,13 +17,12 @@
         "description": {
           "type": "string"
         },
-        "array_field": {
-                  "type": "array",
-                  "items": {
-                      "Needed field": {
-                        "type": "string"
-                    }
-                  },
+        "Array Field": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "date_time_of_accident": {
           "type": "string",
           "format": "datetime"

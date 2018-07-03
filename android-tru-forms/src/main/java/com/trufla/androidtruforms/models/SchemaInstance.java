@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.TruUtils;
 import com.trufla.androidtruforms.truviews.SchemaBaseView;
 
+import java.sql.Types;
+
 /**
  * Created by ohefny on 6/26/18.
  */
@@ -50,9 +52,15 @@ public abstract class SchemaInstance implements Comparable<SchemaInstance>{
 
     @Override
     public int compareTo(@NonNull SchemaInstance o) {
-        if(o instanceof ObjectInstance)
-            return -1;
-        else
+        //instances then array then objects
+        if(this.getType().equals(InstanceTypes.OBJECT))
             return 1;
+        if(o.getType().equals(this.getType()))
+            return 0;
+        if(o.getType().equals(InstanceTypes.OBJECT))
+            return -1;
+        if(o.getType().equals(InstanceTypes.ARRAY))
+            return -1;
+        return 0;
     }
 }
