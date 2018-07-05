@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -15,8 +15,8 @@
             android:id="@+id/input_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             tools:hint="this is hint"
-            android:inputType="datetime"
             tools:text="" />
     </android.support.design.widget.TextInputLayout>
 
@@ -25,6 +25,6 @@
         android:layout_gravity="center_vertical"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:srcCompat="@drawable/ic_today_black_24dp"
+        app:srcCompat="@drawable/ic_location_on_black_24dp"
         />
 </LinearLayout>

@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.TruUtils;
 import com.trufla.androidtruforms.truviews.TruDatePickerView;
+import com.trufla.androidtruforms.truviews.TruLocationView;
 import com.trufla.androidtruforms.truviews.TruPhotoPickerView;
 import com.trufla.androidtruforms.truviews.TruStringView;
 
@@ -34,6 +35,8 @@ public class StringInstance extends SchemaInstance {
                 return new TruDatePickerView(context, this);
             case SchemaKeywords.StringFormats.PHOTO:
                 return new TruPhotoPickerView(context, this);
+            case SchemaKeywords.StringFormats.MAP_LOCATION:
+                return new TruLocationView(context, this);
             default:
                 return new TruStringView(context,this);
         }
