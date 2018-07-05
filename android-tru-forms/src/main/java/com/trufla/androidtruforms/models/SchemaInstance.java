@@ -53,13 +53,13 @@ public abstract class SchemaInstance implements Comparable<SchemaInstance>{
     @Override
     public int compareTo(@NonNull SchemaInstance o) {
         //instances then array then objects
-        if(this.getType().equals(InstanceTypes.OBJECT))
+        if(this.getType().equals(SchemaKeywords.InstanceTypes.OBJECT))
             return 1;
         if(o.getType().equals(this.getType()))
             return 0;
-        if(o.getType().equals(InstanceTypes.OBJECT))
+        if(o.getType().equals(SchemaKeywords.InstanceTypes.OBJECT))
             return -1;
-        if(o.getType().equals(InstanceTypes.ARRAY))
+        if(o.getType().equals(SchemaKeywords.InstanceTypes.ARRAY))
             return -1;
         return 0;
     }

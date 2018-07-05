@@ -1,7 +1,6 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -75,7 +74,7 @@ public class TruSectionView extends TruObjectView{
 
     @Override
     protected int getLayoutId() {
-        return R.layout.tru_group_view;
+        return R.layout.tru_section_view;
     }
 
 }

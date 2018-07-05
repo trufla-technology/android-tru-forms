@@ -33,7 +33,6 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
        this.layoutId= layoutId;
 
     }
-    @CallSuper
     public  View build(){
         if(mView==null) {
             mView = layoutInflater.inflate(layoutId,null);
@@ -41,7 +40,6 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         setInstanceData();
         return mView;
     }
-    @CallSuper
     public  View attachView(ViewGroup parent){
         if(mView==null) {
             mView = layoutInflater.inflate(layoutId,parent,true);
