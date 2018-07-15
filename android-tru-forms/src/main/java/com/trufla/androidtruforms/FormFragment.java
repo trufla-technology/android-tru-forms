@@ -9,46 +9,38 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.JsonObject;
+import com.trufla.androidtruforms.truviews.TruFormView;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FormFragment.OnFormSubmitListener} interface
- * to handle interaction events.
- * Use the {@link FormFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FormFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    public static final String JSON_SCHEMA_OBJECT = "JSON_SCHEMA_OBJECT";
     private OnFormSubmitListener mListener;
+    private TruFormView truFormView;
 
     public FormFragment() {
         // Required empty public constructor
     }
-    public static FormFragment newInstance(String param1, String param2) {
+    public static FormFragment newInstance(String jsonStr) {
         FormFragment fragment = new FormFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(JSON_SCHEMA_OBJECT,jsonStr);
         fragment.setArguments(args);
         return fragment;
     }
 
+    public void setListener(OnFormSubmitListener listener){
+        this.mListener=listener;
+    }
+    public void setFormView(TruFormView truFormView){
+        this.truFormView=truFormView;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(truFormView==null)
+            throw new RuntimeException("TruFormView must not be null to build the view");
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -63,30 +55,22 @@ public class FormFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFormSubmitListener) {
-            mListener = (OnFormSubmitListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+        if(context instanceof OnFormSubmitListener){
+            mListener= (OnFormSubmitListener) context;
         }
+        else
+            throw new RuntimeException("TruFormView must not be null to build the view");
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFormSubmitListener {
         void onFormSubmitted(JsonObject formInputs);
     }
