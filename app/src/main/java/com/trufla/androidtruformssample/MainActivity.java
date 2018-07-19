@@ -8,6 +8,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.trufla.androidtruforms.FormFragment;
+import com.trufla.androidtruforms.SchemaBuilder;
 import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesAdapter;
 import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceAdapter;
 import com.trufla.androidtruforms.models.ObjectProperties;
@@ -17,7 +22,7 @@ import com.trufla.androidtruforms.models.SchemaInstance;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FormFragment.OnFormSubmitListener{
 
     private StringBuilder jsonStrBuilder = new StringBuilder();
     private Gson gson;
@@ -41,11 +46,15 @@ public class MainActivity extends AppCompatActivity {
             }
         } else
             jsonStrBuilder.append(getIntent().getExtras().getString(FistActivity.JSON_STR));
-        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceAdapter()).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesAdapter()).create();
-        SchemaDocument schemaObjInstance = gson.fromJson(jsonStrBuilder.toString(), SchemaDocument.class);
-        View view = schemaObjInstance.getViewBuilder(this).build();
-        ((LinearLayout) (findViewById(R.id.container))).addView(view);
 
+        SchemaBuilder schemaBuilder=new SchemaBuilder(new JsonParser().parse(jsonStrBuilder.toString()).getAsJsonObject());
+        schemaBuilder.showFragment(this,getSupportFragmentManager().beginTransaction(),R.id.container);
+
+
+    }
+
+    @Override
+    public void onFormSubmitted(JsonObject formInputs) {
 
     }
 }

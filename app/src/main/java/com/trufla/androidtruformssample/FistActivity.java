@@ -9,9 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
+import com.trufla.androidtruforms.SchemaBuilder;
+
 public class FistActivity extends AppCompatActivity {
 
     public static final String JSON_STR = "JSON_STR";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

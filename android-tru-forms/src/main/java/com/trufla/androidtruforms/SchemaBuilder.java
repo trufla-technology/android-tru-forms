@@ -37,12 +37,14 @@ public class SchemaBuilder {
     }
 
     public SchemaBuilder(JsonObject schemaString, Class<ArrayInstance> arrayInstanceClass, Class<BooleanInstance> booleanInstanceClass, Class<StringInstance> stringInstanceClass, Class<NumericInstance> numericInstanceClass, Class<ObjectInstance> objectInstanceClass) {
-        this(schemaString);
+        this.schemaString=schemaString;
         this.arrayInstanceClass = arrayInstanceClass;
         this.booleanInstanceClass = booleanInstanceClass;
         this.stringInstanceClass = stringInstanceClass;
         this.numericInstanceClass = numericInstanceClass;
         this.objectInstanceClass = objectInstanceClass;
+        gson= new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceAdapter(arrayInstanceClass,booleanInstanceClass,stringInstanceClass,numericInstanceClass,objectInstanceClass)).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesAdapter()).create();
+        schemaObjInstance = gson.fromJson(schemaString, SchemaDocument.class);
     }
     public SchemaBuilder addArrayInstanceClass(Class<ArrayInstance> arrayInstanceClass){
         this.arrayInstanceClass=arrayInstanceClass;
@@ -70,8 +72,8 @@ public class SchemaBuilder {
         formFragment.setFormView(schemaObjInstance.getViewBuilder(context));
         return formFragment;
     }
-    void showFragment(Context context, FragmentTransaction fragmentTransaction, @IdRes int containerViewId){
-        FormFragment formFragment=buildFragment(context);
+    public <T extends Activity & FormFragment.OnFormSubmitListener>void showFragment(T hostActivity, FragmentTransaction fragmentTransaction, @IdRes int containerViewId){
+        FormFragment formFragment=buildFragment(hostActivity);
         fragmentTransaction.replace(containerViewId,formFragment).commit();
     }
     void buildActivityForResult(int activityCode){

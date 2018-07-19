@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.truviews.TruFormView;
@@ -48,7 +49,9 @@ public class FormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_form, container, false);
+        View view= inflater.inflate(R.layout.fragment_form, container, false);
+        ((LinearLayout)view.findViewById(R.id.form_container)).addView(truFormView.build());
+        return view;
     }
 
 
