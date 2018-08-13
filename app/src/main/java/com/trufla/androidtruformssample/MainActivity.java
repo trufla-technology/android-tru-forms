@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity implements FormFragment.OnFo
         } else
             jsonStrBuilder.append(getIntent().getExtras().getString(FistActivity.JSON_STR));
 
-        SchemaBuilder schemaBuilder=new SchemaBuilder(new JsonParser().parse(jsonStrBuilder.toString()).getAsJsonObject());
-        schemaBuilder.showFragment(this,getSupportFragmentManager().beginTransaction(),R.id.container);
-
-
+        SchemaBuilder schemaBuilder=new SchemaBuilder();
+        /*FormFragment frag = schemaBuilder.buildSchemaFragment(jsonStrBuilder.toString(),this, this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,frag).commit();*/
+        schemaBuilder.buildActivityForResult(this,jsonStrBuilder.toString(),44);
     }
 
     @Override

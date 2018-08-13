@@ -2,5 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.trufla.androidtruforms"> <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <application>
+        <activity
+            android:name="com.trufla.androidtruforms.FormActivity" />
+    </application>
 </manifest>
