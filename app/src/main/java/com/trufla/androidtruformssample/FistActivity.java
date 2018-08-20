@@ -43,7 +43,7 @@ public class FistActivity extends AppCompatActivity {
                 jsonStringBuilder.append(scanner.nextLine());
             }
         } else
-            jsonStringBuilder.append(getIntent().getExtras().getString(FistActivity.JSON_STR));
+            jsonStringBuilder.append(js);
 
         SchemaBuilder schemaBuilder = new SchemaBuilder();
         /*FormFragment frag = schemaBuilder.buildSchemaFragment(jsonStrBuilder.toString(),this, this);
