@@ -15,12 +15,15 @@ buildscript {
         // in the individual module build.gradle files
     }
 
+
 }
 
 allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
+
     }
 }
 

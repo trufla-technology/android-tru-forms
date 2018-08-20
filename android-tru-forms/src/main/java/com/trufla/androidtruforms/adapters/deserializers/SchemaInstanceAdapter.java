@@ -27,6 +27,24 @@ import java.lang.reflect.Type;
 
 public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
 
+    Class<ArrayInstance> arrayInstanceClass=ArrayInstance.class;
+    Class<BooleanInstance>booleanInstanceClass=BooleanInstance.class;
+    Class<StringInstance>stringInstanceClass=StringInstance.class;
+    Class<NumericInstance>numericInstanceClass=NumericInstance.class;
+    Class<ObjectInstance>objectInstanceClass=ObjectInstance.class;
+
+    public SchemaInstanceAdapter(){
+
+    }
+    public SchemaInstanceAdapter(Class<ArrayInstance> arrayInstanceClass, Class<BooleanInstance> booleanInstanceClass, Class<StringInstance> stringInstanceClass, Class<NumericInstance> numericInstanceClass, Class<ObjectInstance> objectInstanceClass) {
+        this.arrayInstanceClass = arrayInstanceClass;
+        this.booleanInstanceClass = booleanInstanceClass;
+        this.stringInstanceClass = stringInstanceClass;
+        this.numericInstanceClass = numericInstanceClass;
+        this.objectInstanceClass = objectInstanceClass;
+    }
+
+
     @Override
     public SchemaInstance deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();

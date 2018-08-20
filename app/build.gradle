@@ -21,6 +21,12 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    dataBinding {
+        enabled = true
+    }
+    dexOptions {
+        javaMaxHeapSize "1g"
+    }
 }
 
 dependencies {
