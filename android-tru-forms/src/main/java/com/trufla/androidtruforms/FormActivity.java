@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -24,11 +25,11 @@ public class FormActivity extends AppCompatActivity {
     private Gson gson;
     private TruFormView truFormView;
 
-    public static void startActivityForFormResult(Context context,String jsonStr,SchemaBuilder schemaBuilder) {
+    public static void startActivityForFormResult(Activity context, String jsonStr, SchemaBuilder schemaBuilder) {
         Intent intent=new Intent(context,FormActivity.class);
         sSchemaBuilder=schemaBuilder;
         intent.putExtra(JSON_KEY,jsonStr);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,SchemaBuilder.REQUEST_CODE);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +50,19 @@ public class FormActivity extends AppCompatActivity {
 
 
     public void onSubmitClicked() {
+        if(!isValidData())
+            return;
         Toast.makeText(this,"submitted",Toast.LENGTH_SHORT).show();
-        Log.d("Json values", truFormView.getInputtedData());
+        String result=truFormView.getInputtedData();
+        Intent intent=new Intent();
+        intent.putExtra(SchemaBuilder.RESULT_DATA_KEY,result);
+        setResult(RESULT_OK,intent);
+        finish();
+        
+    }
 
+    private boolean isValidData() {
+        return true;
     }
 
 }

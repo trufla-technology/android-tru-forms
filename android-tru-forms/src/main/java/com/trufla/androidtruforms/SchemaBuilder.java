@@ -23,6 +23,9 @@ import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.truviews.TruFormView;
 
 public class SchemaBuilder {
+    public final static int REQUEST_CODE=333;
+    public final static String RESULT_DATA_KEY="SCHEMA_DATA_KEY";
+
     private Class<ArrayInstance> arrayInstanceClass = ArrayInstance.class;
     private Class<BooleanInstance> booleanInstanceClass = BooleanInstance.class;
     private Class<StringInstance> stringInstanceClass = StringInstance.class;
@@ -86,7 +89,7 @@ public class SchemaBuilder {
         fragmentTransaction.replace(containerViewId, formFragment).commit();
     }
 
-    public void buildActivityForResult(Context context,String schemaString,int activityCode) {
+    public void buildActivityForResult(Activity context,String schemaString) {
             FormActivity.startActivityForFormResult(context,schemaString,this);
     }
 
