@@ -3,6 +3,7 @@ package com.trufla.androidtruforms.truviews;
 import android.content.Context;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.trufla.androidtruforms.R;
@@ -27,12 +28,14 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
 
     @Override
     public String getInputtedData() {
+        String value="null";
         try {
-            return String.format(Locale.getDefault(), "\"%s\":%s", instance.getTitle(), ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString().trim());
+            if(!TextUtils.isEmpty(((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText()))
+                 value= ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString().trim();
         } catch (NullPointerException ex) {
             ex.printStackTrace();
-            return String.format(Locale.getDefault(), "\"%s\":null", instance.getTitle());
         }
+        return String.format(Locale.getDefault(), "\"%s\":%s", instance.getTitle(),value);
 
     }
 

@@ -39,21 +39,25 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
 
     @Override
     public String getInputtedData() {
-        if(mView==null)
-            return String.format(Locale.getDefault(),"\"%s\":null",instance.getTitle());
-        int position=((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
-        Object object=instance.getEnumVals().get(position);
-        String str=String.format(Locale.getDefault(),"\"%s\":\"%s\"",instance.getTitle(),object.toString());
-        if(object instanceof Number){
-            str=String.format(Locale.getDefault(),"\"%s\":%s",instance.getTitle(),String.valueOf(object));
+        try {
+            int position = ((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
+            Object object = instance.getEnumVals().get(position);
+            String str = String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getTitle(), object.toString());
+            if (object instanceof Number) {
+                str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getTitle(), String.valueOf(object));
+            }
+            return str;
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            return String.format(Locale.getDefault(), "\"%s\":null", instance.getTitle());
         }
-        return str;
     }
 
     @Override
     protected int getLayoutId() {
         return R.layout.tru_enum_view;
     }
+
     @Override
     public View build() {
         super.build();
