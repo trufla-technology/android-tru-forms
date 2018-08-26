@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements FormFragment.OnFo
         SchemaBuilder schemaBuilder=new SchemaBuilder();
         /*FormFragment frag = schemaBuilder.buildSchemaFragment(jsonStrBuilder.toString(),this, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.container,frag).commit();*/
-        schemaBuilder.buildActivityForResult(this,jsonStrBuilder.toString(),44);
+        schemaBuilder.buildActivityForResult(this,jsonStrBuilder.toString());
     }
 
     @Override

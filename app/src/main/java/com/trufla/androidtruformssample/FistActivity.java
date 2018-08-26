@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -48,14 +49,15 @@ public class FistActivity extends AppCompatActivity {
         SchemaBuilder schemaBuilder = new SchemaBuilder();
         /*FormFragment frag = schemaBuilder.buildSchemaFragment(jsonStrBuilder.toString(),this, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.container,frag).commit();*/
-        schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString(), 44);
+        schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==44){
-
+        if(requestCode==SchemaBuilder.REQUEST_CODE&&resultCode==RESULT_OK){
+            String str=data.getStringExtra(SchemaBuilder.RESULT_DATA_KEY);
+            Log.d("Json values", str);
         }
     }
 }
