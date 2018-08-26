@@ -51,8 +51,4 @@ public class NumericInstance extends SchemaInstance {
         return new TruNumericView(context,this);
     }
 
-    //todo remember to remove if no us is found for it
-    public static class NumericEnum extends EnumInstance<Double> {
-
-    }
 }
