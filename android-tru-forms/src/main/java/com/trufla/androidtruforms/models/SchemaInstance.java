@@ -14,6 +14,8 @@ import java.sql.Types;
  */
 
 public abstract class SchemaInstance implements Comparable<SchemaInstance>{
+    //the parsed key of the instance .. used in the returned data
+    protected String key;
     //the key of the object ex: "date_of_loss":{} here we use data_of_loss as title
     @SerializedName("title")
     protected String title;
@@ -62,5 +64,13 @@ public abstract class SchemaInstance implements Comparable<SchemaInstance>{
         if(o.getType().equals(SchemaKeywords.InstanceTypes.ARRAY))
             return -1;
         return 0;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

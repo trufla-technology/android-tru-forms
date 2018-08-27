@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.exceptions.UnableToFindObjectProperties;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
 /**

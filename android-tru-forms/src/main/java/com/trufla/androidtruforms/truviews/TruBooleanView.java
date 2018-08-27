@@ -32,9 +32,9 @@ public class TruBooleanView extends SchemaBaseView<BooleanInstance> {
     @Override
     public String getInputtedData() {
         if(mView==null)
-            return String.format(Locale.getDefault(),"\"%s\":null",instance.getTitle());
+            return String.format(Locale.getDefault(),"\"%s\":null",instance.getKey());
         boolean isChecked = ((CheckBox) mView.findViewById(R.id.input_data)).isChecked();
-        String str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getTitle(), isChecked ? "true" : "false");
+        String str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), isChecked ? "true" : "false");
         return str;
     }
 

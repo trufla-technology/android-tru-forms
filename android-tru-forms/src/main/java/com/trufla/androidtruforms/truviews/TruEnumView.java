@@ -42,14 +42,14 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         try {
             int position = ((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
             Object object = instance.getEnumVals().get(position);
-            String str = String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getTitle(), object.toString());
+            String str = String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), object.toString());
             if (object instanceof Number) {
-                str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getTitle(), String.valueOf(object));
+                str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), String.valueOf(object));
             }
             return str;
         } catch (NullPointerException ex) {
             ex.printStackTrace();
-            return String.format(Locale.getDefault(), "\"%s\":null", instance.getTitle());
+            return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
         }
     }
 

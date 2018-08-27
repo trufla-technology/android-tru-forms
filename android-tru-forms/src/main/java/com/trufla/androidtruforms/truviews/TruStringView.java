@@ -32,10 +32,10 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     @Override
     public String getInputtedData() {
         try {
-            return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getTitle(), ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString().trim());
+            return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString().trim());
         }catch (NullPointerException ex){
             ex.printStackTrace();
-            return String.format(Locale.getDefault(),"\"%s\":null",instance.getTitle());
+            return String.format(Locale.getDefault(),"\"%s\":null",instance.getKey());
         }
     }
 

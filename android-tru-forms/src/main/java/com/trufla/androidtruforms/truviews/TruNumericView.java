@@ -35,7 +35,7 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
-        return String.format(Locale.getDefault(), "\"%s\":%s", instance.getTitle(),value);
+        return String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(),value);
 
     }
 

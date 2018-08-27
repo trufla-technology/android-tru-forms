@@ -8,6 +8,7 @@ import android.widget.SectionIndexer;
 
 import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.exceptions.UnableToFindObjectProperties;
 import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
@@ -29,9 +30,10 @@ public class TruFormView extends TruObjectView {
     }
 
     @Override
-    public View build() {
-       super.build();
-        for(SchemaInstance child:instance.getProperties().getVals()){
+    public View build(){
+        super.build();
+
+        for (SchemaInstance child : instance.getProperties().getVals()) {
             addChildView(child);
         }
         return mView;
@@ -41,8 +43,16 @@ public class TruFormView extends TruObjectView {
     protected int getLayoutId() {
         return R.layout.tru_form_view;
     }
+
     @Override
-    protected ViewGroup getContainerView(){
-        return ((ViewGroup)mView.findViewById(R.id.container));
+    protected ViewGroup getContainerView() {
+        return ((ViewGroup) mView.findViewById(R.id.container));
+    }
+
+    @Override
+    public String getInputtedData() {
+        String json = super.getInputtedData();
+        String subString = json.substring(json.indexOf(':') + 1);
+        return subString;
     }
 }
