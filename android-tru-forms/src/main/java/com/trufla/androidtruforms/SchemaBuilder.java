@@ -3,7 +3,6 @@ package com.trufla.androidtruforms;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.IdRes;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.google.gson.Gson;
@@ -12,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesAdapter;
 import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceAdapter;
+import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
 import com.trufla.androidtruforms.models.ArrayInstance;
 import com.trufla.androidtruforms.models.BooleanInstance;
 import com.trufla.androidtruforms.models.NumericInstance;
@@ -72,19 +72,25 @@ public class SchemaBuilder {
         return this;
     }
 
-    public SchemaDocument buildSchema(String schemaString) {
-        JsonObject jsonObj = new JsonParser().parse(schemaString.toString()).getAsJsonObject();
-        return gson.fromJson(jsonObj, SchemaDocument.class);
+    public SchemaDocument buildSchema(String schemaString) throws UnableToParseSchemaException {
+        SchemaDocument document=null;
+        try {
+            JsonObject jsonObj = new JsonParser().parse(schemaString.toString()).getAsJsonObject();
+            document= gson.fromJson(jsonObj, SchemaDocument.class);
+        }catch (Exception ex){
+            throw new UnableToParseSchemaException(ex);
+        }
+        return document;
     }
 
-    public FormFragment buildSchemaFragment(String schemaString, Context context, FormFragment.OnFormSubmitListener submitListener) {
+    public FormFragment buildSchemaFragment(String schemaString, Context context, FormFragment.OnFormSubmitListener submitListener) throws UnableToParseSchemaException {
         FormFragment formFragment = FormFragment.newInstance(schemaString.toString());
         formFragment.setFormView(buildSchemaView(schemaString, context));
         formFragment.setListener(submitListener);
         return formFragment;
     }
 
-    public void showFragment(String schemaString, Activity hostActivity, FormFragment.OnFormSubmitListener submitListener, FragmentTransaction fragmentTransaction, @IdRes int containerViewId) {
+    public void showFragment(String schemaString, Activity hostActivity, FormFragment.OnFormSubmitListener submitListener, FragmentTransaction fragmentTransaction, @IdRes int containerViewId) throws UnableToParseSchemaException {
         FormFragment formFragment = buildSchemaFragment(schemaString, hostActivity, submitListener);
         fragmentTransaction.replace(containerViewId, formFragment).commit();
     }
@@ -93,7 +99,7 @@ public class SchemaBuilder {
             FormActivity.startActivityForFormResult(context,schemaString,this);
     }
 
-    public TruFormView buildSchemaView(String schemaString, Context context) {
+    public TruFormView buildSchemaView(String schemaString, Context context) throws UnableToParseSchemaException {
         return buildSchema(schemaString).getViewBuilder(context);
     }
 }
