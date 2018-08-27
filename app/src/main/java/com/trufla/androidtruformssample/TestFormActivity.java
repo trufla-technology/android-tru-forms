@@ -2,14 +2,12 @@ package com.trufla.androidtruformssample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.trufla.androidtruforms.SchemaBuilder;
@@ -17,7 +15,7 @@ import com.trufla.androidtruforms.SchemaBuilder;
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class FistActivity extends AppCompatActivity {
+public class TestFormActivity extends AppCompatActivity {
 
     public static final String JSON_STR = "JSON_STR";
 
@@ -25,11 +23,11 @@ public class FistActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fist);
+        setContentView(R.layout.test_form_activity);
 
     }
 
-    public FistActivity getFistActivity() {
+    public TestFormActivity getFistActivity() {
         return this;
     }
 
@@ -57,6 +55,7 @@ public class FistActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==SchemaBuilder.REQUEST_CODE&&resultCode==RESULT_OK){
             String str=data.getStringExtra(SchemaBuilder.RESULT_DATA_KEY);
+            ((TextView)findViewById(R.id.submitted_data)).setText(str);
             Log.d("Json values", str);
         }
     }
