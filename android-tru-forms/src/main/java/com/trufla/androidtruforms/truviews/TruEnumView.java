@@ -10,6 +10,7 @@ import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.EnumInstance;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by ohefny on 7/3/18.
@@ -24,9 +25,9 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     }
 
     private void setupAdapter(EnumInstance instance) {
-        ArrayList<String> items = new ArrayList<>();
+        ArrayList<String> items;
         items = instance.getEnumDisplayedNames();
-        adapter = new ArrayAdapter<String>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
+        adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
@@ -37,9 +38,26 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     }
 
     @Override
+    public String getInputtedData() {
+        try {
+            int position = ((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
+            Object object = instance.getEnumVals().get(position);
+            String str = String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), object.toString());
+            if (object instanceof Number) {
+                str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), String.valueOf(object));
+            }
+            return str;
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
+        }
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.tru_enum_view;
     }
+
     @Override
     public View build() {
         super.build();

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.databinding.FragmentFormBinding;
@@ -25,25 +26,28 @@ public class FormFragment extends Fragment {
     public FormFragment() {
         // Required empty public constructor
     }
+
     public static FormFragment newInstance(String jsonStr) {
         FormFragment fragment = new FormFragment();
         Bundle args = new Bundle();
-        args.putString(JSON_SCHEMA_OBJECT,jsonStr);
+        args.putString(JSON_SCHEMA_OBJECT, jsonStr);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public void setListener(OnFormSubmitListener listener){
-        this.mListener=listener;
+    public void setListener(OnFormSubmitListener listener) {
+        this.mListener = listener;
     }
-    public void setFormView(TruFormView truFormView){
-        this.truFormView=truFormView;
+
+    public void setFormView(TruFormView truFormView) {
+        this.truFormView = truFormView;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        if(truFormView==null)
+        if (truFormView == null)
             throw new RuntimeException("TruFormView must not be null to build the view");
         if (getArguments() != null) {
 
@@ -53,7 +57,7 @@ public class FormFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(mListener==null)
+        if (mListener == null)
             throw new RuntimeException("OnFormSubmitListener must not be null");
 
     }
@@ -64,12 +68,20 @@ public class FormFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_form, container, false);
         binding.setFormView(this);
-        binding.formContainer.addView(truFormView.build());
+        try {
+            binding.formContainer.addView(truFormView.build());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Toast.makeText(getContext(), "Unable to create the form ... please check the schema", Toast.LENGTH_SHORT).show();
+            getActivity().onBackPressed();
+        }
         return binding.getRoot();
+
+
     }
 
 
-    public void onSubmitClicked(){
+    public void onSubmitClicked() {
         //mListener.onFormSubmitted();
     }
 

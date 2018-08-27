@@ -7,5 +7,5 @@
     android:orientation="vertical"
     android:id="@+id/container"
     android:layout_margin="16dp"
-    tools:context="com.trufla.androidtruformssample.MainActivity">
+    tools:context="com.trufla.androidtruformssample.TestFormFragment">
 </FrameLayout>

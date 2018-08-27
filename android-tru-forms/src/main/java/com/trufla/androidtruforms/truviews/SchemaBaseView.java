@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.exceptions.UnableToFindObjectProperties;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
 /**
@@ -48,5 +51,6 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         return mView;
     }
     protected abstract void setInstanceData();
+    public abstract String getInputtedData();
     protected @LayoutRes abstract int getLayoutId();
 }

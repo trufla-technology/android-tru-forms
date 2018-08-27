@@ -34,6 +34,7 @@ public class ObjectPropertiesAdapter implements JsonDeserializer<ObjectPropertie
         SchemaInstance schemaInstance=context.deserialize(jsonObject,SchemaInstance.class);
         if(TruUtils.isEmpty(schemaInstance.getTitle()))
             schemaInstance.setTitle(key);
+        schemaInstance.setKey(key);
         return schemaInstance;
     }
 
