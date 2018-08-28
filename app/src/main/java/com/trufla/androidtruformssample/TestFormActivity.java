@@ -44,7 +44,7 @@ public class TestFormActivity extends AppCompatActivity {
         } else
             jsonStringBuilder.append(js);
 
-        SchemaBuilder schemaBuilder = new SchemaBuilder();
+        SchemaBuilder schemaBuilder = SchemaBuilder.getInstance();
         /*FormFragment frag = schemaBuilder.buildSchemaFragment(jsonStrBuilder.toString(),this, this);
         getSupportFragmentManager().beginTransaction().replace(R.id.container,frag).commit();*/
         schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());

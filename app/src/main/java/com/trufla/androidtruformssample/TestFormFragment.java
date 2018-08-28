@@ -38,7 +38,7 @@ public class TestFormFragment extends AppCompatActivity implements FormFragment.
         } else
             jsonStrBuilder.append(getIntent().getExtras().getString(TestFormActivity.JSON_STR));
 
-        SchemaBuilder schemaBuilder=new SchemaBuilder();
+        SchemaBuilder schemaBuilder= SchemaBuilder.getInstance();
         FormFragment frag = null;
         try {
             frag = schemaBuilder.buildSchemaFragment(jsonStrBuilder.toString(),this, this);

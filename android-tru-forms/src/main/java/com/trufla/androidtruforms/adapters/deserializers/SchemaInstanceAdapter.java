@@ -27,16 +27,13 @@ import java.lang.reflect.Type;
 
 public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
 
-    Class<ArrayInstance> arrayInstanceClass=ArrayInstance.class;
-    Class<BooleanInstance>booleanInstanceClass=BooleanInstance.class;
-    Class<StringInstance>stringInstanceClass=StringInstance.class;
-    Class<NumericInstance>numericInstanceClass=NumericInstance.class;
-    Class<ObjectInstance>objectInstanceClass=ObjectInstance.class;
+    Class arrayInstanceClass;
+    Class booleanInstanceClass;
+    Class stringInstanceClass;
+    Class numericInstanceClass;
+    Class objectInstanceClass;
 
-    public SchemaInstanceAdapter(){
-
-    }
-    public SchemaInstanceAdapter(Class<ArrayInstance> arrayInstanceClass, Class<BooleanInstance> booleanInstanceClass, Class<StringInstance> stringInstanceClass, Class<NumericInstance> numericInstanceClass, Class<ObjectInstance> objectInstanceClass) {
+    public SchemaInstanceAdapter(Class arrayInstanceClass, Class booleanInstanceClass, Class stringInstanceClass, Class numericInstanceClass, Class objectInstanceClass) {
         this.arrayInstanceClass = arrayInstanceClass;
         this.booleanInstanceClass = booleanInstanceClass;
         this.stringInstanceClass = stringInstanceClass;
@@ -57,19 +54,19 @@ public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
         }
         switch (type){
             case SchemaKeywords.InstanceTypes.ARRAY:
-                klass= ArrayInstance.class;
+                klass= arrayInstanceClass;
                 break;
             case SchemaKeywords.InstanceTypes.BOOLEAN:
-                klass= BooleanInstance.class;
+                klass= booleanInstanceClass;
                 break;
             case SchemaKeywords.InstanceTypes.STRING:
-                klass = StringInstance.class;
+                klass = stringInstanceClass;
                 break;
             case SchemaKeywords.InstanceTypes.OBJECT:
-                klass= ObjectInstance.class;
+                klass= objectInstanceClass;
                 break;
             case SchemaKeywords.InstanceTypes.NUMBER:
-                klass= NumericInstance.class;
+                klass= numericInstanceClass;
 
                 break;
             default:
