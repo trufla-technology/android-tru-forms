@@ -3,6 +3,11 @@ package com.trufla.androidtruforms;
 import android.text.TextUtils;
 import android.widget.EditText;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by ohefny on 6/27/18.
  */
@@ -53,5 +58,10 @@ public class TruUtils {
             return value.replaceAll("_", " ");
         }
         return value;
+    }
+    public static String convertToData(long timeInMillis,String dateFormat) {
+        Date date = new Date(timeInMillis);
+        Format format = new SimpleDateFormat(dateFormat , Locale.getDefault());
+        return format.format(date);
     }
 }

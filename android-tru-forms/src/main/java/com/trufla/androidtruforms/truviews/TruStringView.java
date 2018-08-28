@@ -1,6 +1,7 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
@@ -32,11 +33,16 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     @Override
     public String getInputtedData() {
         try {
-            return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString().trim());
+            return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), extractData());
         }catch (NullPointerException ex){
             ex.printStackTrace();
             return String.format(Locale.getDefault(),"\"%s\":null",instance.getKey());
         }
+    }
+
+    @NonNull
+    protected String extractData() {
+        return ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString().trim();
     }
 
     @Override

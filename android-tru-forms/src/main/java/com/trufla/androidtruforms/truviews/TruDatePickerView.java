@@ -3,9 +3,15 @@ package com.trufla.androidtruforms.truviews;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.SchemaBuilder;
+import com.trufla.androidtruforms.TruUtils;
 import com.trufla.androidtruforms.models.StringInstance;
 
 import java.util.Calendar;
@@ -20,7 +26,25 @@ public class TruDatePickerView extends TruStringView{
 
     @Override
     protected void setInstanceData() {
-            super.setInstanceData();
+        ((TextView) (mView.findViewById(R.id.input_label))).setText(instance.getPresentationTitle());
+        ((TextView) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
+
+    }
+
+    @NonNull
+    protected String getDateHint() {
+        return "YYYY/MM/DD";
+    }
+
+    @Override
+    public String getInputtedData() {
+        return super.getInputtedData();
+    }
+
+    @NonNull
+    @Override
+    protected String extractData() {
+        return ((EditText) mView.findViewById(R.id.input_data)).getText().toString().trim();
     }
 
     @Override
@@ -31,22 +55,36 @@ public class TruDatePickerView extends TruStringView{
     @Override
     public View build() {
         super.build();
-        mView.findViewById(R.id.picker).setOnClickListener((v)->{
-            DatePickerDialog dialog = new DatePickerDialog(mContext, (view, year, month, dayOfMonth) -> {
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                TimePickerDialog dialogTime = new TimePickerDialog(mContext, (view2, hourOfDay, minute) -> {
-                    cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                    cal.set(Calendar.MINUTE, minute);
-                }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false);
-                dialogTime.setTitle(R.string.select_time);
-                dialogTime.show();
-            }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-            dialog.setTitle(R.string.select_date);
-            dialog.show();
-
-        });
+        mView.findViewById(R.id.input_data).setOnClickListener(this::onDateViewClicked);
+        mView.setOnClickListener(this::onDateViewClicked);
         return mView;
     }
+
+    private void onDateViewClicked(View view) {
+        showDateDialog();
+    }
+
+
+    protected void showDateDialog() {
+        DatePickerDialog dialog = new DatePickerDialog(mContext, getOnDateSetListener(), cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        dialog.setTitle(R.string.select_date);
+        dialog.show();
+    }
+
+    @NonNull
+    protected DatePickerDialog.OnDateSetListener getOnDateSetListener() {
+        return (view, year, month, dayOfMonth) -> {
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month);
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            onDateChanged(cal.getTimeInMillis());
+        };
+    }
+    protected void onDateChanged(long milliseconds){
+        ((EditText)mView.findViewById(R.id.input_data)).setText(TruUtils.convertToData(milliseconds, getFormat()));
+    }
+    protected String getFormat(){
+        return SchemaBuilder.getInstance().getDateFormat();
+    }
+
 }

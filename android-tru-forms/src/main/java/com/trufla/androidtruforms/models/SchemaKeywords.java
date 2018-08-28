@@ -16,5 +16,6 @@ public interface SchemaKeywords {
         String DATE_TIME="datetime";
         String PHOTO="photo";
         String MAP_LOCATION="map_lat_long";
+        String DATE ="date" ;
     }
 }

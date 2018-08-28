@@ -27,6 +27,10 @@
           "type": "string",
           "format": "datetime"
         },
+        "date_of_accident": {
+          "type": "string",
+          "format": "date"
+        },
         "location_of_accident": {
           "type": "string",
           "format": "map_lat_long"
