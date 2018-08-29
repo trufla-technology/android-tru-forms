@@ -1,22 +1,15 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
-import android.support.design.widget.TextInputEditText;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.trufla.androidtruforms.R;
-import com.trufla.androidtruforms.TruUtils;
+import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
-
-import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by ohefny on 6/26/18.

@@ -9,7 +9,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.trufla.androidtruforms.models.ObjectProperties;
 import com.trufla.androidtruforms.models.SchemaInstance;
-import com.trufla.androidtruforms.TruUtils;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

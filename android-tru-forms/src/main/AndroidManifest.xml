@@ -4,6 +4,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <application>
         <activity
-            android:name="com.trufla.androidtruforms.FormActivity" />
+            android:name="com.trufla.androidtruforms.TruFormActivity" />
     </application>
 </manifest>

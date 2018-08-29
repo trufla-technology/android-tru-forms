@@ -1,21 +1,18 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.SchemaBuilder;
-import com.trufla.androidtruforms.TruUtils;
+import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.models.StringInstance;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class TruDatePickerView extends TruStringView{
 

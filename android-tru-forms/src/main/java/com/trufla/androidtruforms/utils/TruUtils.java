@@ -1,6 +1,10 @@
-package com.trufla.androidtruforms;
+package com.trufla.androidtruforms.utils;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
 
 import java.text.Format;
@@ -63,5 +67,15 @@ public class TruUtils {
         Date date = new Date(timeInMillis);
         Format format = new SimpleDateFormat(dateFormat , Locale.getDefault());
         return format.format(date);
+    }
+    public static Activity getHostActivity(View view) {
+        Context context = view.getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
     }
 }

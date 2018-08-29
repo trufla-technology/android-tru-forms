@@ -4,10 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
-import com.trufla.androidtruforms.TruUtils;
+import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.truviews.SchemaBaseView;
-
-import java.sql.Types;
 
 /**
  * Created by ohefny on 6/26/18.

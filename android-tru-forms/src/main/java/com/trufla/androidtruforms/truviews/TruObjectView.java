@@ -49,6 +49,7 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
         childs.add(childViewBuilder);
         childView.setLayoutParams(layoutParams);
         ((ViewGroup) mView.findViewById(R.id.container)).addView(childView);
+        childViewBuilder.setParentView(this);
     }
 
 }
