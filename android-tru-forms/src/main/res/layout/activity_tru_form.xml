@@ -7,7 +7,7 @@
 
         <variable
             name="formView"
-            type="com.trufla.androidtruforms.FormActivity" />
+            type="com.trufla.androidtruforms.TruFormActivity" />
 
     </data>
 
@@ -16,13 +16,13 @@
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:orientation="vertical"
-        tools:context=".FormActivity">
+        tools:context=".TruFormActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:context=".FormActivity">
+            tools:context=".TruFormActivity">
 
             <LinearLayout
                 android:id="@+id/form_container"

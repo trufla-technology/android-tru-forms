@@ -1,11 +1,9 @@
 package com.trufla.androidtruforms.models;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
-import com.trufla.androidtruforms.TruUtils;
+import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.truviews.TruDatePickerView;
 import com.trufla.androidtruforms.truviews.TruDateTimePickerView;
 import com.trufla.androidtruforms.truviews.TruLocationView;

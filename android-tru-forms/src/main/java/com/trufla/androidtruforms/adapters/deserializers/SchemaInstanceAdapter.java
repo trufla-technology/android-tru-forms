@@ -1,22 +1,15 @@
 package com.trufla.androidtruforms.adapters.deserializers;
 
-import android.support.annotation.NonNull;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
-import com.trufla.androidtruforms.models.ArrayInstance;
-import com.trufla.androidtruforms.models.BooleanInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
 import com.trufla.androidtruforms.models.SchemaKeywords;
-import com.trufla.androidtruforms.models.NumericInstance;
-import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
-import com.trufla.androidtruforms.TruUtils;
-import com.trufla.androidtruforms.models.StringInstance;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.lang.reflect.Type;
 

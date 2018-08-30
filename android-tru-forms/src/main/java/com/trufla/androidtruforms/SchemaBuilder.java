@@ -106,7 +106,7 @@ public class SchemaBuilder {
         return document;
     }
 
-    public FormFragment buildSchemaFragment(String schemaString, Context context, FormFragment.OnFormSubmitListener submitListener) throws UnableToParseSchemaException {
+    /*public FormFragment buildSchemaFragment(String schemaString, Context context, FormFragment.OnFormSubmitListener submitListener) throws UnableToParseSchemaException {
         FormFragment formFragment = FormFragment.newInstance(schemaString.toString());
         formFragment.setFormView(buildSchemaView(schemaString, context));
         formFragment.setListener(submitListener);
@@ -116,10 +116,10 @@ public class SchemaBuilder {
     public void showFragment(String schemaString, Activity hostActivity, FormFragment.OnFormSubmitListener submitListener, FragmentTransaction fragmentTransaction, @IdRes int containerViewId) throws UnableToParseSchemaException {
         FormFragment formFragment = buildSchemaFragment(schemaString, hostActivity, submitListener);
         fragmentTransaction.replace(containerViewId, formFragment).commit();
-    }
+    }*/
 
     public void buildActivityForResult(Activity context, String schemaString) {
-        FormActivity.startActivityForFormResult(context, schemaString, this);
+        TruFormActivity.startActivityForFormResult(context, schemaString, this);
     }
 
     public TruFormView buildSchemaView(String schemaString, Context context) throws UnableToParseSchemaException {
