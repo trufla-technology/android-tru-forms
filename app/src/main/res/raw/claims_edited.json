@@ -17,10 +17,12 @@
         "description": {
           "type": "string"
         },
-        "Array Field": {
+        "Field": {
           "type": "array",
           "items": {
-            "type": "string"
+              "type": "string",
+              "format": "photo",
+              "title":"Array Photo"
           }
         },
         "date_time_of_accident": {
@@ -37,12 +39,25 @@
         },
         "where_you_driving": {
           "type": "string",
-          "enum": ["Yes", "No"]
+          "enum": [
+            "Yes",
+            "No"
+          ]
         },
         "number_of_people": {
           "type": "number",
-          "enum": [1, 2,3,4],
-          "enumNames":["One","Two","Three","Four"]
+          "enum": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "enumNames": [
+            "One",
+            "Two",
+            "Three",
+            "Four"
+          ]
         },
         "who_was_driving": {
           "type": "string"

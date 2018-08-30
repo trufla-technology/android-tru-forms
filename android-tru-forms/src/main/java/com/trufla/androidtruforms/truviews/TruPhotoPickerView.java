@@ -12,6 +12,7 @@ import com.trufla.androidtruforms.TruFormActivity;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.BitmapUtils;
+import com.trufla.androidtruforms.utils.ColorFactory;
 
 public class TruPhotoPickerView extends TruStringView {
     String mBitmapPath;
@@ -21,9 +22,17 @@ public class TruPhotoPickerView extends TruStringView {
     }
 
     @Override
+    protected void onViewCreated() {
+        super.onViewCreated();
+        mView.findViewById(R.id.photo_thumb_container).setBackgroundColor(ColorFactory.getTransparentColor(R.color.colorPrimary,mContext,25));
+        mView.setOnClickListener(getOnViewClickedListener());
+        mView.findViewById(R.id.photo_remove_icon).setOnClickListener(getOnRemoveImageListener());
+
+    }
+
+    @Override
     protected void setInstanceData() {
         ((TextView) mView.findViewById(R.id.title)).setText(instance.getPresentationTitle());
-        mView.setOnClickListener(getOnViewClickedListener());
     }
 
     @NonNull
@@ -43,6 +52,7 @@ public class TruPhotoPickerView extends TruStringView {
             mView.findViewById(R.id.photo_thumb_container).setVisibility(View.GONE);
             ((ImageView) mView.findViewById(R.id.photo)).setImageBitmap(BitmapUtils.loadBitmapFromPath(bitmapPath));
             mView.findViewById(R.id.photo_container).setVisibility(View.VISIBLE);
+
         };
     }
 
@@ -60,5 +70,14 @@ public class TruPhotoPickerView extends TruStringView {
     @Override
     protected String extractData() {
         return BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath),200, 200);
+    }
+
+    public View.OnClickListener getOnRemoveImageListener() {
+        return (v)->{
+            mBitmapPath=null;
+            mView.findViewById(R.id.photo_thumb_container).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.photo_container).setVisibility(View.GONE);
+
+        };
     }
 }

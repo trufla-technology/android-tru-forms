@@ -54,9 +54,9 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         setInstanceData();
     }
 
-    public View attachView(ViewGroup parent) {
+    public View attachView(ViewGroup parent,boolean attach) {
         if (mView == null) {
-            mView = layoutInflater.inflate(layoutId, parent, true);
+            mView = layoutInflater.inflate(layoutId, parent, attach);
             onViewCreated();
         }
         return mView;

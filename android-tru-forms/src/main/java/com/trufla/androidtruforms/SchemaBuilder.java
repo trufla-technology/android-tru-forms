@@ -25,8 +25,10 @@ import com.trufla.androidtruforms.truviews.TruFormView;
 public class SchemaBuilder {
     public final static int REQUEST_CODE = 333;
     public final static String RESULT_DATA_KEY = "SCHEMA_DATA_KEY";
-    private String dateFormat = "yyyy-MM-dd";
-    private String dateTimeFormat = "yyyy-MM-dd hh:mm:ss";
+    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DEFAULT_DATE_TIME_FORMAT = DEFAULT_DATE_FORMAT + " hh:mm:ss";
+    private String dateFormat;
+    private String dateTimeFormat;
     private Class<ArrayInstance> arrayInstanceClass;
     private Class<BooleanInstance> booleanInstanceClass;
     private Class<StringInstance> stringInstanceClass;
@@ -50,14 +52,14 @@ public class SchemaBuilder {
     }
 
     private void setDefaultSettings() {
-        dateFormat = "yyyy-MM-dd";
-        dateTimeFormat = "yyyy-MM-dd hh:mm:ss";
+        dateFormat = DEFAULT_DATE_FORMAT;
+        dateTimeFormat = DEFAULT_DATE_TIME_FORMAT;
         arrayInstanceClass = ArrayInstance.class;
         booleanInstanceClass = BooleanInstance.class;
         stringInstanceClass = StringInstance.class;
         numericInstanceClass = NumericInstance.class;
         objectInstanceClass = ObjectInstance.class;
-        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceAdapter(arrayInstanceClass,booleanInstanceClass,stringInstanceClass,numericInstanceClass,objectInstanceClass)).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesAdapter()).create();
+        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceAdapter(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesAdapter()).create();
 
     }
 
