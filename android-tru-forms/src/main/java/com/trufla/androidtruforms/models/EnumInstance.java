@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.SchemaBaseView;
+import com.trufla.androidtruforms.truviews.TruEnumDataView;
 import com.trufla.androidtruforms.truviews.TruEnumView;
 
 import java.util.ArrayList;
@@ -17,14 +18,9 @@ public class EnumInstance<T> extends SchemaInstance {
     protected ArrayList<T> enumVals; //instance of String or Number or Boolean
     @SerializedName("enumNames")
     protected ArrayList<String> enumNames; //instance of String or Number or Boolean
+    @SerializedName("$data")
+    protected DataInstance dataInstance;
 
-    public ArrayList<T> getEnumVals() {
-        return enumVals;
-    }
-
-    public ArrayList<String> getEnumNames() {
-        return enumNames;
-    }
 
     public boolean enumExists() {
         return enumVals != null && !enumVals.isEmpty();
@@ -32,7 +28,10 @@ public class EnumInstance<T> extends SchemaInstance {
 
     @Override
     public TruEnumView getViewBuilder(Context context) {
-        return new TruEnumView(context, this);
+        if (dataInstance == null)
+            return new TruEnumView(context, this);
+        else
+            return new TruEnumDataView(context, this);
     }
 
     public ArrayList<String> getEnumDisplayedNames() {
@@ -48,5 +47,25 @@ public class EnumInstance<T> extends SchemaInstance {
                 displayedNames.add(String.valueOf(d));
         }
         return displayedNames;
+    }
+
+    public DataInstance getDataInstance() {
+        return dataInstance;
+    }
+
+    public void setEnumVals(ArrayList<T> enumVals) {
+        this.enumVals = enumVals;
+    }
+
+    public ArrayList<T> getEnumVals() {
+        return enumVals;
+    }
+
+    public void setEnumNames(ArrayList<String> enumNames) {
+        this.enumNames = enumNames;
+    }
+
+    public ArrayList<String> getEnumNames() {
+        return enumNames;
     }
 }
