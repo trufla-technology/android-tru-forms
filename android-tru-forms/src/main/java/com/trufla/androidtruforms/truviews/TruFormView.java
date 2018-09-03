@@ -4,15 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.SectionIndexer;
 
-import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.R;
-import com.trufla.androidtruforms.exceptions.UnableToFindObjectProperties;
 import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaInstance;
-
-import java.util.ArrayList;
 
 /**
  * Created by ohefny on 7/2/18.
@@ -55,4 +50,6 @@ public class TruFormView extends TruObjectView {
         String subString = json.substring(json.indexOf(':') + 1);
         return subString;
     }
+
+
 }

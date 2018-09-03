@@ -19,6 +19,7 @@ import java.util.Locale;
 
 public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
+    SchemaBaseView primaryItem;
     ArrayList<SchemaBaseView> items = new ArrayList<>();
 
     public TruArrayView(Context context, ArrayInstance instance) {
@@ -34,9 +35,10 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     }
 
     private void initPrimaryItem() {
-        SchemaBaseView primaryItem = instance.getItems().getViewBuilder(mContext);
-        items.add(primaryItem);
-        ((ViewGroup) mView).addView(primaryItem.build());
+        primaryItem = instance.getItems().getViewBuilder(mContext);
+        View primaryItemView = primaryItem.build();
+        setLayoutParams(primaryItemView,primaryItem);
+        addNewItem(primaryItemView,primaryItem);
     }
 
     private void onAddNewView() {
@@ -51,6 +53,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     private void addNewItem(View newItemView, SchemaBaseView viewBuilder) {
         ((ViewGroup) mView).addView(newItemView);
         items.add(viewBuilder);
+
     }
 
     @Override
@@ -77,19 +80,26 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         return R.layout.tru_array_view;
     }
 
-    public View getNewItemView(SchemaBaseView newView) {
-        View itemView = layoutInflater.inflate(R.layout.tru_item_view, null);
-        ((TextView) (itemView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
-        ((ViewGroup) itemView).addView(newView.build());
+    public View getNewItemView(SchemaBaseView itemViewBuilder) {
+        View arrayLayoutView = layoutInflater.inflate(R.layout.tru_item_view, null);
+        ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
+        View itemView=itemViewBuilder.build();
+        ((ViewGroup) arrayLayoutView).addView(itemView);
+        setLayoutParams(itemView,itemViewBuilder);
         final int viewIdx = items.size();
-        itemView.findViewById(R.id.remove_item_img).setOnClickListener(
-                (v) -> removeItem(itemView, viewIdx));
-        return itemView;
+        arrayLayoutView.findViewById(R.id.remove_item_img).setOnClickListener(
+                (v) -> removeItem(arrayLayoutView, viewIdx));
+        return arrayLayoutView;
 
     }
 
     private void removeItem(View itemView, int idx) {
         ((ViewGroup) mView).removeView(itemView);
         items.remove(idx);
+    }
+    private void setLayoutParams(View childView,SchemaBaseView truView) {
+        LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
+        layoutParams.setMargins(0, 4, 0, 4);
+        childView.setLayoutParams(layoutParams);
     }
 }

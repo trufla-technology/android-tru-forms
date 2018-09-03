@@ -1,18 +1,17 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
-import android.support.annotation.CallSuper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.trufla.androidtruforms.R;
-import com.trufla.androidtruforms.exceptions.UnableToFindObjectProperties;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
 
 /**
  * Created by ohefny on 7/2/18.
@@ -41,15 +40,19 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
         return String.format(Locale.getDefault(), "\"%s\":{%s}", instance.getKey(), stringBuilder.toString());
     }
 
-    protected void addChildView(SchemaInstance child){
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(0, 0, 0, 8);
+    protected void addChildView(SchemaInstance child) {
         SchemaBaseView childViewBuilder = child.getViewBuilder(mContext);
         View childView = childViewBuilder.build();
         childs.add(childViewBuilder);
-        childView.setLayoutParams(layoutParams);
         ((ViewGroup) mView.findViewById(R.id.container)).addView(childView);
+        setLayoutParams(childView,childViewBuilder);
         childViewBuilder.setParentView(this);
+    }
+
+    private void setLayoutParams(View childView,SchemaBaseView truView) {
+        LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
+        layoutParams.setMargins(0, 0, 0, 8);
+        childView.setLayoutParams(layoutParams);
     }
 
 }

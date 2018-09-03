@@ -4,7 +4,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.trufla.androidtruforms.R;
@@ -79,5 +81,9 @@ public class TruPhotoPickerView extends TruStringView {
             mView.findViewById(R.id.photo_container).setVisibility(View.GONE);
 
         };
+    }
+    @Override
+    public LinearLayout.LayoutParams getLayoutParams() {
+        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 }

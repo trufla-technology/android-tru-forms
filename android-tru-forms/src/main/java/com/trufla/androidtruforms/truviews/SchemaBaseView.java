@@ -2,17 +2,13 @@ package com.trufla.androidtruforms.truviews;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.TruFormActivity;
-import com.trufla.androidtruforms.exceptions.UnableToFindObjectProperties;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
 
@@ -85,6 +81,9 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         if (hostActivity instanceof TruFormActivity)
             return (TruFormActivity) hostActivity;
         return null;
+    }
+    public LinearLayout.LayoutParams getLayoutParams(){
+        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
 }
