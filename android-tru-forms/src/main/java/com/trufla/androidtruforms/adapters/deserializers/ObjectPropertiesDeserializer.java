@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by ohefny on 6/27/18.
  */
 
-public class ObjectPropertiesAdapter implements JsonDeserializer<ObjectProperties> ,JsonSerializer<ObjectProperties>{
+public class ObjectPropertiesDeserializer implements JsonDeserializer<ObjectProperties>{
     @Override
     public ObjectProperties deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
@@ -38,8 +38,4 @@ public class ObjectPropertiesAdapter implements JsonDeserializer<ObjectPropertie
         return schemaInstance;
     }
 
-    @Override
-    public JsonElement serialize(ObjectProperties src, Type typeOfSrc, JsonSerializationContext context) {
-        return null;
-    }
 }
