@@ -5,9 +5,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.EnumInstance;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,19 +19,28 @@ import java.util.Locale;
  */
 
 public class TruEnumView extends SchemaBaseView<EnumInstance> {
-    ArrayAdapter<String> adapter;
+    protected ArrayAdapter<String> adapter;
 
     public TruEnumView(Context context, EnumInstance instance) {
         super(context, instance);
 
     }
 
-    private void setupAdapter(EnumInstance instance) {
+    @Override
+    protected void onViewCreated() {
+        super.onViewCreated();
+        ((Spinner) mView.findViewById(R.id.spinner)).setAdapter(adapter);
+
+    }
+
+    protected void setupAdapter(EnumInstance instance) {
         ArrayList<String> items;
         items = instance.getEnumDisplayedNames();
         adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
     }
+
 
     @Override
     protected void setInstanceData() {
@@ -40,11 +51,10 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     @Override
     public String getInputtedData() {
         try {
-            int position = ((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
-            Object object = instance.getEnumVals().get(position);
+            Object object = getSelectedObject();
             String str = String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), object.toString());
             if (object instanceof Number) {
-                str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), String.valueOf(object));
+                str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), TruUtils.numberToString((Double) object));
             }
             return str;
         } catch (NullPointerException ex) {
@@ -53,15 +63,15 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         }
     }
 
+    protected Object getSelectedObject() {
+        int position = ((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
+        return instance.getEnumVals().get(position);
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.tru_enum_view;
     }
 
-    @Override
-    public View build() {
-        super.build();
-        ((Spinner) mView.findViewById(R.id.spinner)).setAdapter(adapter);
-        return mView;
-    }
+
 }

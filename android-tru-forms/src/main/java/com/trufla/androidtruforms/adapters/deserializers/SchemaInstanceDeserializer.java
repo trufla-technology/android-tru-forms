@@ -13,12 +13,15 @@ import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.lang.reflect.Type;
 
+import static com.trufla.androidtruforms.models.SchemaKeywords.InstanceTypes.NUMBER;
+import static com.trufla.androidtruforms.models.SchemaKeywords.InstanceTypes.STRING;
+
 
 /**
  * Created by ohefny on 6/26/18.
  */
 
-public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
+public class SchemaInstanceDeserializer implements JsonDeserializer<SchemaInstance> {
 
     Class arrayInstanceClass;
     Class booleanInstanceClass;
@@ -26,7 +29,7 @@ public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
     Class numericInstanceClass;
     Class objectInstanceClass;
 
-    public SchemaInstanceAdapter(Class arrayInstanceClass, Class booleanInstanceClass, Class stringInstanceClass, Class numericInstanceClass, Class objectInstanceClass) {
+    public SchemaInstanceDeserializer(Class arrayInstanceClass, Class booleanInstanceClass, Class stringInstanceClass, Class numericInstanceClass, Class objectInstanceClass) {
         this.arrayInstanceClass = arrayInstanceClass;
         this.booleanInstanceClass = booleanInstanceClass;
         this.stringInstanceClass = stringInstanceClass;
@@ -39,36 +42,50 @@ public class SchemaInstanceAdapter implements JsonDeserializer<SchemaInstance> {
     public SchemaInstance deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         JsonPrimitive prim = (JsonPrimitive) jsonObject.get(SchemaKeywords.TYPE_KEY);
-        String type = TruUtils.getText(prim.getAsString(),"No_Type");
+        String type = TruUtils.getText(prim.getAsString(), "No_Type");
         Class<?> klass = null;
-        if(jsonObject.has(SchemaKeywords.ENUM_KEY)){
-            klass=EnumInstance.class;
-            return (EnumInstance)context.deserialize(json,klass);
+        if (jsonObject.has(SchemaKeywords.ENUM_KEY) || jsonObject.has(SchemaKeywords.TruVocabulary.DATA)) {
+            klass = EnumInstance.class;
+            return getProperEnumInstance(json, context, type, klass);
+
         }
-        switch (type){
+        klass = getInstanceClass(type);
+        return context.deserialize(json, klass);
+    }
+
+    private Class<?> getInstanceClass(String type) {
+        Class<?> klass;
+        switch (type) {
             case SchemaKeywords.InstanceTypes.ARRAY:
-                klass= arrayInstanceClass;
+                klass = arrayInstanceClass;
                 break;
             case SchemaKeywords.InstanceTypes.BOOLEAN:
-                klass= booleanInstanceClass;
+                klass = booleanInstanceClass;
                 break;
-            case SchemaKeywords.InstanceTypes.STRING:
+            case STRING:
                 klass = stringInstanceClass;
                 break;
             case SchemaKeywords.InstanceTypes.OBJECT:
-                klass= objectInstanceClass;
+                klass = objectInstanceClass;
                 break;
             case SchemaKeywords.InstanceTypes.NUMBER:
-                klass= numericInstanceClass;
+                klass = numericInstanceClass;
 
                 break;
             default:
-                throw new JsonParseException(String.format("this type is not supported %s",type));
+                throw new JsonParseException(String.format("this type is not supported %s", type));
 
         }
-        return context.deserialize(json,klass);
+        return klass;
     }
 
+    private SchemaInstance getProperEnumInstance(JsonElement json, JsonDeserializationContext context, String type, Class<?> klass) {
+        if (type.equals(STRING))
+            return (EnumInstance<String>) context.deserialize(json, klass);
+        else if (type.equals(NUMBER))
+            return (EnumInstance<Double>) context.deserialize(json, klass);
+        return context.deserialize(json, klass);
+    }
 
 
 }

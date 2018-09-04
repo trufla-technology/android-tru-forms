@@ -2,18 +2,18 @@ package com.trufla.androidtruforms;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.v4.app.FragmentTransaction;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesAdapter;
-import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceAdapter;
+import com.trufla.androidtruforms.adapters.deserializers.DataEnumNamesDeserializer;
+import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesDeserializer;
+import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceDeserializer;
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
 import com.trufla.androidtruforms.models.ArrayInstance;
 import com.trufla.androidtruforms.models.BooleanInstance;
+import com.trufla.androidtruforms.models.DataEnumNames;
 import com.trufla.androidtruforms.models.NumericInstance;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.ObjectProperties;
@@ -21,6 +21,8 @@ import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.truviews.TruFormView;
+
+import okhttp3.Request;
 
 public class SchemaBuilder {
     public final static int REQUEST_CODE = 333;
@@ -35,6 +37,7 @@ public class SchemaBuilder {
     private Class<NumericInstance> numericInstanceClass;
     private Class<ObjectInstance> objectInstanceClass;
     private Gson gson;
+    private Request.Builder requestBuilder ;
     private static SchemaBuilder instance;
 
     private SchemaBuilder() {
@@ -59,7 +62,10 @@ public class SchemaBuilder {
         stringInstanceClass = StringInstance.class;
         numericInstanceClass = NumericInstance.class;
         objectInstanceClass = ObjectInstance.class;
-        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceAdapter(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesAdapter()).create();
+        requestBuilder= new Request.Builder();
+        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).
+                registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).
+                registerTypeAdapter(DataEnumNames.class, new DataEnumNamesDeserializer()).create();
 
     }
 
@@ -69,31 +75,36 @@ public class SchemaBuilder {
             this.stringInstanceClass = stringInstanceClass;
             this.numericInstanceClass = numericInstanceClass;
             this.objectInstanceClass = objectInstanceClass;
-            gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceAdapter(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesAdapter()).create();
+            gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).create();
         }
     */
-    public SchemaBuilder addArrayInstanceClass(Class<ArrayInstance> arrayInstanceClass) {
+    public SchemaBuilder arrayInstanceClass(Class<ArrayInstance> arrayInstanceClass) {
         this.arrayInstanceClass = arrayInstanceClass;
         return this;
     }
 
-    public SchemaBuilder addBooleanInstanceClass(Class<BooleanInstance> booleanInstanceClass) {
+    public SchemaBuilder booleanInstanceClass(Class<BooleanInstance> booleanInstanceClass) {
         this.booleanInstanceClass = booleanInstanceClass;
         return this;
     }
 
-    public SchemaBuilder addNumericInstanceClass(Class<NumericInstance> numericInstanceClass) {
+    public SchemaBuilder numericInstanceClass(Class<NumericInstance> numericInstanceClass) {
         this.numericInstanceClass = numericInstanceClass;
         return this;
     }
 
-    public SchemaBuilder addStringInstanceClass(Class<StringInstance> stringInstanceClass) {
+    public SchemaBuilder stringInstanceClass(Class<StringInstance> stringInstanceClass) {
         this.stringInstanceClass = stringInstanceClass;
         return this;
     }
 
-    public SchemaBuilder addObjectInstanceClass(Class<ObjectInstance> objectInstanceClass) {
+    public SchemaBuilder objectInstanceClass(Class<ObjectInstance> objectInstanceClass) {
         this.objectInstanceClass = objectInstanceClass;
+        return this;
+    }
+
+    public SchemaBuilder networkRequestBuilder(Request.Builder builder) {
+        this.requestBuilder = builder;
         return this;
     }
 
@@ -146,4 +157,7 @@ public class SchemaBuilder {
         return instance;
     }
 
+    public Request.Builder getRequestBuilder() {
+        return requestBuilder;
+    }
 }

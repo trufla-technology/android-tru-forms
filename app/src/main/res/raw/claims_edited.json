@@ -6,9 +6,9 @@
       "type": "number",
       "title": "Select Vehicle",
       "$data": {
-        "href": "/vehicles",
+        "href": "/5b8e816532000001167b39b4",
         "enum": "id",
-        "enumNames": "vehicle_model"
+        "enumNames": ["vehicle_make","vehicle_model"]
       }
     },
     "driver_information": {
@@ -16,14 +16,6 @@
       "properties": {
         "description": {
           "type": "string"
-        },
-        "Field": {
-          "type": "array",
-          "items": {
-              "type": "string",
-              "format": "photo",
-              "title":"Array Photo"
-          }
         },
         "date_time_of_accident": {
           "type": "string",

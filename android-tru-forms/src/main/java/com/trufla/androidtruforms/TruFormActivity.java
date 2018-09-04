@@ -1,27 +1,29 @@
 package com.trufla.androidtruforms;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Toast;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
-import com.google.gson.Gson;
 import com.trufla.androidtruforms.databinding.ActivityTruFormBinding;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.truviews.TruFormView;
-import com.trufla.androidtruforms.utils.BitmapUtils;
+import com.trufla.androidtruforms.utils.EnumDataFormatter;
 import com.trufla.androidtruforms.utils.TruUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+
+import okhttp3.Callback;
 
 /**
  * Created by ohefny on 8/13/18.
@@ -33,6 +35,8 @@ public class TruFormActivity extends AppCompatActivity {
     private static SchemaBuilder sSchemaBuilder;
     private TruFormView truFormView;
     TruConsumer<String> mPickedImageListener;
+    TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
+    ProgressDialog progressDialog;
 
     public static void startActivityForFormResult(Activity context, String jsonStr, SchemaBuilder schemaBuilder) {
         Intent intent = new Intent(context, TruFormActivity.class);
@@ -85,6 +89,25 @@ public class TruFormActivity extends AppCompatActivity {
                 .start(IMAGE_PICKER_CODE);
     }
 
+    public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
+        this.mDataFetchListener = listener;
+        EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);
+        fetcher.requestData(url, getHttpCallback(selector, names));
+        showProgressDialog();
+    }
+
+    private void showProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing())
+            return;
+        progressDialog = new ProgressDialog(TruFormActivity.this);
+        progressDialog.setTitle("Loading...");
+        progressDialog.show();
+    }
+
+    private boolean isValidData() {
+        return true;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_PICKER_CODE) {
@@ -94,7 +117,7 @@ public class TruFormActivity extends AppCompatActivity {
             if (images == null || images.size() == 0)
                 return;
             Image image = ImagePicker.getImages(data).get(0);
-            String path=image.getPath();
+            String path = image.getPath();
             if (!TruUtils.isEmpty(path) && mPickedImageListener != null) {
                 mPickedImageListener.accept(path);
             }
@@ -102,8 +125,24 @@ public class TruFormActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isValidData() {
-        return true;
+
+    @NonNull
+    private Callback getHttpCallback(final String selector, final ArrayList<String> names) {
+        return new TruCallback(TruFormActivity.this.getApplicationContext()) {
+            @Override
+            public void onUIFailure(String message) {
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                Toast.makeText(TruFormActivity.this, "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onUISuccess(String responseBody) {
+                progressDialog.dismiss();
+                mDataFetchListener.accept(EnumDataFormatter.getPairList(responseBody, selector, names));
+            }
+        };
     }
+
 
 }

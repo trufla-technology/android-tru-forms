@@ -2,12 +2,12 @@ package com.trufla.androidtruforms;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceDeserializer;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.ObjectProperties;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.models.StringInstance;
-import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesAdapter;
-import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceAdapter;
+import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesDeserializer;
 
 import junit.framework.Assert;
 
@@ -27,7 +27,7 @@ public class TestProperJsonConversion {
 
     @Before
     public void buildSetup() {
-        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceAdapter()).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesAdapter()).create();
+        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer()).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).create();
 
         buildClaimsJson();
 
