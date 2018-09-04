@@ -78,4 +78,11 @@ public class TruUtils {
         }
         return null;
     }
+    public static String numberToString(double d)
+    {
+        if(d == (long) d)
+            return String.format("%d",(long)d);
+        else
+            return String.format("%s",d);
+    }
 }

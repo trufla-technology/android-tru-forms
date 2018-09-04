@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.EnumInstance;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -53,7 +54,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
             Object object = getSelectedObject();
             String str = String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), object.toString());
             if (object instanceof Number) {
-                str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), String.valueOf(object));
+                str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), TruUtils.numberToString((Double) object));
             }
             return str;
         } catch (NullPointerException ex) {

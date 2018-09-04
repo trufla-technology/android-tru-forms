@@ -22,6 +22,7 @@ import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TruEnumDataView extends TruEnumView {
     private int selectedPosition = -1;
@@ -33,8 +34,11 @@ public class TruEnumDataView extends TruEnumView {
 
     @Override
     protected Object getSelectedObject() {
-        int position = ((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
-        return instance.getEnumVals().get(position);
+        if (selectedPosition < 0)
+            return "null";
+        Object selected = instance.getEnumVals().get(selectedPosition);
+        return selected;
+
     }
 
     @Override

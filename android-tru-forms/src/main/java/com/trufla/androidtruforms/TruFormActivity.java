@@ -13,11 +13,6 @@ import android.widget.Toast;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.databinding.ActivityTruFormBinding;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.truviews.TruFormView;
@@ -28,12 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 /**
  * Created by ohefny on 8/13/18.
@@ -147,15 +137,9 @@ public class TruFormActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onUISuccess(ResponseBody responseBody) {
+            public void onUISuccess(String responseBody) {
                 progressDialog.dismiss();
-                try {
-                    mDataFetchListener.accept(EnumDataFormatter.getPairList(responseBody.string(), selector, names));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    onUIFailure(e.getMessage());
-
-                }
+                mDataFetchListener.accept(EnumDataFormatter.getPairList(responseBody, selector, names));
             }
         };
     }
