@@ -21,6 +21,7 @@ import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.databinding.ActivityTruFormBinding;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.truviews.TruFormView;
+import com.trufla.androidtruforms.utils.EnumDataFormatter;
 import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class TruFormActivity extends AppCompatActivity {
     private TruFormView truFormView;
     TruConsumer<String> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
+    ProgressDialog progressDialog;
 
     public static void startActivityForFormResult(Activity context, String jsonStr, SchemaBuilder schemaBuilder) {
         Intent intent = new Intent(context, TruFormActivity.class);
@@ -99,8 +101,21 @@ public class TruFormActivity extends AppCompatActivity {
 
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
         this.mDataFetchListener = listener;
-        new EnumDateFetcher(mDataFetchListener, selector, names).requestData(url);
-        //todo fetch results
+        EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);
+        fetcher.requestData(url, getHttpCallback(selector, names));
+        showProgressDialog();
+    }
+
+    private void showProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing())
+            return;
+        progressDialog = new ProgressDialog(TruFormActivity.this);
+        progressDialog.setTitle("Loading...");
+        progressDialog.show();
+    }
+
+    private boolean isValidData() {
+        return true;
     }
 
     @Override
@@ -120,84 +135,30 @@ public class TruFormActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isValidData() {
-        return true;
+
+    @NonNull
+    private Callback getHttpCallback(final String selector, final ArrayList<String> names) {
+        return new TruCallback(TruFormActivity.this.getApplicationContext()) {
+            @Override
+            public void onUIFailure(String message) {
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                Toast.makeText(TruFormActivity.this, "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onUISuccess(ResponseBody responseBody) {
+                progressDialog.dismiss();
+                try {
+                    mDataFetchListener.accept(EnumDataFormatter.getPairList(responseBody.string(), selector, names));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    onUIFailure(e.getMessage());
+
+                }
+            }
+        };
     }
 
-    class EnumDateFetcher {
-        TruConsumer<ArrayList<Pair<Object, String>>> mListener;
-        String mSelector;
-        ArrayList<String> mNames;
-        ProgressDialog progressDialog;
-
-        EnumDateFetcher(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names) {
-            this.mListener = listener;
-            this.mNames = names;
-            this.mSelector = selector;
-        }
-
-        private void requestData(String url) {
-            showProgressDialog();
-            OkHttpClient client = new OkHttpClient();
-            client.newCall(getFullRequest(url)).enqueue(getHttpCallback());
-        }
-
-        private void showProgressDialog() {
-            if (progressDialog != null && progressDialog.isShowing())
-                return;
-            progressDialog = new ProgressDialog(TruFormActivity.this);
-            progressDialog.setTitle("Loading...");
-            progressDialog.show();
-        }
-
-        @NonNull
-        private Callback getHttpCallback() {
-            return new TruCallback(TruFormActivity.this.getApplicationContext()) {
-                @Override
-                public void onUIFailure(String message) {
-                    progressDialog.dismiss();
-                    Toast.makeText(TruFormActivity.this, "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onUISuccess(ResponseBody responseBody) {
-                    progressDialog.dismiss();
-                    try {
-                        mDataFetchListener.accept(getPairList(responseBody.string()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        onUIFailure(e.getMessage());
-
-                    }
-                }
-            };
-        }
-
-        private Request getFullRequest(String absoluteUrl) {
-            Request request = SchemaBuilder.getInstance().getRequestBuilder().build();
-            return request.newBuilder().url(request.url() + absoluteUrl).build();
-        }
-
-        public ArrayList<Pair<Object, String>> getPairList(String string) {
-            ArrayList<Pair<Object, String>> list = new ArrayList<>();
-            JsonArray jsonArray = new JsonParser().parse(string).getAsJsonArray();
-            for (int i = 0; i < jsonArray.size(); i++) {
-                list.add(getPairFromObject(jsonArray.get(i).getAsJsonObject()));
-            }
-            return list;
-        }
-
-        private Pair<Object, String> getPairFromObject(JsonObject asJsonObject) {
-            Object key = new Gson().fromJson(asJsonObject.getAsJsonPrimitive(mSelector), Object.class);
-            String name = "";
-            for (String n : mNames) {
-                name += String.valueOf(new Gson().fromJson(asJsonObject.getAsJsonPrimitive(n), Object.class)) + ",";
-            }
-            if (name.length() > 0 && name.charAt(name.length() - 1) == ',') {
-                name = name.substring(0, name.length() - 1);
-            }
-            return new Pair<>(key, name);
-        }
-    }
 
 }
