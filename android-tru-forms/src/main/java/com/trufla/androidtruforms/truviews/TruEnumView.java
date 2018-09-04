@@ -18,7 +18,7 @@ import java.util.Locale;
  */
 
 public class TruEnumView extends SchemaBaseView<EnumInstance> {
-    ArrayAdapter<String> adapter;
+    protected ArrayAdapter<String> adapter;
 
     public TruEnumView(Context context, EnumInstance instance) {
         super(context, instance);
@@ -32,7 +32,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
 
     }
 
-    private void setupAdapter(EnumInstance instance) {
+    protected void setupAdapter(EnumInstance instance) {
         ArrayList<String> items;
         items = instance.getEnumDisplayedNames();
         adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);

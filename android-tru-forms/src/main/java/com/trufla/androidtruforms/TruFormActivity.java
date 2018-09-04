@@ -1,6 +1,7 @@
 package com.trufla.androidtruforms;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * Created by ohefny on 8/13/18.
@@ -126,6 +128,7 @@ public class TruFormActivity extends AppCompatActivity {
         TruConsumer<ArrayList<Pair<Object, String>>> mListener;
         String mSelector;
         ArrayList<String> mNames;
+        ProgressDialog progressDialog;
 
         EnumDateFetcher(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names) {
             this.mListener = listener;
@@ -134,24 +137,38 @@ public class TruFormActivity extends AppCompatActivity {
         }
 
         private void requestData(String url) {
+            showProgressDialog();
             OkHttpClient client = new OkHttpClient();
             client.newCall(getFullRequest(url)).enqueue(getHttpCallback());
         }
 
+        private void showProgressDialog() {
+            if (progressDialog != null && progressDialog.isShowing())
+                return;
+            progressDialog = new ProgressDialog(TruFormActivity.this);
+            progressDialog.setTitle("Loading...");
+            progressDialog.show();
+        }
+
         @NonNull
         private Callback getHttpCallback() {
-            return new Callback() {
+            return new TruCallback(TruFormActivity.this.getApplicationContext()) {
                 @Override
-                public void onFailure(Call call, IOException e) {
-
+                public void onUIFailure(String message) {
+                    progressDialog.dismiss();
+                    Toast.makeText(TruFormActivity.this, "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.body() != null && response.isSuccessful())
-                        mDataFetchListener.accept(getPairList(response.body().string()));
-                    else
-                        onFailure(call, new IOException("Can't fetch the data"));
+                public void onUISuccess(ResponseBody responseBody) {
+                    progressDialog.dismiss();
+                    try {
+                        mDataFetchListener.accept(getPairList(responseBody.string()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        onUIFailure(e.getMessage());
+
+                    }
                 }
             };
         }

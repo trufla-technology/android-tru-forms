@@ -17,14 +17,6 @@
         "description": {
           "type": "string"
         },
-        "Field": {
-          "type": "array",
-          "items": {
-              "type": "string",
-              "format": "photo",
-              "title":"Array Photo"
-          }
-        },
         "date_time_of_accident": {
           "type": "string",
           "format": "datetime"
