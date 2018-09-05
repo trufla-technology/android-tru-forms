@@ -29,7 +29,7 @@ import okhttp3.Callback;
  * Created by ohefny on 8/13/18.
  */
 
-public class TruFormActivity extends AppCompatActivity {
+public class TruFormActivity extends AppCompatActivity implements FormContract{
     private static final String JSON_KEY = "JSON_KEY";
     private static final int IMAGE_PICKER_CODE = 505;
     private static SchemaBuilder sSchemaBuilder;

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.trufla.androidtruforms.FormContract;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.TruFormActivity;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
@@ -43,7 +44,7 @@ public class TruPhotoPickerView extends TruStringView {
     @NonNull
     private View.OnClickListener getOnViewClickedListener() {
         return (v) -> {
-            TruFormActivity hostActivity = getTruFormHostActivity(v);
+            FormContract hostActivity = getTruFormHostActivity(v);
             if (hostActivity != null)
                 hostActivity.openImagePicker(getImagePickedListener());
 

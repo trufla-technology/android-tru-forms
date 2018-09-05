@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.trufla.androidtruforms.FormContract;
 import com.trufla.androidtruforms.TruFormActivity;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -73,13 +74,13 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     protected @LayoutRes
     abstract int getLayoutId();
 
-    protected TruFormActivity getTruFormHostActivity(View v) {
+    protected FormContract getTruFormHostActivity(View v) {
         Activity hostActivity;
-        if (mContext instanceof TruFormActivity)
-            return (TruFormActivity) mContext;
+        if (mContext instanceof FormContract)
+            return (FormContract) mContext;
         hostActivity = TruUtils.getHostActivity(v);
-        if (hostActivity instanceof TruFormActivity)
-            return (TruFormActivity) hostActivity;
+        if (hostActivity instanceof FormContract)
+            return (FormContract) hostActivity;
         return null;
     }
     public LinearLayout.LayoutParams getLayoutParams(){
