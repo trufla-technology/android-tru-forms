@@ -88,14 +88,15 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         setLayoutParams(itemView,itemViewBuilder);
         final int viewIdx = items.size();
         arrayLayoutView.findViewById(R.id.remove_item_img).setOnClickListener(
-                (v) -> removeItem(arrayLayoutView, viewIdx));
+                (v) -> removeItem(arrayLayoutView));
         return arrayLayoutView;
 
     }
 
-    private void removeItem(View itemView, int idx) {
+    private void removeItem(View itemView) {
+        int idx=((ViewGroup)mView).indexOfChild(itemView);
         ((ViewGroup) mView).removeView(itemView);
-        items.remove(idx);
+        items.remove(idx-1);
     }
     private void setLayoutParams(View childView,SchemaBaseView truView) {
         LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
