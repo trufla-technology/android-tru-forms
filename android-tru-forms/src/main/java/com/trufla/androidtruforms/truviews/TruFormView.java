@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaInstance;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 /**
  * Created by ohefny on 7/2/18.
@@ -25,7 +26,7 @@ public class TruFormView extends TruObjectView {
     }
 
     @Override
-    public View build(){
+    public View build() {
         super.build();
 
         for (SchemaInstance child : instance.getProperties().getVals()) {
@@ -51,4 +52,13 @@ public class TruFormView extends TruObjectView {
         return subString;
     }
 
+    protected void setLayoutParams(View childView, SchemaBaseView truView) {
+        if (truView instanceof TruSectionView)
+            super.setLayoutParams(childView, truView);
+        else {
+            LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
+            layoutParams.setMargins((int) TruUtils.convertDpToPixel(16,mContext), 0, 0, 8);
+            childView.setLayoutParams(layoutParams);
+        }
+    }
 }

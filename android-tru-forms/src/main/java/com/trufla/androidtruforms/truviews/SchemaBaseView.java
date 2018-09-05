@@ -8,8 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.trufla.androidtruforms.FormContract;
-import com.trufla.androidtruforms.TruFormActivity;
+import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
 

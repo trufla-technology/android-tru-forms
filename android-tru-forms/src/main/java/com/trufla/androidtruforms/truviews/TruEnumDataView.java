@@ -2,28 +2,20 @@ package com.trufla.androidtruforms.truviews;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.trufla.androidtruforms.FormContract;
+import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.R;
-import com.trufla.androidtruforms.TruFormActivity;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.DataInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
-import com.trufla.androidtruforms.utils.BitmapUtils;
-import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class TruEnumDataView extends TruEnumView {
     private int selectedPosition = -1;

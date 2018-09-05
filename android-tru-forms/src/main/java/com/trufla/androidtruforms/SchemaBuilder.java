@@ -39,7 +39,7 @@ public class SchemaBuilder {
     private Gson gson;
     private Request.Builder requestBuilder ;
     private static SchemaBuilder instance;
-
+    private boolean allowDefaultOrder;
     private SchemaBuilder() {
         setDefaultSettings();
     }
@@ -62,6 +62,7 @@ public class SchemaBuilder {
         stringInstanceClass = StringInstance.class;
         numericInstanceClass = NumericInstance.class;
         objectInstanceClass = ObjectInstance.class;
+        allowDefaultOrder=false;
         requestBuilder= new Request.Builder();
         gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).
                 registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).
@@ -118,7 +119,10 @@ public class SchemaBuilder {
         }
         return document;
     }
-
+    public SchemaBuilder allowDefaultOrder(boolean allowDefaultOrder) {
+        this.allowDefaultOrder=allowDefaultOrder;
+        return this;
+    }
     /*public FormFragment buildSchemaFragment(String schemaString, Context context, FormFragment.OnFormSubmitListener submitListener) throws UnableToParseSchemaException {
         FormFragment formFragment = FormFragment.newInstance(schemaString.toString());
         formFragment.setFormView(buildSchemaView(schemaString, context));
@@ -159,5 +163,9 @@ public class SchemaBuilder {
 
     public Request.Builder getRequestBuilder() {
         return requestBuilder;
+    }
+
+    public boolean isDefaultOrdering() {
+        return allowDefaultOrder;
     }
 }

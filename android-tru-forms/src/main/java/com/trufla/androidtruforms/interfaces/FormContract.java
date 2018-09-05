@@ -1,4 +1,4 @@
-package com.trufla.androidtruforms;
+package com.trufla.androidtruforms.interfaces;
 
 import android.util.Pair;
 
