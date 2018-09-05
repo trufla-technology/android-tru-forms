@@ -2,27 +2,20 @@ package com.trufla.androidtruforms.truviews;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.R;
-import com.trufla.androidtruforms.TruFormActivity;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.DataInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
-import com.trufla.androidtruforms.utils.BitmapUtils;
-import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class TruEnumDataView extends TruEnumView {
     private int selectedPosition = -1;
@@ -71,7 +64,7 @@ public class TruEnumDataView extends TruEnumView {
 
     private View.OnClickListener getLoadItemsAction() {
         return (v) -> {
-            TruFormActivity formActivity = getTruFormHostActivity(v);
+            FormContract formActivity = getTruFormHostActivity(v);
             if (formActivity != null) {
                 DataInstance dataInstance = instance.getDataInstance();
                 formActivity.onRequestData(getDataLoadedListener(), dataInstance.getIdentifierColumn(), dataInstance.getNames(), dataInstance.getUrl());
@@ -97,7 +90,7 @@ public class TruEnumDataView extends TruEnumView {
 
     public void showChooserDialogAction() {
         String[] displayedNames = ((List<String>) instance.getEnumDisplayedNames()).toArray(new String[0]);
-        new AlertDialog.Builder(getTruFormHostActivity(mView))
+        new AlertDialog.Builder(mContext)
                 .setSingleChoiceItems(displayedNames, 0, null)
                 .setPositiveButton("OK", (dialog, whichButton) -> {
                     selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();

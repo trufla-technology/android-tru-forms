@@ -49,7 +49,7 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
         childViewBuilder.setParentView(this);
     }
 
-    private void setLayoutParams(View childView,SchemaBaseView truView) {
+    protected void setLayoutParams(View childView,SchemaBaseView truView) {
         LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
         layoutParams.setMargins(0, 0, 0, 8);
         childView.setLayoutParams(layoutParams);

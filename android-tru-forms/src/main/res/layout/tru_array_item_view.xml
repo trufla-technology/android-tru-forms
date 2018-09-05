@@ -8,8 +8,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/colorPrimary"
+        android:layout_height="40dp"
+        android:background="@drawable/rounded_button"
         android:orientation="horizontal">
 
         <TextView
@@ -23,15 +23,18 @@
             android:layout_gravity="center_vertical"
             tools:text="TextView"
             android:textColor="@android:color/white" />
-        <ImageView
+
+        <Button
             android:id="@+id/remove_item_img"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:text="Remove"
+            android:textColor="@color/colorAccent"
+            android:background="@drawable/rounded_button_with_border"
             android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/ic_remove_circle_white_24dp" />
-
+            />
     </LinearLayout>
 
 </LinearLayout>

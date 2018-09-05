@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ArrayInstance;
 
@@ -81,21 +80,21 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     }
 
     public View getNewItemView(SchemaBaseView itemViewBuilder) {
-        View arrayLayoutView = layoutInflater.inflate(R.layout.tru_item_view, null);
+        View arrayLayoutView = layoutInflater.inflate(R.layout.tru_array_item_view, null);
         ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
         View itemView=itemViewBuilder.build();
         ((ViewGroup) arrayLayoutView).addView(itemView);
         setLayoutParams(itemView,itemViewBuilder);
-        final int viewIdx = items.size();
         arrayLayoutView.findViewById(R.id.remove_item_img).setOnClickListener(
-                (v) -> removeItem(arrayLayoutView, viewIdx));
+                (v) -> removeItem(arrayLayoutView));
         return arrayLayoutView;
 
     }
 
-    private void removeItem(View itemView, int idx) {
+    private void removeItem(View itemView) {
+        int idx=((ViewGroup)mView).indexOfChild(itemView);
         ((ViewGroup) mView).removeView(itemView);
-        items.remove(idx);
+        items.remove(idx-1);
     }
     private void setLayoutParams(View childView,SchemaBaseView truView) {
         LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();

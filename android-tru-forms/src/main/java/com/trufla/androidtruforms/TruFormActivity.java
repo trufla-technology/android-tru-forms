@@ -14,12 +14,12 @@ import android.widget.Toast;
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
 import com.trufla.androidtruforms.databinding.ActivityTruFormBinding;
+import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.truviews.TruFormView;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
 import com.trufla.androidtruforms.utils.TruUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,7 @@ import okhttp3.Callback;
  * Created by ohefny on 8/13/18.
  */
 
-public class TruFormActivity extends AppCompatActivity {
+public class TruFormActivity extends AppCompatActivity implements FormContract {
     private static final String JSON_KEY = "JSON_KEY";
     private static final int IMAGE_PICKER_CODE = 505;
     private static SchemaBuilder sSchemaBuilder;
