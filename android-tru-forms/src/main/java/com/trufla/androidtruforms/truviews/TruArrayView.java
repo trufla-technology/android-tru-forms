@@ -86,7 +86,6 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         View itemView=itemViewBuilder.build();
         ((ViewGroup) arrayLayoutView).addView(itemView);
         setLayoutParams(itemView,itemViewBuilder);
-        final int viewIdx = items.size();
         arrayLayoutView.findViewById(R.id.remove_item_img).setOnClickListener(
                 (v) -> removeItem(arrayLayoutView));
         return arrayLayoutView;
