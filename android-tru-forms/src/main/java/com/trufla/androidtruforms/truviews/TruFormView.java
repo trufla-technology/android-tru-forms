@@ -51,5 +51,4 @@ public class TruFormView extends TruObjectView {
         return subString;
     }
 
-
 }

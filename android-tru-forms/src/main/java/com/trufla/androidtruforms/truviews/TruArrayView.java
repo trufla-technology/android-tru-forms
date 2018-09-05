@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ArrayInstance;
 
@@ -81,7 +80,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     }
 
     public View getNewItemView(SchemaBaseView itemViewBuilder) {
-        View arrayLayoutView = layoutInflater.inflate(R.layout.tru_item_view, null);
+        View arrayLayoutView = layoutInflater.inflate(R.layout.tru_array_item_view, null);
         ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
         View itemView=itemViewBuilder.build();
         ((ViewGroup) arrayLayoutView).addView(itemView);
