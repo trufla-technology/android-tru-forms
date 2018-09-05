@@ -3,6 +3,8 @@ package com.trufla.androidtruforms.truviews;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,7 +28,7 @@ public class TruPhotoPickerView extends TruStringView {
     @Override
     protected void onViewCreated() {
         super.onViewCreated();
-        mView.findViewById(R.id.photo_thumb_container).setBackgroundColor(ColorFactory.getTransparentColor(R.color.colorPrimary,mContext,25));
+        ((CardView) mView.findViewById(R.id.photo_thumb_container)).setCardBackgroundColor(ColorFactory.getTransparentColor(R.color.colorPrimary, mContext, 25));
         mView.setOnClickListener(getOnViewClickedListener());
         mView.findViewById(R.id.photo_remove_icon).setOnClickListener(getOnRemoveImageListener());
 
@@ -34,7 +36,8 @@ public class TruPhotoPickerView extends TruStringView {
 
     @Override
     protected void setInstanceData() {
-        ((TextView) mView.findViewById(R.id.title)).setText(instance.getPresentationTitle());
+        String title=mView.getResources().getString(R.string.add_photo_label,instance.getPresentationTitle());
+        ((TextView) mView.findViewById(R.id.title)).setText(title);
     }
 
     @NonNull
@@ -71,19 +74,21 @@ public class TruPhotoPickerView extends TruStringView {
     @NonNull
     @Override
     protected String extractData() {
-        return BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath),200, 200);
+        return BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath), 200, 200);
     }
 
     public View.OnClickListener getOnRemoveImageListener() {
-        return (v)->{
-            mBitmapPath=null;
+        return (v) -> {
+            mBitmapPath = null;
             mView.findViewById(R.id.photo_thumb_container).setVisibility(View.VISIBLE);
             mView.findViewById(R.id.photo_container).setVisibility(View.GONE);
 
         };
     }
+
     @Override
     public LinearLayout.LayoutParams getLayoutParams() {
-        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        return params;
     }
 }
