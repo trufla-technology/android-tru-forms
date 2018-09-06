@@ -43,4 +43,20 @@ public class StringInstance extends SchemaInstance {
         }
 
     }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public int getMaxLength() {
+        return maxLength;
+    }
+
+    public int getMinLength() {
+        return minLength;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
 }

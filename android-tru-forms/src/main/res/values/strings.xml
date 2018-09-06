@@ -5,6 +5,11 @@
     <string name="date_pick_label">Pick Date</string>
     <string name="add_photo_label">Add photo of %s</string>
     <string name="title_activity_tru_navigation">TruNavigationActivity</string>
-    <string name="page_no_of_pages">%s / %s</string>
+    <string name="page_no_of_pages">%s/%s</string>
     <string name="array_item_no_title">%s No %d .</string>
+    <string name="next_step_btm_nav_text">Next Step</string>
+    <string name="initial_page_number">0/0</string>
+    <string name="submit_btm_nav_text">Submit</string>
+    <string name="pattern_validation_error">The input don\'t apply to the pattern %s</string>
+    <string name="required_field">This field is required</string>
 </resources>

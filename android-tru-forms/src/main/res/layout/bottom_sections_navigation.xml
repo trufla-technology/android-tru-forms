@@ -4,33 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/footer"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:background="@color/colorAccent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    tools:showIn="@layout/activity_tru_navigation">
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent">
 
     <TextView
+        android:id="@+id/page_counter_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toStartOf="@id/next_step_icon"
-        android:text="@string/page_no_of_pages"
+        android:text="@string/initial_page_number"
         android:layout_marginEnd="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textStyle="bold"
-        tools:text="1 / 2" />
+        />
 
     <TextView
+        android:id="@+id/next_step_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        app:layout_constraintEnd_toStartOf="@id/next_step_icon"
-        android:text="NEXT STEP"
+        android:text="@string/next_step_btm_nav_text"
         android:textStyle="bold"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@id/next_step_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 

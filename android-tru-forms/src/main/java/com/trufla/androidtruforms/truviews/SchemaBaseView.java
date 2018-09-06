@@ -50,7 +50,7 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         setInstanceData();
     }
 
-    public View attachView(ViewGroup parent,boolean attach) {
+    public View attachView(ViewGroup parent, boolean attach) {
         if (mView == null) {
             mView = layoutInflater.inflate(layoutId, parent, attach);
             onViewCreated();
@@ -82,8 +82,15 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
             return (FormContract) hostActivity;
         return null;
     }
-    public LinearLayout.LayoutParams getLayoutParams(){
+
+    public LinearLayout.LayoutParams getLayoutParams() {
         return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
+    public boolean validate() {
+        return true;
+    }
+
+    protected void setValidationError() {
+    }
 }

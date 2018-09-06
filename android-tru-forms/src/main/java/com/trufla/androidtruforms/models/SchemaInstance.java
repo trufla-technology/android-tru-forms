@@ -22,6 +22,7 @@ public abstract class SchemaInstance implements Comparable<SchemaInstance>{
     @SerializedName("const")
     protected Object constItem;
 
+    protected boolean requiredField;
     public String getTitle() {
         return title;
     }
@@ -70,5 +71,13 @@ public abstract class SchemaInstance implements Comparable<SchemaInstance>{
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public boolean isRequiredField() {
+        return requiredField;
+    }
+
+    public void setRequiredField(boolean required) {
+        this.requiredField = required;
     }
 }

@@ -1,6 +1,7 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
@@ -8,8 +9,11 @@ import android.view.View;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.NumericInstance;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ohefny on 6/26/18.
@@ -28,15 +32,20 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
 
     @Override
     public String getInputtedData() {
-        String value="null";
+        String value = "null";
         try {
-            if(!TextUtils.isEmpty(((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText()))
-                 value= ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString().trim();
+            if (!TextUtils.isEmpty(extractData()))
+                value = extractData();
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
-        return String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(),value);
+        return String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), value);
 
+    }
+
+    @NonNull
+    private String extractData() {
+        return ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString();
     }
 
     @Override
@@ -44,4 +53,46 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
         return R.layout.tru_number_view;
 
     }
+
+    protected boolean hasData() {
+        try {
+            if (!TruUtils.isEmpty(extractData()))
+                return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean validate() {
+        if (!hasData() && instance.isRequiredField()) {
+            setRequiredError();
+            return false;
+        }
+        if (TruUtils.isEmpty(instance.getPattern()) || !hasData())
+            return super.validate();
+        try {
+            Pattern patternObj = Pattern.compile(instance.getPattern());
+            Matcher matcher = patternObj.matcher(extractData());
+            if (matcher.matches())
+                return true;
+
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+        setValidationError();
+        return false;
+    }
+
+    protected void setValidationError() {
+        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern()));
+        mView.findViewById(R.id.input_view_container).requestFocus();
+    }
+
+    private void setRequiredError() {
+        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.required_field, instance.getPattern()));
+        mView.findViewById(R.id.input_view_container).requestFocus();
+    }
+
 }

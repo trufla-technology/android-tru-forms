@@ -71,8 +71,10 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
 
 
     public void onSubmitClicked() {
-        if (!isValidData())
+        if (!isValidData()) {
+            Toast.makeText(this, "Please correct the errors", Toast.LENGTH_SHORT).show();
             return;
+        }
         Toast.makeText(this, "submitted", Toast.LENGTH_SHORT).show();
         String result = truFormView.getInputtedData();
         Intent intent = new Intent();
@@ -105,7 +107,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     }
 
     private boolean isValidData() {
-        return true;
+        return truFormView.getInputtedData() != null;
     }
 
     @Override

@@ -13,6 +13,7 @@ public class NumericInstance extends SchemaInstance {
     protected double minimum;
     protected double exclusiveMaximum;
     protected double exclusiveMinimum;
+    protected String pattern;
 
     public double getMaximum() {
         return maximum;
@@ -51,4 +52,7 @@ public class NumericInstance extends SchemaInstance {
         return new TruNumericView(context,this);
     }
 
+    public String getPattern() {
+        return pattern;
+    }
 }
