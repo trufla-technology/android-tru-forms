@@ -96,14 +96,18 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @Override
     protected void setError(String errorMsg) {
-        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(errorMsg);
-        mView.findViewById(R.id.input_view_container).requestFocus();
+        if (mView.findViewById(R.id.input_view_container) != null) {
+            ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(errorMsg);
+            mView.findViewById(R.id.input_view_container).requestFocus();
+        }
     }
 
 
     @Override
     protected void removeErrorMsg() {
-        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(null);
+        if (mView.findViewById(R.id.input_view_container) != null)
+            ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(null);
+
     }
 
 }

@@ -90,13 +90,21 @@ public class TruDatePickerView extends TruStringView {
 
     @Override
     protected void setError(String errorMsg) {
-        ((EditText) mView.findViewById(R.id.input_data)).setError("");
-        ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(errorMsg);
+        if (isVisibleView()) {
+            ((EditText) mView.findViewById(R.id.input_data)).setError("");
+            ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(errorMsg);
+        }
+    }
+
+    private boolean isVisibleView() {
+        return mView.findViewById(R.id.input_data) != null && mView.findViewById(R.id.date_picker_error_msg) != null;
     }
 
     @Override
     protected void removeErrorMsg() {
-        ((EditText) mView.findViewById(R.id.input_data)).setError(null);
-        ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(null);
+        if (isVisibleView()) {
+            ((EditText) mView.findViewById(R.id.input_data)).setError(null);
+            ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(null);
+        }
     }
 }
