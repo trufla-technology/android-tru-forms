@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -88,9 +89,46 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     }
 
     public boolean validate() {
+        if (!isValidAgainstRequired()) {
+            setError(getRequiredErrorMessage());
+            return false;
+        }
+        if (!isValidAgainstOtherRules()) {
+            setError(getOtherRulesErrorMessage());
+            return false;
+        }
+        removeErrorMsg();
         return true;
     }
 
-    protected void setValidationError() {
+    public boolean isValidAgainstRequired() {
+        if (instance.isRequiredField())
+            return isFilled();
+        return true;
+    }
+
+    //can't name it against pattern cuz it only valid on numeric and string
+    public boolean isValidAgainstOtherRules() {
+        return true;
+    }
+
+    protected String getRequiredErrorMessage() {
+        return mView.getResources().getString(R.string.required_field);
+    }
+
+    protected String getOtherRulesErrorMessage() {
+        return mView.getResources().getString(R.string.general_invalid_input);
+    }
+
+    protected void setError(String error) {
+
+    }
+
+    protected boolean isFilled() {
+        return true;
+    }
+
+    protected void removeErrorMsg() {
+
     }
 }

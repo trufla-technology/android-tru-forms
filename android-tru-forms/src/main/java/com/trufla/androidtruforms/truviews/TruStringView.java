@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
@@ -54,7 +56,8 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         return R.layout.tru_string_view;
     }
 
-    protected boolean hasData() {
+    @Override
+    protected boolean isFilled() {
         try {
             if (!TruUtils.isEmpty(extractData()))
                 return true;
@@ -65,13 +68,9 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     }
 
     @Override
-    public boolean validate() {
-        if (!hasData() && instance.isRequiredField()) {
-            setRequiredError();
-            return false;
-        }
-        if (TruUtils.isEmpty(instance.getPattern()) || !hasData())
-            return super.validate();
+    public boolean isValidAgainstOtherRules() {
+        if (TruUtils.isEmpty(instance.getPattern()))
+            return true;
         try {
             Pattern patternObj = Pattern.compile(instance.getPattern());
             Matcher matcher = patternObj.matcher(extractData());
@@ -81,18 +80,30 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         } catch (Exception ex) {
             ex.getMessage();
         }
-        setValidationError();
         return false;
+
     }
 
-    private void setRequiredError() {
-        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.required_field, instance.getPattern()));
+    @Override
+    protected String getRequiredErrorMessage() {
+        return mView.getResources().getString(R.string.required_field);
+    }
+
+    @Override
+    protected String getOtherRulesErrorMessage() {
+        return mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern());
+    }
+
+    @Override
+    protected void setError(String errorMsg) {
+        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(errorMsg);
         mView.findViewById(R.id.input_view_container).requestFocus();
     }
 
-    protected void setValidationError() {
-        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern()));
-        mView.findViewById(R.id.input_view_container).requestFocus();
+
+    @Override
+    protected void removeErrorMsg() {
+        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(null);
     }
 
 }

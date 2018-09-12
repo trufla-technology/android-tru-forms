@@ -16,7 +16,7 @@
         android:textColor="@color/colorAccent"
         android:clickable="true"
         android:focusable="true"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/input_data"
@@ -30,4 +30,15 @@
         android:focusableInTouchMode="false"
         android:clickable="true"
         />
+    <TextView
+        android:id="@+id/date_picker_error_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text=""
+        android:labelFor="@id/input_data"
+        android:textColor="@android:color/holo_red_light"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/input_data"/>
 </android.support.constraint.ConstraintLayout>
