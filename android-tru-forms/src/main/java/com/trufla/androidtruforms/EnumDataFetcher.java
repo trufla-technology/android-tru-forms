@@ -1,6 +1,7 @@
 package com.trufla.androidtruforms;
 
 import android.app.ProgressDialog;
+import android.util.Log;
 import android.util.Pair;
 
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class EnumDataFetcher {
     TruConsumer<ArrayList<Pair<Object, String>>> mListener;
@@ -27,7 +29,7 @@ public class EnumDataFetcher {
     }
 
     public void requestData(String url, Callback callback) {
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(getLoggingInterceptor()).build();
         client.newCall(getFullRequest(url)).enqueue(callback);
     }
 
@@ -35,6 +37,14 @@ public class EnumDataFetcher {
     private Request getFullRequest(String absoluteUrl) {
         Request request = SchemaBuilder.getInstance().getRequestBuilder().build();
         return request.newBuilder().url(request.url() + absoluteUrl).build();
+    }
+    public HttpLoggingInterceptor getLoggingInterceptor() {
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor((logMessage) -> Log.d("Network",logMessage));
+
+        loggingInterceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+
+        return loggingInterceptor;
     }
 
 

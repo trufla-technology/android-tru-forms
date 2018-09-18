@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.trufla.androidtruforms.SchemaBuilder;
+import com.trufla.androidtruforms.TruNavigationActivity;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -35,7 +36,7 @@ public class TestFormActivity extends AppCompatActivity {
     }
 
     public void onParseClick(View view) {
-        StringBuilder jsonStringBuilder = new StringBuilder();
+       StringBuilder jsonStringBuilder = new StringBuilder();
         String js = ((EditText) findViewById(R.id.et)).getText().toString().trim();
         if (TextUtils.isEmpty(js)) {
             Toast.makeText(this, "No Json Entered ... Form from claims.json will be built", Toast.LENGTH_LONG).show();
@@ -47,11 +48,10 @@ public class TestFormActivity extends AppCompatActivity {
         } else
             jsonStringBuilder.append(js);
 
-        SchemaBuilder schemaBuilder = SchemaBuilder.getInstance();
+        SchemaBuilder schemaBuilder = SchemaBuilder.getInstance().allowDefaultOrder(true);
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
-        /*FormFragment frag = schemaBuilder.buildSchemaFragment(jsonStrBuilder.toString(),this, this);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,frag).commit();*/
         schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());
+        //startActivity(new Intent(this, TruNavigationActivity.class));
     }
 
     @Override

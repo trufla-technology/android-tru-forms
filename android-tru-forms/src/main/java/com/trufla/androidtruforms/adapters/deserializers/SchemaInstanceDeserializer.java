@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.trufla.androidtruforms.models.EnumInstance;
+import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaKeywords;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -50,7 +51,10 @@ public class SchemaInstanceDeserializer implements JsonDeserializer<SchemaInstan
 
         }
         klass = getInstanceClass(type);
-        return context.deserialize(json, klass);
+        SchemaInstance instance = context.deserialize(json, klass);
+        if (instance instanceof ObjectInstance)
+            setObjectRequiredFields((ObjectInstance) instance);
+        return instance;
     }
 
     private Class<?> getInstanceClass(String type) {
@@ -87,5 +91,12 @@ public class SchemaInstanceDeserializer implements JsonDeserializer<SchemaInstan
         return context.deserialize(json, klass);
     }
 
+    private void setObjectRequiredFields(ObjectInstance objInstance) {
+        if (!(objInstance.getRequired() == null || objInstance.getRequired().isEmpty())) {
+            for (SchemaInstance instance : objInstance.getProperties().getVals()) {
+                instance.setRequiredField(objInstance.getRequired().contains(instance.getKey()));
+            }
+        }
+    }
 
 }

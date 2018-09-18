@@ -48,6 +48,8 @@ public class TruFormView extends TruObjectView {
     @Override
     public String getInputtedData() {
         String json = super.getInputtedData();
+        if(json==null)
+            return null;
         String subString = json.substring(json.indexOf(':') + 1);
         return subString;
     }

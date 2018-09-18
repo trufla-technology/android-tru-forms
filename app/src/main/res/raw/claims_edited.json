@@ -1,196 +1,99 @@
 {
-  "title": "Auto Claim - Vehicle Accident",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
   "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "checked",
+    "dimensions",
+    "id",
+    "name",
+    "price",
+    "tags"
+  ],
   "properties": {
-    "vehicle": {
-      "type": "number",
-      "title": "Select Vehicle",
-      "$data": {
-        "href": "/5b8e816532000001167b39b4",
-        "enum": "id",
-        "enumNames": ["vehicle_make","vehicle_model"]
-      }
+    "checked": {
+      "$id": "#/properties/checked",
+      "type": "boolean",
+      "title": "The Checked Schema",
+      "default": false,
+      "examples": [
+        false
+      ]
     },
-    "driver_information": {
+    "dimensions": {
+      "$id": "#/properties/dimensions",
       "type": "object",
+      "title": "The Dimensions Schema",
+      "required": [
+        "width",
+        "height"
+      ],
       "properties": {
-        "description": {
-          "type": "string"
-        },
-        "date_time_of_accident": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "date_of_accident": {
-          "type": "string",
-          "format": "date"
-        },
-        "location_of_accident": {
-          "type": "string",
-          "format": "map_lat_long"
-        },
-        "where_you_driving": {
-          "type": "string",
-          "enum": [
-            "Yes",
-            "No"
-          ]
-        },
-        "number_of_people": {
+        "width": {
+          "$id": "#/properties/dimensions/properties/width",
           "type": "number",
-          "enum": [
-            1,
-            2,
-            3,
-            4
-          ],
-          "enumNames": [
-            "One",
-            "Two",
-            "Three",
-            "Four"
+          "title": "The Width Schema",
+          "default": 0,
+          "examples": [
+            5
           ]
         },
-        "who_was_driving": {
-          "type": "string"
-        },
-        "damage_photos": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "photo": {
-                "type": "string",
-                "format": "photo"
-              }
-            }
-          }
+        "height": {
+          "$id": "#/properties/dimensions/properties/height",
+          "type": "number",
+          "title": "The Height Schema",
+          "default": 0,
+          "examples": [
+            10
+          ]
         }
       }
     },
-    "other_driver_information": {
-      "type": "object",
-      "properties": {
-        "information": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "document_photos": {
-                "description": "Photos of other driver's documentation",
-                "type": "object",
-                "properties": {
-                  "pink_card": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "drivers_license": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "license_plate": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "registration": {
-                    "type": "string",
-                    "format": "photo"
-                  }
-                }
-              },
-              "document_details": {
-                "description": "Other driver's information if no photos taken",
-                "type": "object",
-                "properties": {
-                  "first_name": {
-                    "type": "string"
-                  },
-                  "last_name": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "string"
-                  },
-                  "city": {
-                    "type": "string"
-                  },
-                  "province": {
-                    "type": "string"
-                  },
-                  "postal_code": {
-                    "type": "string"
-                  },
-                  "home_phone_number": {
-                    "type": "string"
-                  },
-                  "cell_phone_number": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "drivers_license_number": {
-                    "type": "string"
-                  },
-                  "license_plate": {
-                    "type": "string"
-                  },
-                  "car": {
-                    "title": "Car",
-                    "type": "object",
-                    "properties": {
-                      "year": {
-                        "type": "string"
-                      },
-                      "make": {
-                        "type": "string"
-                      },
-                      "model": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "policy_number": {
-                    "type": "string"
-                  },
-                  "insurance_company": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+    "id": {
+      "$id": "#/properties/id",
+      "type": "number",
+      "title": "The Id Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
     },
-    "witness_information": {
-      "type": "object",
-      "properties": {
-        "witnesses": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "email": {
-                "type": "string"
-              },
-              "home_phone_number": {
-                "type": "string"
-              },
-              "cell_phone_number": {
-                "type": "string"
-              }
-            }
-          }
-        }
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The Name Schema",
+      "default": "",
+      "examples": [
+        "A green door"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "price": {
+      "$id": "#/properties/price",
+      "type": "number",
+      "title": "The Price Schema",
+      "default": 0.0,
+      "examples": [
+        12.5
+      ]
+    },
+    "tags": {
+      "$id": "#/properties/tags",
+      "type": "array",
+      "title": "The Tags Schema",
+      "items": {
+        "$id": "#/properties/tags/items",
+        "type": "string",
+        "title": "The Items Schema",
+        "default": "",
+        "examples": [
+          "home",
+          "green"
+        ],
+        "pattern": "^(.*)$"
       }
     }
-  },
-  "required": [
-    "description",
-    "date_time_of_damage"
-  ]
+  }
 }

@@ -1,6 +1,7 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     SchemaBaseView primaryItem;
     ArrayList<SchemaBaseView> items = new ArrayList<>();
+    ArrayList<TextView> titleViews= new ArrayList<>();
 
     public TruArrayView(Context context, ArrayInstance instance) {
         super(context, instance);
@@ -36,8 +38,8 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     private void initPrimaryItem() {
         primaryItem = instance.getItems().getViewBuilder(mContext);
         View primaryItemView = primaryItem.build();
-        setLayoutParams(primaryItemView,primaryItem);
-        addNewItem(primaryItemView,primaryItem);
+        setLayoutParams(primaryItemView, primaryItem);
+        addNewItem(primaryItemView, primaryItem);
     }
 
     private void onAddNewView() {
@@ -52,12 +54,18 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     private void addNewItem(View newItemView, SchemaBaseView viewBuilder) {
         ((ViewGroup) mView).addView(newItemView);
         items.add(viewBuilder);
-
+        titleViews.add(newItemView.findViewById(R.id.input_data));
     }
 
     @Override
     protected void setInstanceData() {
-        ((TextView) (mView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
+        String title = getTitle(items.size()+1);
+        ((TextView) (mView.findViewById(R.id.input_data))).setText(title);
+    }
+
+    @NonNull
+    private String getTitle(int number) {
+        return mView.getResources().getString(R.string.array_item_no_title, instance.getPresentationTitle(), number);
     }
 
     @Override
@@ -81,10 +89,10 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     public View getNewItemView(SchemaBaseView itemViewBuilder) {
         View arrayLayoutView = layoutInflater.inflate(R.layout.tru_array_item_view, null);
-        ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
-        View itemView=itemViewBuilder.build();
+        ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(getTitle(items.size()+1));
+        View itemView = itemViewBuilder.build();
         ((ViewGroup) arrayLayoutView).addView(itemView);
-        setLayoutParams(itemView,itemViewBuilder);
+        setLayoutParams(itemView, itemViewBuilder);
         arrayLayoutView.findViewById(R.id.remove_item_img).setOnClickListener(
                 (v) -> removeItem(arrayLayoutView));
         return arrayLayoutView;
@@ -92,11 +100,20 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     }
 
     private void removeItem(View itemView) {
-        int idx=((ViewGroup)mView).indexOfChild(itemView);
+        int idx = ((ViewGroup) mView).indexOfChild(itemView);
         ((ViewGroup) mView).removeView(itemView);
-        items.remove(idx-1);
+        items.remove(idx - 1);
+        titleViews.remove(idx-1);
+        renameTitleViews(idx-1);
     }
-    private void setLayoutParams(View childView,SchemaBaseView truView) {
+
+    private void renameTitleViews(int beginIdx) {
+        for(int i=beginIdx;i<titleViews.size();i++){
+            titleViews.get(i).setText(getTitle(i+1));
+        }
+    }
+
+    private void setLayoutParams(View childView, SchemaBaseView truView) {
         LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
         layoutParams.setMargins(0, 4, 0, 4);
         childView.setLayoutParams(layoutParams);

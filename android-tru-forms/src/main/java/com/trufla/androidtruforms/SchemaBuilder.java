@@ -67,7 +67,6 @@ public class SchemaBuilder {
         gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).
                 registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).
                 registerTypeAdapter(DataEnumNames.class, new DataEnumNamesDeserializer()).create();
-
     }
 
     /*public SchemaBuilder(Class<ArrayInstance> arrayInstanceClass, Class<BooleanInstance> booleanInstanceClass, Class<StringInstance> stringInstanceClass, Class<NumericInstance> numericInstanceClass, Class<ObjectInstance> objectInstanceClass) {

@@ -3,6 +3,7 @@ package com.trufla.androidtruforms.truviews;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,9 +15,10 @@ import com.trufla.androidtruforms.models.StringInstance;
 
 import java.util.Calendar;
 
-public class TruDatePickerView extends TruStringView{
+public class TruDatePickerView extends TruStringView {
 
-    Calendar cal=Calendar.getInstance();
+    Calendar cal = Calendar.getInstance();
+
     public TruDatePickerView(Context context, StringInstance instance) {
         super(context, instance);
     }
@@ -77,11 +79,32 @@ public class TruDatePickerView extends TruStringView{
             onDateChanged(cal.getTimeInMillis());
         };
     }
-    protected void onDateChanged(long milliseconds){
-        ((EditText)mView.findViewById(R.id.input_data)).setText(TruUtils.convertToData(milliseconds, getFormat()));
+
+    protected void onDateChanged(long milliseconds) {
+        ((EditText) mView.findViewById(R.id.input_data)).setText(TruUtils.convertToData(milliseconds, getFormat()));
     }
-    protected String getFormat(){
+
+    protected String getFormat() {
         return SchemaBuilder.getInstance().getDateFormat();
     }
 
+    @Override
+    protected void setError(String errorMsg) {
+        if (isVisibleView()) {
+            ((EditText) mView.findViewById(R.id.input_data)).setError("");
+            ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(errorMsg);
+        }
+    }
+
+    private boolean isVisibleView() {
+        return mView.findViewById(R.id.input_data) != null && mView.findViewById(R.id.date_picker_error_msg) != null;
+    }
+
+    @Override
+    protected void removeErrorMsg() {
+        if (isVisibleView()) {
+            ((EditText) mView.findViewById(R.id.input_data)).setError(null);
+            ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(null);
+        }
+    }
 }

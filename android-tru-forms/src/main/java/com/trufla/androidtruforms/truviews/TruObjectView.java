@@ -30,6 +30,9 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
     public String getInputtedData() {
         if (mView == null)
             return String.format(Locale.getDefault(), "\"%s\":{}", instance.getKey());
+
+        if (!validate())
+            return null;
         StringBuilder stringBuilder = new StringBuilder();
         for (SchemaBaseView viewBuilder : childs) {
             stringBuilder.append(viewBuilder.getInputtedData() + ",");
@@ -45,14 +48,22 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
         View childView = childViewBuilder.build();
         childs.add(childViewBuilder);
         ((ViewGroup) mView.findViewById(R.id.container)).addView(childView);
-        setLayoutParams(childView,childViewBuilder);
+        setLayoutParams(childView, childViewBuilder);
         childViewBuilder.setParentView(this);
     }
 
-    protected void setLayoutParams(View childView,SchemaBaseView truView) {
+    protected void setLayoutParams(View childView, SchemaBaseView truView) {
         LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
         layoutParams.setMargins(0, 0, 0, 8);
         childView.setLayoutParams(layoutParams);
     }
 
+    @Override
+    public boolean validate() {
+        for (SchemaBaseView viewBuilder : childs) {
+            if (!viewBuilder.validate())
+                return false;
+        }
+        return true;
+    }
 }
