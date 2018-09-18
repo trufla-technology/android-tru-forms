@@ -48,7 +48,7 @@ public class TestFormActivity extends AppCompatActivity {
         } else
             jsonStringBuilder.append(js);
 
-        SchemaBuilder schemaBuilder = SchemaBuilder.getInstance();
+        SchemaBuilder schemaBuilder = SchemaBuilder.getInstance().allowDefaultOrder(true);
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
         schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());
         //startActivity(new Intent(this, TruNavigationActivity.class));
