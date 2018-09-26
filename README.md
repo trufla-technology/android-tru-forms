@@ -14,6 +14,7 @@ Add it in your root build.gradle at the end of repositories:
 
 Step 2. Add the dependency
 
-dependencies {
+	dependencies {
 	        implementation 'com.github.trufla-technology:android-tru-forms:v.0.1-alpha'
-	}
+	}	
+	
