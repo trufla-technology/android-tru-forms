@@ -2,6 +2,7 @@ package com.trufla.androidtruforms;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,7 +23,9 @@ import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.truviews.TruFormView;
 
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class SchemaBuilder {
     public final static int REQUEST_CODE = 333;
@@ -37,9 +40,11 @@ public class SchemaBuilder {
     private Class<NumericInstance> numericInstanceClass;
     private Class<ObjectInstance> objectInstanceClass;
     private Gson gson;
-    private Request.Builder requestBuilder ;
+    private Request.Builder requestBuilder;
+    private OkHttpClient okHttpClient;
     private static SchemaBuilder instance;
     private boolean allowDefaultOrder;
+
     private SchemaBuilder() {
         setDefaultSettings();
     }
@@ -62,8 +67,9 @@ public class SchemaBuilder {
         stringInstanceClass = StringInstance.class;
         numericInstanceClass = NumericInstance.class;
         objectInstanceClass = ObjectInstance.class;
-        allowDefaultOrder=false;
-        requestBuilder= new Request.Builder();
+        allowDefaultOrder = false;
+        requestBuilder = new Request.Builder();
+        okHttpClient = new OkHttpClient.Builder().addInterceptor(getLoggingInterceptor()).build();
         gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).
                 registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).
                 registerTypeAdapter(DataEnumNames.class, new DataEnumNamesDeserializer()).create();
@@ -118,8 +124,9 @@ public class SchemaBuilder {
         }
         return document;
     }
+
     public SchemaBuilder allowDefaultOrder(boolean allowDefaultOrder) {
-        this.allowDefaultOrder=allowDefaultOrder;
+        this.allowDefaultOrder = allowDefaultOrder;
         return this;
     }
     /*public FormFragment buildSchemaFragment(String schemaString, Context context, FormFragment.OnFormSubmitListener submitListener) throws UnableToParseSchemaException {
@@ -166,5 +173,23 @@ public class SchemaBuilder {
 
     public boolean isDefaultOrdering() {
         return allowDefaultOrder;
+    }
+
+    public HttpLoggingInterceptor getLoggingInterceptor() {
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor((logMessage) -> Log.d("Network", logMessage));
+
+        loggingInterceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+
+        return loggingInterceptor;
+    }
+
+    public OkHttpClient getOkHttpClient() {
+        return okHttpClient;
+    }
+
+    public SchemaBuilder OkHttpClient(OkHttpClient okHttpClient) {
+        this.okHttpClient = okHttpClient;
+        return instance;
     }
 }

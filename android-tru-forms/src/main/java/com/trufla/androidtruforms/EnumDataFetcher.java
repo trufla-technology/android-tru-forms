@@ -9,6 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
+import com.trufla.androidtruforms.models.SchemaInstance;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,7 @@ public class EnumDataFetcher {
     }
 
     public void requestData(String url, Callback callback) {
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(getLoggingInterceptor()).build();
-        client.newCall(getFullRequest(url)).enqueue(callback);
+        SchemaBuilder.getInstance().getOkHttpClient().newCall(getFullRequest(url)).enqueue(callback);
     }
 
 
@@ -38,14 +38,7 @@ public class EnumDataFetcher {
         Request request = SchemaBuilder.getInstance().getRequestBuilder().build();
         return request.newBuilder().url(request.url() + absoluteUrl).build();
     }
-    public HttpLoggingInterceptor getLoggingInterceptor() {
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor((logMessage) -> Log.d("Network",logMessage));
-
-        loggingInterceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
-
-        return loggingInterceptor;
-    }
 
 
 }
