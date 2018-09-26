@@ -31,10 +31,6 @@ public class TestFormActivity extends AppCompatActivity {
 
     }
 
-    public TestFormActivity getFistActivity() {
-        return this;
-    }
-
     public void onParseClick(View view) {
        StringBuilder jsonStringBuilder = new StringBuilder();
         String js = ((EditText) findViewById(R.id.et)).getText().toString().trim();

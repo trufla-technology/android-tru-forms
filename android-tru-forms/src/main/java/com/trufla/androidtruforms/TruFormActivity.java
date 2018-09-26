@@ -3,17 +3,16 @@ package com.trufla.androidtruforms;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.esafirm.imagepicker.features.ImagePicker;
 import com.esafirm.imagepicker.model.Image;
-import com.trufla.androidtruforms.databinding.ActivityTruFormBinding;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.truviews.TruFormView;
@@ -48,12 +47,11 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityTruFormBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_tru_form);
+        setContentView(R.layout.activity_tru_form);
         try {
             truFormView = sSchemaBuilder.buildSchemaView(getIntent().getExtras().getString(JSON_KEY), this);
             View formView = truFormView.build();
-            binding.formContainer.addView(formView);
-            binding.setFormView(this);
+            ((LinearLayout) findViewById(R.id.form_container)).addView(formView);
         } catch (Exception ex) {
             ex.printStackTrace();
             Toast.makeText(this, "Unable to create the form ... please check the schema", Toast.LENGTH_SHORT).show();
@@ -66,21 +64,6 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     @Override
     protected void onResume() {
         super.onResume();
-
-    }
-
-
-    public void onSubmitClicked() {
-        if (!isValidData()) {
-            Toast.makeText(this, "Please correct the errors", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Toast.makeText(this, "submitted", Toast.LENGTH_SHORT).show();
-        String result = truFormView.getInputtedData();
-        Intent intent = new Intent();
-        intent.putExtra(SchemaBuilder.RESULT_DATA_KEY, result);
-        setResult(RESULT_OK, intent);
-        finish();
 
     }
 
@@ -147,4 +130,16 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     }
 
 
+    public void onSubmitClicked(View view) {
+        if (!isValidData()) {
+            Toast.makeText(this, "Please correct the errors", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Toast.makeText(this, "submitted", Toast.LENGTH_SHORT).show();
+        String result = truFormView.getInputtedData();
+        Intent intent = new Intent();
+        intent.putExtra(SchemaBuilder.RESULT_DATA_KEY, result);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 }

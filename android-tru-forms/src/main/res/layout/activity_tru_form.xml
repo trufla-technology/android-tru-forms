@@ -1,51 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TruFormActivity">
 
-    <data>
-
-        <variable
-            name="formView"
-            type="com.trufla.androidtruforms.TruFormActivity" />
-
-    </data>
-
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".TruFormActivity">
 
         <LinearLayout
+            android:id="@+id/form_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context=".TruFormActivity">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
 
-            <LinearLayout
-                android:id="@+id/form_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/submit_btn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/submit_btn"
-                android:layout_width="328dp"
-                android:layout_height="36dp"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_margin="16dp"
-                android:onClick="@{(v)->formView.onSubmitClicked()}"
-                android:text="Submit"
-                android:background="@color/colorAccent"
-                android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </LinearLayout>
-    </ScrollView>
-</layout>
+        <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="328dp"
+            android:layout_height="36dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="16dp"
+            android:background="@color/colorAccent"
+            android:onClick="onSubmitClicked"
+            android:text="Submit"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</ScrollView>
