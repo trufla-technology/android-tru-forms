@@ -59,7 +59,7 @@ public class TruFormView extends TruObjectView {
             super.setLayoutParams(childView, truView);
         else {
             LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
-            layoutParams.setMargins((int) TruUtils.convertDpToPixel(16,mContext), 0, 0, 8);
+            layoutParams.setMargins((int) TruUtils.convertDpToPixel(16,mContext), 0, (int) TruUtils.convertDpToPixel(16,mContext), 0);
             childView.setLayoutParams(layoutParams);
         }
     }
