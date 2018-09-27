@@ -6,9 +6,9 @@
       "type": "number",
       "title": "Select Vehicle",
       "$data": {
-        "href": "/5bad579133000085000eb5a0",
+        "href": "/5bad60cb33000064000eb5ae",
         "enum": "id",
-        "enumNames": ["vehicle_make","vehicle_model"]
+        "enumNames": ["id","year_built"]
       }
     },
     "driver_information": {

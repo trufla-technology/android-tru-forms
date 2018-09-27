@@ -49,7 +49,11 @@ public class EnumDataFormatter {
         Object key = new Gson().fromJson(asJsonObject.getAsJsonPrimitive(selector), Object.class);
         String name = "";
         for (String n : names) {
-            name += String.valueOf(new Gson().fromJson(asJsonObject.getAsJsonPrimitive(n), Object.class)) + ",";
+            try {
+                name += String.valueOf(new Gson().fromJson(asJsonObject.getAsJsonPrimitive(n), Object.class)) + ",";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (name.length() > 0 && name.charAt(name.length() - 1) == ',') {
             name = name.substring(0, name.length() - 1);
