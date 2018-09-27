@@ -1,12 +1,11 @@
 package com.trufla.androidtruforms;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -138,9 +137,9 @@ public class SchemaBuilder {
         return formFragment;
     }
 
-    public <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment(String schemaString, T hostActivity, FragmentTransaction fragmentTransaction, @IdRes int containerViewId) throws UnableToParseSchemaException {
+    public <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment(String schemaString, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId) throws UnableToParseSchemaException {
         TruFormFragment formFragment = buildSchemaFragment(schemaString, hostActivity);
-        fragmentTransaction.replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
+        fragmentManager.beginTransaction().replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
     }
 
     public void buildActivityForResult(Activity context, String schemaString) {
