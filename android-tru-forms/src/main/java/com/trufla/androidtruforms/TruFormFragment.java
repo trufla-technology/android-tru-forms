@@ -46,7 +46,8 @@ public class TruFormFragment extends Fragment implements FormContract {
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
     private String schemaString;
-    public static final String FRAGMENT_TAG="TRU_FORM_FRAGMENT";
+    public static final String FRAGMENT_TAG = "TRU_FORM_FRAGMENT";
+
     public TruFormFragment() {
         // Required empty public constructor
     }
@@ -78,6 +79,7 @@ public class TruFormFragment extends Fragment implements FormContract {
             ((LinearLayout) rootView.findViewById(R.id.form_container)).addView(formView);
             rootView.findViewById(R.id.submit_btn).setOnClickListener((v) -> onSubmitClicked());
         } catch (Exception ex) {
+            mListener.onFormFailed();
             ex.printStackTrace();
         }
         return rootView;
