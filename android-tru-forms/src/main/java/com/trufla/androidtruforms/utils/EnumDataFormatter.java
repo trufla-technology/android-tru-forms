@@ -52,7 +52,7 @@ public class EnumDataFormatter {
             try {
                 name += String.valueOf(new Gson().fromJson(asJsonObject.getAsJsonPrimitive(n), Object.class)) + ",";
             } catch (Exception e) {
-                e.printStackTrace();
+                name += "N/A";
             }
         }
         if (name.length() > 0 && name.charAt(name.length() - 1) == ',') {
