@@ -2,6 +2,9 @@ package com.trufla.androidtruforms;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -129,20 +132,22 @@ public class SchemaBuilder {
         this.allowDefaultOrder = allowDefaultOrder;
         return this;
     }
-    /*public FormFragment buildSchemaFragment(String schemaString, Context context, FormFragment.OnFormSubmitListener submitListener) throws UnableToParseSchemaException {
-        FormFragment formFragment = FormFragment.newInstance(schemaString.toString());
-        formFragment.setFormView(buildSchemaView(schemaString, context));
-        formFragment.setListener(submitListener);
+
+    private TruFormFragment buildSchemaFragment(String schemaString, Context context) throws UnableToParseSchemaException {
+        TruFormFragment formFragment = TruFormFragment.newInstance(schemaString.toString());
         return formFragment;
     }
 
-    public void showFragment(String schemaString, Activity hostActivity, FormFragment.OnFormSubmitListener submitListener, FragmentTransaction fragmentTransaction, @IdRes int containerViewId) throws UnableToParseSchemaException {
-        FormFragment formFragment = buildSchemaFragment(schemaString, hostActivity, submitListener);
-        fragmentTransaction.replace(containerViewId, formFragment).commit();
-    }*/
+    public <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment(String schemaString, T hostActivity, FragmentTransaction fragmentTransaction, @IdRes int containerViewId) throws UnableToParseSchemaException {
+        TruFormFragment formFragment = buildSchemaFragment(schemaString, hostActivity);
+        fragmentTransaction.replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
+    }
 
     public void buildActivityForResult(Activity context, String schemaString) {
-        TruFormActivity.startActivityForFormResult(context, schemaString, this);
+        TruFormActivity.startActivityForFormResult(context, schemaString);
+    }
+    public void buildActivityForResult(Fragment fragment, String schemaString) {
+        TruFormActivity.startActivityForFormResult(fragment, schemaString);
     }
 
     public TruFormView buildSchemaView(String schemaString, Context context) throws UnableToParseSchemaException {

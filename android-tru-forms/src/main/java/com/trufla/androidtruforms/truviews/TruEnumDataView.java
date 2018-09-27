@@ -64,7 +64,7 @@ public class TruEnumDataView extends TruEnumView {
 
     private View.OnClickListener getLoadItemsAction() {
         return (v) -> {
-            FormContract formActivity = getTruFormHostActivity(v);
+            FormContract formActivity = getFormContract(v);
             if (formActivity != null) {
                 DataInstance dataInstance = instance.getDataInstance();
                 formActivity.onRequestData(getDataLoadedListener(), dataInstance.getIdentifierColumn(), dataInstance.getNames(), dataInstance.getUrl());

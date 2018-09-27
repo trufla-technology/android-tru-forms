@@ -42,7 +42,7 @@ public class TruPhotoPickerView extends TruStringView {
     @NonNull
     private View.OnClickListener getOnViewClickedListener() {
         return (v) -> {
-            FormContract hostActivity = getTruFormHostActivity(v);
+            FormContract hostActivity = getFormContract(v);
             if (hostActivity != null)
                 hostActivity.openImagePicker(getImagePickedListener());
 

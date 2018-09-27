@@ -2,13 +2,16 @@ package com.trufla.androidtruforms;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,53 +28,79 @@ import java.util.List;
 
 import okhttp3.Callback;
 
-/**
- * Created by ohefny on 8/13/18.
- */
 
-public class TruFormActivity extends AppCompatActivity implements FormContract {
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link TruFormFragment.OnFormActionsListener} interface
+ * to handle interaction events.
+ * Use the {@link TruFormFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class TruFormFragment extends Fragment implements FormContract {
+    private OnFormActionsListener mListener;
     private static final String JSON_KEY = "JSON_KEY";
     private static final int IMAGE_PICKER_CODE = 505;
     private TruFormView truFormView;
     TruConsumer<String> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
-
-    public static void startActivityForFormResult(Activity context, String jsonStr) {
-        Intent intent = new Intent(context, TruFormActivity.class);
-        intent.putExtra(JSON_KEY, jsonStr);
-        context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
+    private String schemaString;
+    public static final String FRAGMENT_TAG="TRU_FORM_FRAGMENT";
+    public TruFormFragment() {
+        // Required empty public constructor
     }
 
-    public static void startActivityForFormResult(Fragment hostFragment, String jsonStr) {
-        Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
-        intent.putExtra(JSON_KEY, jsonStr);
-        hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
+    public static TruFormFragment newInstance(String jsonStr) {
+        TruFormFragment fragment = new TruFormFragment();
+        Bundle args = new Bundle();
+        args.putString(JSON_KEY, jsonStr);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            schemaString = getArguments().getString(JSON_KEY);
+        }
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tru_form);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_tru_form, container, false);
         try {
-            truFormView = SchemaBuilder.getInstance().buildSchemaView(getIntent().getExtras().getString(JSON_KEY), this);
+            truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
             View formView = truFormView.build();
-            ((LinearLayout) findViewById(R.id.form_container)).addView(formView);
+            ((LinearLayout) rootView.findViewById(R.id.form_container)).addView(formView);
+            rootView.findViewById(R.id.submit_btn).setOnClickListener((v) -> onSubmitClicked());
         } catch (Exception ex) {
             ex.printStackTrace();
-            Toast.makeText(this, "Unable to create the form ... please check the schema", Toast.LENGTH_SHORT).show();
-            setResult(RESULT_CANCELED);
-            finish();
         }
-
+        return rootView;
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFormActionsListener) {
+            mListener = (OnFormActionsListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
     public void openImagePicker(TruConsumer<String> pickedImageListener) {
         this.mPickedImageListener = pickedImageListener;
         ImagePicker.create(this).single() // single mode
@@ -79,6 +108,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
                 .start(IMAGE_PICKER_CODE);
     }
 
+    @Override
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
         this.mDataFetchListener = listener;
         EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);
@@ -89,7 +119,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     private void showProgressDialog() {
         if (progressDialog != null && progressDialog.isShowing())
             return;
-        progressDialog = new ProgressDialog(TruFormActivity.this);
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Loading...");
         progressDialog.show();
     }
@@ -99,7 +129,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_PICKER_CODE) {
             // Get a list of picked images
             List<Image> images = ImagePicker.getImages(data);
@@ -118,12 +148,12 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
 
     @NonNull
     private Callback getHttpCallback(final String selector, final ArrayList<String> names) {
-        return new TruCallback(TruFormActivity.this.getApplicationContext()) {
+        return new TruCallback(getContext().getApplicationContext()) {
             @Override
             public void onUIFailure(String message) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                Toast.makeText(TruFormActivity.this, "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -135,16 +165,21 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     }
 
 
-    public void onSubmitClicked(View view) {
+    public void onSubmitClicked() {
         if (!isValidData()) {
-            Toast.makeText(this, "Please correct the errors", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please correct the errors", Toast.LENGTH_SHORT).show();
             return;
         }
-        Toast.makeText(this, "submitted", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "submitted", Toast.LENGTH_SHORT).show();
         String result = truFormView.getInputtedData();
-        Intent intent = new Intent();
-        intent.putExtra(SchemaBuilder.RESULT_DATA_KEY, result);
-        setResult(RESULT_OK, intent);
-        finish();
+        if (mListener != null) {
+            mListener.onFormSubmitted(result);
+        }
+    }
+
+    public interface OnFormActionsListener {
+        void onFormSubmitted(String jsonReperesentation);
+
+        void onFormFailed();
     }
 }

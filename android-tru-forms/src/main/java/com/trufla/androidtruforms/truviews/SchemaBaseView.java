@@ -1,14 +1,17 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.TruFormFragment;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -74,14 +77,22 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     protected @LayoutRes
     abstract int getLayoutId();
 
-    protected FormContract getTruFormHostActivity(View v) {
+    protected FormContract getFormContract(View v) {
         Activity hostActivity;
         if (mContext instanceof FormContract)
             return (FormContract) mContext;
         hostActivity = TruUtils.getHostActivity(v);
         if (hostActivity instanceof FormContract)
             return (FormContract) hostActivity;
-        return null;
+        return getFragmentFormContract((AppCompatActivity) hostActivity);
+    }
+
+    private FormContract getFragmentFormContract(AppCompatActivity hostActivity) {
+        FormContract contract = (FormContract) ((AppCompatActivity) mContext).getSupportFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
+        if (contract != null)
+            return contract;
+        contract = (FormContract) hostActivity.getFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
+        return contract;
     }
 
     public LinearLayout.LayoutParams getLayoutParams() {
