@@ -107,4 +107,13 @@ public class TruDatePickerView extends TruStringView {
             ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(null);
         }
     }
+
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        if (constItem instanceof String)
+            ((EditText) mView.findViewById(R.id.input_data)).setText(constItem.toString());
+
+        mView.findViewById(R.id.input_data).setEnabled(false);
+        mView.setEnabled(false);
+    }
 }
