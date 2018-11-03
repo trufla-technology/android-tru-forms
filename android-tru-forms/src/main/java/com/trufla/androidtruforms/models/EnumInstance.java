@@ -28,7 +28,7 @@ public class EnumInstance<T> extends SchemaInstance {
 
     @Override
     public TruEnumView getViewBuilder(Context context) {
-        if (dataInstance == null)
+        if (dataInstance == null)   
             return new TruEnumView(context, this);
         else
             return new TruEnumDataView(context, this);
