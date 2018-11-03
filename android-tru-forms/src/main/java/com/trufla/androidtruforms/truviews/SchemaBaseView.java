@@ -45,14 +45,23 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     public View build() {
         if (mView == null) {
             mView = layoutInflater.inflate(layoutId, null);
+            buildSubview();
             onViewCreated();
         }
         return mView;
     }
 
+    protected void buildSubview(){
+
+    }
+
     protected void onViewCreated() {
         setInstanceData();
+        if (instance.getConstItem() != null) {
+            setNonEditableValues(instance.getConstItem());
+        }
     }
+
 
     public View attachView(ViewGroup parent, boolean attach) {
         if (mView == null) {
@@ -60,6 +69,12 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
             onViewCreated();
         }
         return mView;
+    }
+
+    public void addAfterBuildConstItem(Object constItem) {
+        instance.setConstItem(constItem);
+        if (mView != null)
+            setNonEditableValues(instance.getConstItem());
     }
 
     public TruObjectView getParentView() {
@@ -140,6 +155,10 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     }
 
     protected void removeErrorMsg() {
+
+    }
+
+    protected void setNonEditableValues(Object constItem) {
 
     }
 }

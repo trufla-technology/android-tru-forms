@@ -65,11 +65,6 @@ public class TruPhotoPickerView extends TruStringView {
         return R.layout.tru_photo_pick_view;
     }
 
-    @Override
-    public View build() {
-        return super.build();
-    }
-
     @NonNull
     @Override
     protected String extractData() {
@@ -89,5 +84,10 @@ public class TruPhotoPickerView extends TruStringView {
     public LinearLayout.LayoutParams getLayoutParams() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return params;
+    }
+
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        super.setNonEditableValues(constItem);
     }
 }
