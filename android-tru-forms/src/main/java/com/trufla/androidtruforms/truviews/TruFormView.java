@@ -26,13 +26,11 @@ public class TruFormView extends TruObjectView {
     }
 
     @Override
-    public View build() {
-        super.build();
-
+    protected void buildSubview() {
+        super.buildSubview();
         for (SchemaInstance child : instance.getProperties().getVals()) {
             addChildView(child);
         }
-        return mView;
     }
 
     @Override

@@ -42,4 +42,12 @@ public class TruBooleanView extends SchemaBaseView<BooleanInstance> {
     protected int getLayoutId() {
         return R.layout.tru_boolean_view;
     }
+
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        if(constItem instanceof Boolean){
+            ((CheckBox) mView.findViewById(R.id.input_data)).setChecked(((Boolean) constItem));
+        }
+        ((CheckBox) mView.findViewById(R.id.input_data)).setEnabled(false);
+    }
 }

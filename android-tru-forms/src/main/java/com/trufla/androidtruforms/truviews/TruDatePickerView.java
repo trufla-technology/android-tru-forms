@@ -52,11 +52,11 @@ public class TruDatePickerView extends TruStringView {
     }
 
     @Override
-    public View build() {
-        super.build();
+    protected void buildSubview() {
+        super.buildSubview();
         mView.findViewById(R.id.input_data).setOnClickListener(this::onDateViewClicked);
         mView.setOnClickListener(this::onDateViewClicked);
-        return mView;
+
     }
 
     private void onDateViewClicked(View view) {

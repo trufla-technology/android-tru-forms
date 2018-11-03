@@ -5,12 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Map;
 
 
 /**
@@ -66,4 +69,5 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
         }
         return true;
     }
+
 }

@@ -20,6 +20,7 @@ import java.util.Locale;
 
 public class TruEnumView extends SchemaBaseView<EnumInstance> {
     protected ArrayAdapter<String> adapter;
+    private Spinner spinner;
 
     public TruEnumView(Context context, EnumInstance instance) {
         super(context, instance);
@@ -29,7 +30,8 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     @Override
     protected void onViewCreated() {
         super.onViewCreated();
-        ((Spinner) mView.findViewById(R.id.spinner)).setAdapter(adapter);
+        spinner = mView.findViewById(R.id.spinner);
+        spinner.setAdapter(adapter);
 
     }
 
@@ -67,6 +69,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         int position = ((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
         return instance.getEnumVals().get(position);
     }
+
 
     @Override
     protected int getLayoutId() {

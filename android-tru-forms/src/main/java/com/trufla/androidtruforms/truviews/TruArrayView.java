@@ -21,18 +21,17 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     SchemaBaseView primaryItem;
     ArrayList<SchemaBaseView> items = new ArrayList<>();
-    ArrayList<TextView> titleViews= new ArrayList<>();
+    ArrayList<TextView> headerViews = new ArrayList<>();
 
     public TruArrayView(Context context, ArrayInstance instance) {
         super(context, instance);
     }
 
     @Override
-    public View build() {
-        super.build();
+    protected void buildSubview() {
+        super.buildSubview();
         initPrimaryItem();
         mView.findViewById(R.id.add_item_img).setOnClickListener((v) -> onAddNewView());
-        return mView;
     }
 
     private void initPrimaryItem() {
@@ -42,9 +41,11 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         addNewItem(primaryItemView, primaryItem);
     }
 
-    private void onAddNewView() {
+    private View onAddNewView() {
         SchemaBaseView viewBuilder = getNewInstanceViewBuilder();
-        addNewItem(getNewItemView(viewBuilder), viewBuilder);
+        View addedView = getNewItemView(viewBuilder);
+        addNewItem(addedView, viewBuilder);
+        return addedView;
     }
 
     private SchemaBaseView getNewInstanceViewBuilder() {
@@ -54,12 +55,12 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     private void addNewItem(View newItemView, SchemaBaseView viewBuilder) {
         ((ViewGroup) mView).addView(newItemView);
         items.add(viewBuilder);
-        titleViews.add(newItemView.findViewById(R.id.input_data));
+        headerViews.add(newItemView.findViewById(R.id.input_data));
     }
 
     @Override
     protected void setInstanceData() {
-        String title = getTitle(items.size()+1);
+        String title = getTitle(items.size());
         ((TextView) (mView.findViewById(R.id.input_data))).setText(title);
     }
 
@@ -89,7 +90,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     public View getNewItemView(SchemaBaseView itemViewBuilder) {
         View arrayLayoutView = layoutInflater.inflate(R.layout.tru_array_item_view, null);
-        ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(getTitle(items.size()+1));
+        ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(getTitle(items.size() + 1));
         View itemView = itemViewBuilder.build();
         ((ViewGroup) arrayLayoutView).addView(itemView);
         setLayoutParams(itemView, itemViewBuilder);
@@ -103,13 +104,13 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         int idx = ((ViewGroup) mView).indexOfChild(itemView);
         ((ViewGroup) mView).removeView(itemView);
         items.remove(idx - 1);
-        titleViews.remove(idx-1);
-        renameTitleViews(idx-1);
+        headerViews.remove(idx - 1);
+        renameTitleViews(idx - 1);
     }
 
     private void renameTitleViews(int beginIdx) {
-        for(int i=beginIdx;i<titleViews.size();i++){
-            titleViews.get(i).setText(getTitle(i+1));
+        for (int i = beginIdx; i < headerViews.size(); i++) {
+            headerViews.get(i).setText(getTitle(i + 1));
         }
     }
 
@@ -117,5 +118,23 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         LinearLayout.LayoutParams layoutParams = truView.getLayoutParams();
         layoutParams.setMargins(0, 4, 0, 4);
         childView.setLayoutParams(layoutParams);
+    }
+
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        if (constItem instanceof ArrayList) {
+            ArrayList constItemsList = (ArrayList) constItem;
+            if (constItemsList.size() > 0) {
+                items.get(0).addAfterBuildConstItem(constItemsList.get(0));
+                mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
+            }
+            for (int i = 1; i < constItemsList.size(); i++) {
+                View addedView = onAddNewView();
+                addedView.findViewById(R.id.remove_item_img).setVisibility(View.GONE);
+                items.get(i).addAfterBuildConstItem(constItemsList.get(i));
+            }
+
+        }
+        mView.setEnabled(false);
     }
 }

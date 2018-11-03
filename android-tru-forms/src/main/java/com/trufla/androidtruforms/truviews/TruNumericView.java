@@ -91,8 +91,16 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
     }
 
     private void setRequiredError() {
-        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.required_field, instance.getPattern()));
+        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.required_field));
         mView.findViewById(R.id.input_view_container).requestFocus();
+    }
+
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        if (constItem instanceof Number) {
+            ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().setText(constItem.toString());
+        }
+        mView.findViewById(R.id.input_view_container).setEnabled(false);
     }
 
 }
