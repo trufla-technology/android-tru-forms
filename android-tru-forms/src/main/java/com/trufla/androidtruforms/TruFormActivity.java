@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ import okhttp3.Callback;
 public class TruFormActivity extends AppCompatActivity implements FormContract {
     private static final String JSON_KEY = "JSON_KEY";
     private static final int IMAGE_PICKER_CODE = 505;
+    private static final String JSON_VALUE = "JSON_VALUE";
     private TruFormView truFormView;
     TruConsumer<String> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
@@ -49,12 +51,33 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
+
+    public static void startActivityToRenderConstSchema(Fragment hostFragment, String jsonStr, String jsonVal) {
+        Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
+        intent.putExtra(JSON_KEY, jsonStr);
+        intent.putExtra(JSON_VALUE, jsonVal);
+        hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
+    }
+
+    public static void startActivityToRenderConstSchema(Activity context, String jsonStr, String jsonVal) {
+        Intent intent = new Intent(context, TruFormActivity.class);
+        intent.putExtra(JSON_KEY, jsonStr);
+        intent.putExtra(JSON_VALUE, jsonVal);
+        context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tru_form);
         try {
-            truFormView = SchemaBuilder.getInstance().buildSchemaView(getIntent().getExtras().getString(JSON_KEY), this);
+            String jsonVal = getIntent().getExtras().getString(JSON_VALUE);
+            if (TextUtils.isEmpty(jsonVal))
+                truFormView = SchemaBuilder.getInstance().buildSchemaView(getIntent().getExtras().getString(JSON_KEY), this);
+            else {
+                truFormView = SchemaBuilder.getInstance().buildSchemaViewWithConstValues(getIntent().getStringExtra(JSON_KEY), jsonVal, this);
+                findViewById(R.id.submit_btn).setVisibility(View.GONE);
+            }
             View formView = truFormView.build();
             ((LinearLayout) findViewById(R.id.form_container)).addView(formView);
         } catch (Exception ex) {

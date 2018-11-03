@@ -70,6 +70,8 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
     private void activityFormParseClicked() {
         StringBuilder jsonStringBuilder = new StringBuilder();
         String js = ((EditText) findViewById(R.id.et)).getText().toString().trim();
+        String v=((EditText) findViewById(R.id.submitted_data)).getText().toString().trim();
+
         if (TextUtils.isEmpty(js)) {
             Toast.makeText(this, "No Json Entered ... Form from claims.json will be built", Toast.LENGTH_LONG).show();
             InputStream inputStream = getResources().openRawResource(R.raw.claims_edited);
@@ -77,12 +79,16 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
             while (scanner.hasNext()) {
                 jsonStringBuilder.append(scanner.nextLine());
             }
-        } else
+        } else if (TextUtils.isEmpty(v))
             jsonStringBuilder.append(js);
 
         SchemaBuilder schemaBuilder = SchemaBuilder.getInstance().allowDefaultOrder(true);
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
-        schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());
+        if(TextUtils.isEmpty(v))
+            schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());
+        else
+            schemaBuilder.buildActivityToRenderConstSchema(this, jsonStringBuilder.toString(),v);
+
         //startActivity(new Intent(this, TruNavigationActivity.class));
     }
 

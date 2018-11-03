@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -127,6 +128,18 @@ public class SchemaBuilder {
         return document;
     }
 
+    public SchemaDocument buildSchemaWithConstVals(String schemaString, String values) throws UnableToParseSchemaException {
+        SchemaDocument document = null;
+        try {
+            JsonObject jsonObj = new JsonParser().parse(schemaString.toString()).getAsJsonObject();
+            Gson tempGson = this.gson.newBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass, values)).create();
+            document = tempGson.fromJson(jsonObj, SchemaDocument.class);
+        } catch (Exception ex) {
+            throw new UnableToParseSchemaException(ex);
+        }
+        return document;
+    }
+
     public SchemaBuilder allowDefaultOrder(boolean allowDefaultOrder) {
         this.allowDefaultOrder = allowDefaultOrder;
         return this;
@@ -145,12 +158,24 @@ public class SchemaBuilder {
     public void buildActivityForResult(Activity context, String schemaString) {
         TruFormActivity.startActivityForFormResult(context, schemaString);
     }
+
     public void buildActivityForResult(Fragment fragment, String schemaString) {
         TruFormActivity.startActivityForFormResult(fragment, schemaString);
     }
 
+    public void buildActivityToRenderConstSchema(Activity activity, String schemaString,String constValue) {
+        TruFormActivity.startActivityToRenderConstSchema(activity, schemaString,constValue);
+    }
+
+    public void buildActivityToRenderConstSchema(Fragment fragment, String schemaString,String constValue) {
+        TruFormActivity.startActivityToRenderConstSchema(fragment,schemaString, constValue);
+    }
     public TruFormView buildSchemaView(String schemaString, Context context) throws UnableToParseSchemaException {
         return buildSchema(schemaString).getViewBuilder(context);
+    }
+
+    public TruFormView buildSchemaViewWithConstValues(String schemaString, String values, Context context) throws UnableToParseSchemaException {
+        return buildSchemaWithConstVals(schemaString, values).getViewBuilder(context);
     }
 
     public String getDateFormat() {
