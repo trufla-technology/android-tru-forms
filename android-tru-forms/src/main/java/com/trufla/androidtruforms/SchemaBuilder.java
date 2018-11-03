@@ -132,9 +132,10 @@ public class SchemaBuilder {
         SchemaDocument document = null;
         try {
             JsonObject jsonObj = new JsonParser().parse(schemaString.toString()).getAsJsonObject();
-            Gson tempGson = this.gson.newBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass, values)).create();
+            Gson tempGson = this.gson.newBuilder().registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer(values)).create();
             document = tempGson.fromJson(jsonObj, SchemaDocument.class);
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new UnableToParseSchemaException(ex);
         }
         return document;

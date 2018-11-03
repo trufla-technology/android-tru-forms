@@ -87,7 +87,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         if(TextUtils.isEmpty(v))
             schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());
         else
-            schemaBuilder.buildActivityToRenderConstSchema(this, jsonStringBuilder.toString(),v);
+            schemaBuilder.buildActivityToRenderConstSchema(this, js,v);
 
         //startActivity(new Intent(this, TruNavigationActivity.class));
     }
