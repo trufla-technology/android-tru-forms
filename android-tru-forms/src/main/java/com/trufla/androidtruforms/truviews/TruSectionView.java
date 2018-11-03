@@ -6,10 +6,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
+
+import org.json.JSONObject;
 
 /**
  * Created by ohefny on 6/26/18.
@@ -24,8 +28,8 @@ public class TruSectionView extends TruObjectView {
     }
 
     @Override
-    public View build() {
-        super.build();
+    protected void buildSubview() {
+        super.buildSubview();
         if (TruUtils.isEmpty(instance.getTitle())) {
             mView.findViewById(R.id.section_header).setVisibility(View.GONE);
         } else {
@@ -35,8 +39,6 @@ public class TruSectionView extends TruObjectView {
         for (SchemaInstance child : instance.getProperties().getVals()) {
             addChildView(child);
         }
-
-        return mView;
     }
 
     @Override

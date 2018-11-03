@@ -52,11 +52,11 @@ public class TruDatePickerView extends TruStringView {
     }
 
     @Override
-    public View build() {
-        super.build();
+    protected void buildSubview() {
+        super.buildSubview();
         mView.findViewById(R.id.input_data).setOnClickListener(this::onDateViewClicked);
         mView.setOnClickListener(this::onDateViewClicked);
-        return mView;
+
     }
 
     private void onDateViewClicked(View view) {
@@ -106,5 +106,14 @@ public class TruDatePickerView extends TruStringView {
             ((EditText) mView.findViewById(R.id.input_data)).setError(null);
             ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(null);
         }
+    }
+
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        if (constItem instanceof String)
+            ((EditText) mView.findViewById(R.id.input_data)).setText(constItem.toString());
+
+        mView.findViewById(R.id.input_data).setEnabled(false);
+        mView.setEnabled(false);
     }
 }

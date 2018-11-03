@@ -110,4 +110,12 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     }
 
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        if (constItem instanceof String) {
+            ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().setText(constItem.toString());
+        }
+        mView.findViewById(R.id.input_view_container).setEnabled(false);
+    }
+
 }
