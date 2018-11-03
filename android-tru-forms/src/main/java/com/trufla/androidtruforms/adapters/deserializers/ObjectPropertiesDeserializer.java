@@ -26,15 +26,6 @@ import java.util.Map;
  */
 
 public class ObjectPropertiesDeserializer implements JsonDeserializer<ObjectProperties> {
-    HashMap<String, Object> constValues;
-
-    public ObjectPropertiesDeserializer() {
-    }
-
-    public ObjectPropertiesDeserializer(String values) throws IOException {
-        this.constValues = ValueToSchemaMapper.flattenJson(values);
-    }
-
     @Override
     public ObjectProperties deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
@@ -50,40 +41,7 @@ public class ObjectPropertiesDeserializer implements JsonDeserializer<ObjectProp
         if (TruUtils.isEmpty(schemaInstance.getTitle()))
             schemaInstance.setTitle(key);
         schemaInstance.setKey(key);
-        setConstValueIfExist(schemaInstance);
         return schemaInstance;
     }
 
-    private void setConstValueIfExist(SchemaInstance schemaInstance) {
-        if (!(schemaInstance instanceof ObjectInstance) && constValues != null) {
-            if (schemaInstance instanceof ArrayInstance)
-                schemaInstance.setConstItem(getArrayConst(schemaInstance.getKey()));
-            else
-                schemaInstance.setConstItem(getPrimitiveConst(schemaInstance.getKey()));
-        }
-    }
-
-    private ArrayList getArrayConst(String key) {
-        ArrayList arrayList = new ArrayList();
-        for (Map.Entry<String, Object> entry : constValues.entrySet()) {
-            int lastDotIdx = entry.getKey().lastIndexOf('.');
-            int firstBraket = entry.getKey().indexOf('[');
-            if (firstBraket < 0)
-                continue;
-            String lastPathSegment = entry.getKey().substring(lastDotIdx + 1, firstBraket);
-            if (lastPathSegment.equals(key)) {
-                arrayList.add(entry.getValue());
-            }
-        }
-        return arrayList;
-    }
-
-    private Object getPrimitiveConst(String key) {
-        for (Map.Entry<String, Object> entry : constValues.entrySet()) {
-            if (entry.getKey().endsWith(key)) {
-                return entry.getValue();
-            }
-        }
-        return "";
-    }
 }

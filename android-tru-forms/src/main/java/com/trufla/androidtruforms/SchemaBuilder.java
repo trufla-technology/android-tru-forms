@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.adapters.deserializers.DataEnumNamesDeserializer;
 import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesDeserializer;
+import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesDeserializerWithConstValues;
 import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceDeserializer;
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
 import com.trufla.androidtruforms.models.ArrayInstance;
@@ -132,7 +133,7 @@ public class SchemaBuilder {
         SchemaDocument document = null;
         try {
             JsonObject jsonObj = new JsonParser().parse(schemaString.toString()).getAsJsonObject();
-            Gson tempGson = this.gson.newBuilder().registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer(values)).create();
+            Gson tempGson = this.gson.newBuilder().registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializerWithConstValues(values)).create();
             document = tempGson.fromJson(jsonObj, SchemaDocument.class);
         } catch (Exception ex) {
             ex.printStackTrace();
