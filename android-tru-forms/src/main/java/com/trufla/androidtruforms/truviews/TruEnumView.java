@@ -28,11 +28,8 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     }
 
     @Override
-    protected void onViewCreated() {
-        super.onViewCreated();
+    protected void buildSubview() {
         spinner = mView.findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
-
     }
 
     protected void setupAdapter(EnumInstance instance) {
@@ -40,7 +37,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         items = instance.getEnumDisplayedNames();
         adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        spinner.setAdapter(adapter);
     }
 
 
@@ -76,5 +73,17 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         return R.layout.tru_enum_view;
     }
 
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        String constStr = String.valueOf(constItem);
+        for (int i = 0; i < instance.getEnumVals().size(); i++) {
+            String enumStr = String.valueOf(instance.getEnumVals().get(i));
+            if (enumStr.equals(constStr)) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
+        spinner.setEnabled(false);
+    }
 
 }
