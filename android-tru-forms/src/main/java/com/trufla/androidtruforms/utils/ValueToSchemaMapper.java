@@ -2,14 +2,19 @@ package com.trufla.androidtruforms.utils;
 
 import android.util.Pair;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ValueToSchemaMapper {
 
@@ -21,19 +26,43 @@ public class ValueToSchemaMapper {
         return schemaWithValueAsConst;
     }
 
-    /*public static ArrayList<Pair<String, Object>> flatJsonObject(JsonObject jsonObject) {
-        ArrayList<Pair<String, Object>> flatList = new ArrayList<>();
+    public static HashMap<String, Object> flatJsonObject(JsonObject jsonObject) {
+        HashMap<String, Object> flatList = new HashMap<String, Object>();
         for (Map.Entry<String, JsonElement> pair : jsonObject.entrySet()) {
             if (pair.getValue() instanceof JsonObject) {
-                flatList.addAll(flatJsonObject(((JsonObject) pair.getValue()).getAsJsonObject()));
+                flatList.putAll(flatJsonObject(((JsonObject) pair.getValue())));
             } else if (pair.getValue() instanceof JsonArray) {
-                flatList.add(new Pair<>(pair.getKey(), pair.getValue()));
-            } else if (pair.getValue() instanceof JsonPrimitive) {
+                for (int i = 0; i < ((JsonArray) pair.getValue()).size(); i++) {
+                    JsonElement jsonElement = ((JsonArray) pair.getValue()).get(i);
+                    if (jsonElement instanceof JsonObject)
+                        flatList.put(pair.getKey() + "[" + i + "]", jsonElement.toString());
+                    else {
+                        flatList.put(pair.getKey() + "[" + i + "]", jsonVal2Obj(jsonElement.getAsJsonPrimitive()));
 
+                    }
+                }
+                flatList.put(pair.getKey(), pair.getValue());
+            } else if (pair.getValue() instanceof JsonPrimitive) {
+                flatList.put(pair.getKey(), jsonVal2Obj(pair.getValue().getAsJsonPrimitive()));
             }
         }
         return flatList;
-    }*/
+    }
+
+    public static Object jsonVal2Obj(JsonPrimitive jsonValue) {
+        if (jsonValue.isBoolean()) return jsonValue.getAsBoolean();
+        if (jsonValue.isString()) return jsonValue.getAsString();
+        if (jsonValue.isNumber()) {
+            double v = jsonValue.getAsDouble();
+            if (!Double.isNaN(v) && !Double.isInfinite(v) && v == Math.rint(v))
+                return jsonValue.getAsLong();
+            else
+                return jsonValue.getAsDouble();
+        }
+
+        return null;
+    }
+
     public static HashMap<String, Object> flattenJson(String json) throws IOException {
         HashMap<String, Object> flatList = new HashMap<>();
         JsonReader reader = new JsonReader(new StringReader(json));
@@ -77,5 +106,36 @@ public class ValueToSchemaMapper {
             }
         }
 
+    }
+
+    public static ArrayList getArrayConst(String key, HashMap<String, Object> constValues) {
+        ArrayList arrayList = new ArrayList();
+        for (Map.Entry<String, Object> entry : constValues.entrySet()) {
+            int idx = entry.getKey().indexOf("[");
+            if (idx >= 0 && entry.getKey().substring(0, idx).equals(key))
+                arrayList.add(entry.getValue());
+        }
+        return arrayList;
+    }
+
+    public static Object getPrimitiveConst(String key, HashMap<String, Object> constValues) {
+        for (Map.Entry<String, Object> entry : constValues.entrySet()) {
+            if (entry.getKey().equals(key)) {
+                return entry.getValue();
+            }
+        }
+        return "";
+    }
+
+    public static ArrayList getArrayConst(JsonArray asJsonArray) {
+        ArrayList list = new ArrayList();
+        for (int i = 0; i < asJsonArray.size(); i++) {
+            if (asJsonArray.get(i).isJsonPrimitive()) {
+                list.add(jsonVal2Obj(asJsonArray.get(i).getAsJsonPrimitive()));
+            } else if (asJsonArray.get(i).isJsonObject()) {
+                list.add(asJsonArray.get(i).getAsJsonObject());
+            }
+        }
+        return list;
     }
 }

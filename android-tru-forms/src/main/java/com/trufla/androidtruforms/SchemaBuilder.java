@@ -36,6 +36,7 @@ public class SchemaBuilder {
     public final static String RESULT_DATA_KEY = "SCHEMA_DATA_KEY";
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String DEFAULT_DATE_TIME_FORMAT = DEFAULT_DATE_FORMAT + " hh:mm:ss";
+    private final SchemaViews schemaViews = new SchemaViews();
     private String dateFormat;
     private String dateTimeFormat;
     private Class<ArrayInstance> arrayInstanceClass;
@@ -141,43 +142,17 @@ public class SchemaBuilder {
         }
         return document;
     }
-
-    public SchemaBuilder allowDefaultOrder(boolean allowDefaultOrder) {
-        this.allowDefaultOrder = allowDefaultOrder;
-        return this;
-    }
-
-    private TruFormFragment buildSchemaFragment(String schemaString, Context context) throws UnableToParseSchemaException {
-        TruFormFragment formFragment = TruFormFragment.newInstance(schemaString.toString());
-        return formFragment;
-    }
-
-    public <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment(String schemaString, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId) throws UnableToParseSchemaException {
-        TruFormFragment formFragment = buildSchemaFragment(schemaString, hostActivity);
-        fragmentManager.beginTransaction().replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
-    }
-
-    public void buildActivityForResult(Activity context, String schemaString) {
-        TruFormActivity.startActivityForFormResult(context, schemaString);
-    }
-
-    public void buildActivityForResult(Fragment fragment, String schemaString) {
-        TruFormActivity.startActivityForFormResult(fragment, schemaString);
-    }
-
-    public void buildActivityToRenderConstSchema(Activity activity, String schemaString,String constValue) {
-        TruFormActivity.startActivityToRenderConstSchema(activity, schemaString,constValue);
-    }
-
-    public void buildActivityToRenderConstSchema(Fragment fragment, String schemaString,String constValue) {
-        TruFormActivity.startActivityToRenderConstSchema(fragment,schemaString, constValue);
-    }
     public TruFormView buildSchemaView(String schemaString, Context context) throws UnableToParseSchemaException {
         return buildSchema(schemaString).getViewBuilder(context);
     }
 
     public TruFormView buildSchemaViewWithConstValues(String schemaString, String values, Context context) throws UnableToParseSchemaException {
         return buildSchemaWithConstVals(schemaString, values).getViewBuilder(context);
+    }
+
+    public SchemaBuilder allowDefaultOrder(boolean allowDefaultOrder) {
+        this.allowDefaultOrder = allowDefaultOrder;
+        return this;
     }
 
     public String getDateFormat() {

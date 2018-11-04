@@ -2,6 +2,7 @@ package com.trufla.androidtruforms.adapters.deserializers;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.models.ArrayInstance;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
@@ -16,7 +17,8 @@ public class ObjectPropertiesDeserializerWithConstValues extends ObjectPropertie
     HashMap<String, Object> constValues;
 
     public ObjectPropertiesDeserializerWithConstValues(String values) throws IOException {
-        this.constValues = ValueToSchemaMapper.flattenJson(values);
+        JsonObject jsonObject = new JsonParser().parse(values).getAsJsonObject();
+        this.constValues = ValueToSchemaMapper.flatJsonObject(jsonObject);
     }
 
     @Override
@@ -29,33 +31,11 @@ public class ObjectPropertiesDeserializerWithConstValues extends ObjectPropertie
     private void setConstValueIfExist(SchemaInstance schemaInstance) {
         if (!(schemaInstance instanceof ObjectInstance) && constValues != null) {
             if (schemaInstance instanceof ArrayInstance)
-                schemaInstance.setConstItem(getArrayConst(schemaInstance.getKey()));
+                schemaInstance.setConstItem(ValueToSchemaMapper.getArrayConst(schemaInstance.getKey(),constValues));
             else
-                schemaInstance.setConstItem(getPrimitiveConst(schemaInstance.getKey()));
+                schemaInstance.setConstItem(ValueToSchemaMapper.getPrimitiveConst(schemaInstance.getKey(),constValues));
         }
     }
 
-    private ArrayList getArrayConst(String key) {
-        ArrayList arrayList = new ArrayList();
-        for (Map.Entry<String, Object> entry : constValues.entrySet()) {
-            int lastDotIdx = entry.getKey().lastIndexOf('.');
-            int firstBraket = entry.getKey().indexOf('[');
-            if (firstBraket < 0)
-                continue;
-            String lastPathSegment = entry.getKey().substring(lastDotIdx + 1, firstBraket);
-            if (lastPathSegment.equals(key)) {
-                arrayList.add(entry.getValue());
-            }
-        }
-        return arrayList;
-    }
 
-    private Object getPrimitiveConst(String key) {
-        for (Map.Entry<String, Object> entry : constValues.entrySet()) {
-            if (entry.getKey().endsWith(key)) {
-                return entry.getValue();
-            }
-        }
-        return "";
-    }
 }

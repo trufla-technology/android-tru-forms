@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.trufla.androidtruforms.SchemaBuilder;
+import com.trufla.androidtruforms.SchemaViews;
 import com.trufla.androidtruforms.TruFormFragment;
 import com.trufla.androidtruforms.TruNavigationActivity;
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
@@ -60,7 +61,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         SchemaBuilder schemaBuilder = SchemaBuilder.getInstance().allowDefaultOrder(true);
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
         try {
-            schemaBuilder.showFragment(jsonStringBuilder.toString(), this, getSupportFragmentManager(), R.id.container);
+            SchemaViews.showFragment(jsonStringBuilder.toString(), this, getSupportFragmentManager(), R.id.container);
         } catch (UnableToParseSchemaException e) {
             e.printStackTrace();
         }
@@ -85,9 +86,9 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         SchemaBuilder schemaBuilder = SchemaBuilder.getInstance().allowDefaultOrder(true);
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
         if(TextUtils.isEmpty(v))
-            schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());
+            SchemaViews.startActivityForResult(this, jsonStringBuilder.toString());
         else
-            schemaBuilder.buildActivityToRenderConstSchema(this, js,v);
+            SchemaViews.startActivityToRenderConstSchema(this, js,v);
 
         //startActivity(new Intent(this, TruNavigationActivity.class));
     }
