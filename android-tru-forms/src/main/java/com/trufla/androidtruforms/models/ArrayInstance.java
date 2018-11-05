@@ -19,6 +19,17 @@ public class ArrayInstance extends SchemaInstance {
     @SerializedName("uniqueItems")
     protected boolean uniqueItems;
 
+    public ArrayInstance(){
+
+    }
+    public ArrayInstance(ArrayInstance copyInstance) {
+        super(copyInstance);
+        this.items=copyInstance.items;
+        this.maxItems=copyInstance.maxItems;
+        this.minItems=copyInstance.minItems;
+        this.uniqueItems=copyInstance.uniqueItems;
+    }
+
     public SchemaInstance getItems() {
         return items;
     }

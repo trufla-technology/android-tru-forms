@@ -6,11 +6,19 @@ import java.util.ArrayList;
 
 public class DataInstance {
     @SerializedName("href")
-    private final String url;
+    private String url;
     @SerializedName("enum")
-    private final String identifierColumn;
+    private String identifierColumn;
     @SerializedName("enumNames")
-    private final DataEnumNames names;
+    DataEnumNames names;
+
+    public DataInstance() {
+
+    }
+
+    public DataInstance(DataInstance copyInstance) {
+        this(copyInstance.getUrl(), copyInstance.getIdentifierColumn(), copyInstance.names);
+    }
 
     public DataInstance(String url, String identifierColumn, DataEnumNames names) {
         this.url = url;

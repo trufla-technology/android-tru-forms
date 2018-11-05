@@ -9,6 +9,13 @@ import com.trufla.androidtruforms.truviews.TruBooleanView;
  */
 
 public class BooleanInstance extends SchemaInstance {
+    public BooleanInstance(){
+
+    }
+    public BooleanInstance(SchemaInstance instance) {
+        super(instance);
+    }
+
     @Override
     public TruBooleanView getViewBuilder(Context context) {
         return new TruBooleanView(context,this);

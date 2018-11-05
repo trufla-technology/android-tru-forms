@@ -20,12 +20,19 @@ public class SchemaDocument extends ObjectInstance {
     protected String schemaUrl;
     @SerializedName("definitions")
     protected ObjectProperties definitions;
-    public SchemaDocument(int maxProperties, int minProperties, ArrayList<String> required) {
-        super(maxProperties, minProperties, required);
+    public SchemaDocument(){
+
     }
+    public SchemaDocument(SchemaDocument copyInstance) {
+        super(copyInstance);
+        this.id = copyInstance.id;
+        this.schemaUrl = copyInstance.schemaUrl;
+        this.definitions = copyInstance.definitions;
+    }
+
     @Override
     public TruFormView getViewBuilder(Context context) {
-        return new TruFormView(context,this);
+        return new TruFormView(context, this);
     }
 
 

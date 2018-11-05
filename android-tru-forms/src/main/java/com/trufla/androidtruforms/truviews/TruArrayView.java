@@ -124,14 +124,18 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof ArrayList) {
             ArrayList constItemsList = (ArrayList) constItem;
-            if (constItemsList.size() > 0) {
-                items.get(0).addAfterBuildConstItem(constItemsList.get(0));
-                mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
-            }
-            for (int i = 1; i < constItemsList.size(); i++) {
-                View addedView = onAddNewView();
-                addedView.findViewById(R.id.remove_item_img).setVisibility(View.GONE);
-                items.get(i).addAfterBuildConstItem(constItemsList.get(i));
+            if (constItemsList.size() == 0)
+                primaryItem.mView.setVisibility(View.GONE);
+
+            for (int i = 0; i < constItemsList.size(); i++) {
+                if (i == 0) {
+                    mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
+                    primaryItem.addAfterBuildConstItem(constItemsList.get(i));
+                } else {
+                    View addedView = onAddNewView();
+                    addedView.findViewById(R.id.remove_item_img).setVisibility(View.GONE);
+                    items.get(i).addAfterBuildConstItem(constItemsList.get(i));
+                }
             }
 
         }

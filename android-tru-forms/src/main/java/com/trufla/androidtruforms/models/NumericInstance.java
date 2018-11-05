@@ -14,6 +14,17 @@ public class NumericInstance extends SchemaInstance {
     protected double exclusiveMaximum;
     protected double exclusiveMinimum;
     protected String pattern;
+    public NumericInstance(){
+
+    }
+    public NumericInstance(NumericInstance instance) {
+        super(instance);
+        this.maximum=instance.maximum;
+        this.minimum=instance.minimum;
+        this.exclusiveMaximum=instance.exclusiveMaximum;
+        this.exclusiveMinimum=instance.exclusiveMinimum;
+        this.pattern=instance.pattern;
+    }
 
     public double getMaximum() {
         return maximum;
