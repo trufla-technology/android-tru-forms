@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,8 @@ import okhttp3.Callback;
  */
 public class TruFormFragment extends Fragment implements FormContract {
     private OnFormActionsListener mListener;
-    private static final String JSON_KEY = "JSON_KEY";
+    private static final String SCHEMA_KEY = "SCHEMA_KEY";
+    private static final String JSON_KEY = "JSON_VALUE";
     private static final int IMAGE_PICKER_CODE = 505;
     private TruFormView truFormView;
     TruConsumer<String> mPickedImageListener;
@@ -52,10 +54,19 @@ public class TruFormFragment extends Fragment implements FormContract {
         // Required empty public constructor
     }
 
-    public static TruFormFragment newInstance(String jsonStr) {
+    public static TruFormFragment newInstance(String schemaString) {
         TruFormFragment fragment = new TruFormFragment();
         Bundle args = new Bundle();
-        args.putString(JSON_KEY, jsonStr);
+        args.putString(SCHEMA_KEY, schemaString);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static TruFormFragment newInstanceWithConstJson(String schemaString, String jsonValue) {
+        TruFormFragment fragment = new TruFormFragment();
+        Bundle args = new Bundle();
+        args.putString(SCHEMA_KEY, schemaString);
+        args.putString(JSON_KEY, jsonValue);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,7 +76,7 @@ public class TruFormFragment extends Fragment implements FormContract {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            schemaString = getArguments().getString(JSON_KEY);
+            schemaString = getArguments().getString(SCHEMA_KEY);
         }
     }
 
@@ -74,7 +85,12 @@ public class TruFormFragment extends Fragment implements FormContract {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tru_form, container, false);
         try {
-            truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
+            String jsonVal = getArguments().getString(JSON_KEY);
+            if (TextUtils.isEmpty(jsonVal))
+                truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
+            else
+                truFormView = SchemaBuilder.getInstance().buildSchemaViewWithConstValues(schemaString, jsonVal, getContext());
+
             View formView = truFormView.build();
             ((LinearLayout) rootView.findViewById(R.id.form_container)).addView(formView);
             rootView.findViewById(R.id.submit_btn).setOnClickListener((v) -> onSubmitClicked());
