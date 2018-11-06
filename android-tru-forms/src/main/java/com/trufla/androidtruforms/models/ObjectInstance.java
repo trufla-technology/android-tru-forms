@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by ohefny on 6/27/18.
  */
 
-public class ObjectInstance extends SchemaInstance{
+public class ObjectInstance extends SchemaInstance {
     @SerializedName("maxProperties")
     protected int maxProperties;
     @SerializedName("minProperties")
@@ -23,10 +23,15 @@ public class ObjectInstance extends SchemaInstance{
     protected ObjectProperties properties;
     @SerializedName("description")
     protected String description;
-    public ObjectInstance(int maxProperties, int minProperties, ArrayList<String> required) {
-        this.maxProperties = maxProperties;
-        this.minProperties = minProperties;
-        this.required = required;
+
+    public ObjectInstance(){
+
+    }
+    public ObjectInstance(ObjectInstance copyInstance) {
+        super(copyInstance);
+        this.maxProperties = copyInstance.getMaxProperties();
+        this.minProperties = copyInstance.getMinProperties();
+        this.required = copyInstance.getRequired();
     }
 
     public int getMaxProperties() {
@@ -67,6 +72,6 @@ public class ObjectInstance extends SchemaInstance{
 
     @Override
     public TruObjectView getViewBuilder(Context context) {
-        return new TruSectionView(context,this);
+        return new TruSectionView(context, this);
     }
 }

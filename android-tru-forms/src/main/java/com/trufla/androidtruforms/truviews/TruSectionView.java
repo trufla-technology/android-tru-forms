@@ -6,12 +6,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
+import com.trufla.androidtruforms.utils.ValueToSchemaMapper;
 
 import org.json.JSONObject;
 
@@ -65,9 +67,31 @@ public class TruSectionView extends TruObjectView {
         ((TextView) (mView.findViewById(R.id.input_data))).setText(instance.getPresentationTitle());
 
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.tru_section_view;
     }
 
+    @Override
+    protected void setNonEditableValues(Object constItem) {
+        if (constItem instanceof String) {
+            constItem = new JsonParser().parse(constItem.toString());
+        }
+        if (constItem instanceof JsonObject) {
+            JsonObject jsonObject = (JsonObject) constItem;
+            for (SchemaInstance child : instance.getProperties().getVals()) {
+                JsonElement val = jsonObject.get(child.getKey());
+                if (val.isJsonPrimitive()) {
+                    child.setConstItem(ValueToSchemaMapper.jsonVal2Obj(val.getAsJsonPrimitive()));
+                } else if (val.isJsonArray()) {
+                    child.setConstItem(ValueToSchemaMapper.getArrayConst(val.getAsJsonArray()));
+                } else {
+                    child.setConstItem(val.getAsJsonObject());
+                }
+
+            }
+        }
+        mView.setEnabled(false);
+    }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.trufla.androidtruforms.SchemaBuilder;
+import com.trufla.androidtruforms.SchemaViews;
 import com.trufla.androidtruforms.TruFormFragment;
 import com.trufla.androidtruforms.TruNavigationActivity;
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
@@ -60,7 +61,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         SchemaBuilder schemaBuilder = SchemaBuilder.getInstance().allowDefaultOrder(true);
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
         try {
-            schemaBuilder.showFragment(jsonStringBuilder.toString(), this, getSupportFragmentManager(), R.id.container);
+            SchemaViews.showFragment(jsonStringBuilder.toString(), this, getSupportFragmentManager(), R.id.container);
         } catch (UnableToParseSchemaException e) {
             e.printStackTrace();
         }
@@ -70,6 +71,8 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
     private void activityFormParseClicked() {
         StringBuilder jsonStringBuilder = new StringBuilder();
         String js = ((EditText) findViewById(R.id.et)).getText().toString().trim();
+        String v=((EditText) findViewById(R.id.submitted_data)).getText().toString().trim();
+
         if (TextUtils.isEmpty(js)) {
             Toast.makeText(this, "No Json Entered ... Form from claims.json will be built", Toast.LENGTH_LONG).show();
             InputStream inputStream = getResources().openRawResource(R.raw.claims_edited);
@@ -77,12 +80,16 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
             while (scanner.hasNext()) {
                 jsonStringBuilder.append(scanner.nextLine());
             }
-        } else
+        } else if (TextUtils.isEmpty(v))
             jsonStringBuilder.append(js);
 
         SchemaBuilder schemaBuilder = SchemaBuilder.getInstance().allowDefaultOrder(true);
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
-        schemaBuilder.buildActivityForResult(this, jsonStringBuilder.toString());
+        if(TextUtils.isEmpty(v))
+            SchemaViews.startActivityForResult(this, jsonStringBuilder.toString());
+        else
+            SchemaViews.startActivityToRenderConstSchema(this, js,v);
+
         //startActivity(new Intent(this, TruNavigationActivity.class));
     }
 

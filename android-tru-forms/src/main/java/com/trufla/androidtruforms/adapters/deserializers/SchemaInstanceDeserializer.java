@@ -6,13 +6,22 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
+import com.trufla.androidtruforms.models.ArrayInstance;
+import com.trufla.androidtruforms.models.BooleanInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
+import com.trufla.androidtruforms.models.NumericInstance;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaKeywords;
 import com.trufla.androidtruforms.models.SchemaInstance;
+import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
+import com.trufla.androidtruforms.utils.ValueToSchemaMapper;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.trufla.androidtruforms.models.SchemaKeywords.InstanceTypes.NUMBER;
 import static com.trufla.androidtruforms.models.SchemaKeywords.InstanceTypes.STRING;
@@ -24,6 +33,7 @@ import static com.trufla.androidtruforms.models.SchemaKeywords.InstanceTypes.STR
 
 public class SchemaInstanceDeserializer implements JsonDeserializer<SchemaInstance> {
 
+    HashMap<String, Object> constValues;
     Class arrayInstanceClass;
     Class booleanInstanceClass;
     Class stringInstanceClass;
@@ -37,14 +47,12 @@ public class SchemaInstanceDeserializer implements JsonDeserializer<SchemaInstan
         this.numericInstanceClass = numericInstanceClass;
         this.objectInstanceClass = objectInstanceClass;
     }
-
-
     @Override
     public SchemaInstance deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         JsonPrimitive prim = (JsonPrimitive) jsonObject.get(SchemaKeywords.TYPE_KEY);
         String type = TruUtils.getText(prim.getAsString(), "No_Type");
-        Class<?> klass = null;
+        Class<?> klass;
         if (jsonObject.has(SchemaKeywords.ENUM_KEY) || jsonObject.has(SchemaKeywords.TruVocabulary.DATA)) {
             klass = EnumInstance.class;
             return getProperEnumInstance(json, context, type, klass);

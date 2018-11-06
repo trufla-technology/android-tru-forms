@@ -8,6 +8,7 @@ import com.trufla.androidtruforms.truviews.TruEnumDataView;
 import com.trufla.androidtruforms.truviews.TruEnumView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by ohefny on 7/3/18.
@@ -21,6 +22,16 @@ public class EnumInstance<T> extends SchemaInstance {
     @SerializedName("$data")
     protected DataInstance dataInstance;
 
+    public EnumInstance(){
+
+    }
+    public EnumInstance(EnumInstance<T> copyInstance) {
+        super(copyInstance);
+        this.enumVals= new ArrayList<>(copyInstance.enumVals);
+        this.enumNames=new ArrayList<>(copyInstance.enumNames);
+        this.dataInstance=new DataInstance(copyInstance.getDataInstance());
+    }
+
 
     public boolean enumExists() {
         return enumVals != null && !enumVals.isEmpty();
@@ -28,7 +39,7 @@ public class EnumInstance<T> extends SchemaInstance {
 
     @Override
     public TruEnumView getViewBuilder(Context context) {
-        if (dataInstance == null)
+        if (dataInstance == null)   
             return new TruEnumView(context, this);
         else
             return new TruEnumDataView(context, this);

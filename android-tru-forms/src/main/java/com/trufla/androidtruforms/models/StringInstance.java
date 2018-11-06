@@ -25,6 +25,17 @@ public class StringInstance extends SchemaInstance {
     @SerializedName("pattern")
     protected String pattern;
 
+    public StringInstance(){
+
+    }
+    public StringInstance(StringInstance copyInstance) {
+        super(copyInstance);
+        this.format=copyInstance.getFormat();
+        this.pattern=copyInstance.getPattern();
+        this.maxLength=copyInstance.getMaxLength();
+        this.minLength=copyInstance.getMinLength();
+    }
+
     @Override
     public TruStringView getViewBuilder(Context context) {
         if (TruUtils.isEmpty(format))
