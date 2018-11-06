@@ -49,7 +49,10 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     }
 
     private SchemaBaseView getNewInstanceViewBuilder() {
-        return instance.getItems().getViewBuilder(mContext);
+        ArrayInstance copiedInstance = new ArrayInstance(instance);
+        copiedInstance.setConstItem(null);
+        copiedInstance.getItems().setConstItem(null);
+        return copiedInstance.getItems().getViewBuilder(mContext);
     }
 
     private void addNewItem(View newItemView, SchemaBaseView viewBuilder) {
