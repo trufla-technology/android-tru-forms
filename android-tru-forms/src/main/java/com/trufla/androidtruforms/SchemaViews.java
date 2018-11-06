@@ -14,8 +14,18 @@ public class SchemaViews {
         return formFragment;
     }
 
+    public static TruFormFragment newSchemaFragmentWithConstValuesInstance(String schemaString, String jsonValue, Context context) throws UnableToParseSchemaException {
+        TruFormFragment formFragment = TruFormFragment.newInstanceWithConstJson(schemaString.toString(), jsonValue);
+        return formFragment;
+    }
+
     public static <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment(String schemaString, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId) throws UnableToParseSchemaException {
         TruFormFragment formFragment = newSchemaFragmentInstance(schemaString, hostActivity);
+        fragmentManager.beginTransaction().replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
+    }
+
+    public static <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragmentWithConstValue(String schemaString, String jsonValues, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId) throws UnableToParseSchemaException {
+        TruFormFragment formFragment = newSchemaFragmentWithConstValuesInstance(schemaString, jsonValues, hostActivity);
         fragmentManager.beginTransaction().replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
     }
 
