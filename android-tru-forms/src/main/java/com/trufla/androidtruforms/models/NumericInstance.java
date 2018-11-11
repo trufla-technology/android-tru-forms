@@ -17,6 +17,12 @@ public class NumericInstance extends SchemaInstance {
     public NumericInstance(){
 
     }
+
+    @Override
+    public NumericInstance getCopy() {
+        return new NumericInstance(this);
+    }
+
     public NumericInstance(NumericInstance instance) {
         super(instance);
         this.maximum=instance.maximum;

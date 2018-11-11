@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ArrayInstance;
+import com.trufla.androidtruforms.models.SchemaInstance;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -31,7 +32,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     protected void buildSubview() {
         super.buildSubview();
         initPrimaryItem();
-        mView.findViewById(R.id.add_item_img).setOnClickListener((v) -> onAddNewView());
+        mView.findViewById(R.id.add_item_img).setOnClickListener((v) -> buildNewView());
     }
 
     private void initPrimaryItem() {
@@ -41,19 +42,29 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         addNewItem(primaryItemView, primaryItem);
     }
 
-    private View onAddNewView() {
+    private View buildNewView() {
         SchemaBaseView viewBuilder = getNewInstanceViewBuilder();
         View addedView = getNewItemView(viewBuilder);
         addNewItem(addedView, viewBuilder);
         return addedView;
     }
+    private View buildNewView(Object constObject) {
+        SchemaBaseView viewBuilder = getNewInstanceViewBuilder(constObject);
+        View generatedView = getNewItemView(viewBuilder);
+        addNewItem(generatedView, viewBuilder);
+        return generatedView;
+    }
 
     private SchemaBaseView getNewInstanceViewBuilder() {
+        return instance.getItems().getViewBuilder(mContext);
+    }
+
+    private SchemaBaseView getNewInstanceViewBuilder(Object constObject) {
         ArrayInstance copiedInstance = new ArrayInstance(instance);
-        copiedInstance.setConstItem(null);
-        copiedInstance.getItems().setConstItem(null);
+        copiedInstance.getItems().setConstItem(constObject);
         return copiedInstance.getItems().getViewBuilder(mContext);
     }
+
 
     private void addNewItem(View newItemView, SchemaBaseView viewBuilder) {
         ((ViewGroup) mView).addView(newItemView);
@@ -135,9 +146,9 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
                     mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
                     primaryItem.addAfterBuildConstItem(constItemsList.get(i));
                 } else {
-                    View addedView = onAddNewView();
+                    View addedView = buildNewView(constItemsList.get(i));
                     addedView.findViewById(R.id.remove_item_img).setVisibility(View.GONE);
-                    items.get(i).addAfterBuildConstItem(constItemsList.get(i));
+                    //items.get(i).addAfterBuildConstItem(constItemsList.get(i));
                 }
             }
 

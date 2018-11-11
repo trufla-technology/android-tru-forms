@@ -17,6 +17,11 @@ public class BooleanInstance extends SchemaInstance {
     }
 
     @Override
+    public BooleanInstance getCopy() {
+        return new BooleanInstance(this);
+    }
+
+    @Override
     public TruBooleanView getViewBuilder(Context context) {
         return new TruBooleanView(context,this);
     }

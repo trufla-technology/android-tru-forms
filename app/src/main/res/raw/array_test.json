@@ -1,0 +1,31 @@
+{
+  "title": "Auto Claim - Vehicle Accident",
+  "type": "object",
+  "properties": {
+    "witness_information": {
+      "type": "object",
+      "properties": {
+        "witnesses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "home_phone_number": {
+                "type": "string"
+              },
+              "cell_phone_number": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -31,6 +31,11 @@ public class SchemaDocument extends ObjectInstance {
     }
 
     @Override
+    public SchemaDocument getCopy() {
+        return new SchemaDocument(this);
+    }
+
+    @Override
     public TruFormView getViewBuilder(Context context) {
         return new TruFormView(context, this);
     }

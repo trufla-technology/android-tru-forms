@@ -12,6 +12,10 @@ import java.util.Collections;
 public class ObjectProperties {
     protected ArrayList<SchemaInstance> vals = new ArrayList<>();
 
+    public ObjectProperties(ObjectProperties properties){
+        this(new ArrayList<>(properties.getVals()));
+    }
+
     public ObjectProperties(ArrayList<SchemaInstance> properties) {
         if (!SchemaBuilder.getInstance().isDefaultOrdering())
             Collections.sort(properties);

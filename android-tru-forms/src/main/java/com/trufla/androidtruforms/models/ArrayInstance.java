@@ -22,9 +22,15 @@ public class ArrayInstance extends SchemaInstance {
     public ArrayInstance(){
 
     }
+
+    @Override
+    public ArrayInstance getCopy() {
+        return new ArrayInstance(this);
+    }
+
     public ArrayInstance(ArrayInstance copyInstance) {
         super(copyInstance);
-        this.items=copyInstance.items;
+        this.items=copyInstance.items.getCopy();
         this.maxItems=copyInstance.maxItems;
         this.minItems=copyInstance.minItems;
         this.uniqueItems=copyInstance.uniqueItems;
@@ -45,7 +51,6 @@ public class ArrayInstance extends SchemaInstance {
     public boolean isUniqueItems() {
         return uniqueItems;
     }
-
     @Override
     public TruArrayView getViewBuilder(Context context) {
         return new TruArrayView(context,this);

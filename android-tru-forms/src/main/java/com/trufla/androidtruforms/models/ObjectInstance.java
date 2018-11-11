@@ -24,14 +24,22 @@ public class ObjectInstance extends SchemaInstance {
     @SerializedName("description")
     protected String description;
 
-    public ObjectInstance(){
+    public ObjectInstance() {
 
     }
+
+    @Override
+    public ObjectInstance getCopy() {
+        return new ObjectInstance(this);
+    }
+
     public ObjectInstance(ObjectInstance copyInstance) {
         super(copyInstance);
+        this.properties = new ObjectProperties(copyInstance.getProperties());
         this.maxProperties = copyInstance.getMaxProperties();
         this.minProperties = copyInstance.getMinProperties();
         this.required = copyInstance.getRequired();
+        this.description = copyInstance.getDescription();
     }
 
     public int getMaxProperties() {

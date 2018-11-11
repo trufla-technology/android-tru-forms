@@ -64,7 +64,7 @@ public abstract class SchemaInstance implements Comparable<SchemaInstance>, Clon
     }
 
     public abstract <T extends SchemaBaseView> T getViewBuilder(Context context);
-
+    public abstract SchemaInstance getCopy();
     @Override
     public int compareTo(@NonNull SchemaInstance o) {
         //instances then array then objects

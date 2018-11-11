@@ -28,6 +28,12 @@ public class StringInstance extends SchemaInstance {
     public StringInstance(){
 
     }
+
+    @Override
+    public StringInstance getCopy() {
+        return new StringInstance(this);
+    }
+
     public StringInstance(StringInstance copyInstance) {
         super(copyInstance);
         this.format=copyInstance.getFormat();
