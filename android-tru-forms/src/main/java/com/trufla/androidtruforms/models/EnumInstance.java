@@ -19,7 +19,7 @@ public class EnumInstance<T> extends SchemaInstance {
     protected ArrayList<T> enumVals; //instance of String or Number or Boolean
     @SerializedName("enumNames")
     protected ArrayList<String> enumNames; //instance of String or Number or Boolean
-    @SerializedName("$data")
+    @SerializedName("_data")
     protected DataInstance dataInstance;
 
     public EnumInstance(){
