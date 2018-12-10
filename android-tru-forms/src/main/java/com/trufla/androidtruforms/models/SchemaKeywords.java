@@ -23,6 +23,6 @@ public interface SchemaKeywords {
     }
 
     interface TruVocabulary {
-        String DATA = "$data";
+        String DATA = "_data";
     }
 }
