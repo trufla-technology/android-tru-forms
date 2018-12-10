@@ -5,7 +5,7 @@
     "vehicle": {
       "type": "number",
       "title": "Select Vehicle",
-      "$data": {
+      "_data": {
         "href": "/5b8d43623300008200c1593e",
         "enum": "id",
         "enumNames": "vehicle_model"
