@@ -44,6 +44,11 @@ public class TruBooleanView extends SchemaBaseView<BooleanInstance> {
     }
 
     @Override
+    protected boolean isFilled() {
+        return mView!=null;
+    }
+
+    @Override
     protected void setNonEditableValues(Object constItem) {
         if(constItem instanceof Boolean){
             ((CheckBox) mView.findViewById(R.id.input_data)).setChecked(((Boolean) constItem));

@@ -39,6 +39,11 @@ public class TruFormView extends TruObjectView {
     }
 
     @Override
+    protected boolean isFilled() {
+        return false;
+    }
+
+    @Override
     protected ViewGroup getContainerView() {
         return ((ViewGroup) mView.findViewById(R.id.container));
     }

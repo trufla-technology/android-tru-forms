@@ -88,9 +88,10 @@ public class TruFormFragment extends Fragment implements FormContract {
             String jsonVal = getArguments().getString(JSON_KEY);
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
-            else
+            else {
                 truFormView = SchemaBuilder.getInstance().buildSchemaViewWithConstValues(schemaString, jsonVal, getContext());
-
+                rootView.findViewById(R.id.submit_btn).setVisibility(View.GONE);
+            }
             View formView = truFormView.build();
             ((LinearLayout) rootView.findViewById(R.id.form_container)).addView(formView);
             rootView.findViewById(R.id.submit_btn).setOnClickListener((v) -> onSubmitClicked());

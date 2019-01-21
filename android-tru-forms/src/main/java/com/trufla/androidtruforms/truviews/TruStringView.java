@@ -94,7 +94,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         return mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern());
     }
 
-    @Override
+/*    @Override
     protected void setError(String errorMsg) {
         if (mView.findViewById(R.id.input_view_container) != null) {
             ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(errorMsg);
@@ -108,7 +108,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         if (mView.findViewById(R.id.input_view_container) != null)
             ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(null);
 
-    }
+    }*/
 
     @Override
     protected void setNonEditableValues(Object constItem) {

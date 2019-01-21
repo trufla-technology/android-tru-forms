@@ -88,7 +88,7 @@ public class TruDatePickerView extends TruStringView {
         return SchemaBuilder.getInstance().getDateFormat();
     }
 
-    @Override
+    /*@Override
     protected void setError(String errorMsg) {
         if (isVisibleView()) {
             ((EditText) mView.findViewById(R.id.input_data)).setError("");
@@ -106,7 +106,7 @@ public class TruDatePickerView extends TruStringView {
             ((EditText) mView.findViewById(R.id.input_data)).setError(null);
             ((TextView) mView.findViewById(R.id.date_picker_error_msg)).setText(null);
         }
-    }
+    }*/
 
     @Override
     protected void setNonEditableValues(Object constItem) {

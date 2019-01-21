@@ -122,8 +122,9 @@ public class SchemaBuilder {
     public SchemaDocument buildSchema(String schemaString) throws UnableToParseSchemaException {
         SchemaDocument document = null;
         try {
-            JsonObject jsonObj = new JsonParser().parse(schemaString.toString()).getAsJsonObject();
+            JsonObject jsonObj = new JsonParser().parse(schemaString).getAsJsonObject();
             document = gson.fromJson(jsonObj, SchemaDocument.class);
+            document.markRequiredFields();
         } catch (Exception ex) {
             throw new UnableToParseSchemaException(ex);
         }
@@ -133,7 +134,7 @@ public class SchemaBuilder {
     public SchemaDocument buildSchemaWithConstVals(String schemaString, String values) throws UnableToParseSchemaException {
         SchemaDocument document = null;
         try {
-            JsonObject jsonObj = new JsonParser().parse(schemaString.toString()).getAsJsonObject();
+            JsonObject jsonObj = new JsonParser().parse(schemaString).getAsJsonObject();
             Gson tempGson = this.gson.newBuilder().registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializerWithConstValues(values)).create();
             document = tempGson.fromJson(jsonObj, SchemaDocument.class);
         } catch (Exception ex) {

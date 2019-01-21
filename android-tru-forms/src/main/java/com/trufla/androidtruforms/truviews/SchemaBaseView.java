@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.TruFormFragment;
@@ -28,6 +29,7 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     @LayoutRes
     protected int layoutId;
     protected TruObjectView parentView;
+    protected TextView errView;
 
     public SchemaBaseView(Context context, T instance) {
         this.instance = instance;
@@ -51,7 +53,7 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         return mView;
     }
 
-    protected void buildSubview(){
+    protected void buildSubview() {
 
     }
 
@@ -146,16 +148,30 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         return mView.getResources().getString(R.string.general_invalid_input);
     }
 
-    protected void setError(String error) {
+    private void setError(String error) {
+        if (errView == null)
+            errView = (TextView) layoutInflater.inflate(R.layout.tru_error_view, null);
 
+        if (mView instanceof ViewGroup) {
+            errView.setText(error);
+            if (!isErrorViewAdded()) {
+                ((ViewGroup) mView).addView(errView);
+                parentView.mView.invalidate();
+            }
+        }
     }
 
-    protected boolean isFilled() {
-        return true;
+    private boolean isErrorViewAdded() {
+        return errView != null && ((ViewGroup) mView).indexOfChild(errView) > -1;
     }
 
-    protected void removeErrorMsg() {
+    protected abstract boolean isFilled();
 
+    private void removeErrorMsg() {
+        if (isErrorViewAdded()) {
+            ((ViewGroup) mView).removeView(errView);
+            parentView.mView.invalidate();
+        }
     }
 
     protected void setNonEditableValues(Object constItem) {

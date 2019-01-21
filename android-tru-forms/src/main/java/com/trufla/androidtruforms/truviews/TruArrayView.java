@@ -91,7 +91,16 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         return R.layout.tru_array_view;
     }
 
-    public View getNewItemView(SchemaBaseView itemViewBuilder) {
+    @Override
+    protected boolean isFilled() {
+        for (SchemaBaseView v:items){
+            if(v.isFilled())
+                return true;
+        }
+        return false;
+    }
+
+    private View getNewItemView(SchemaBaseView itemViewBuilder) {
         View arrayLayoutView = layoutInflater.inflate(R.layout.tru_array_item_view, null);
         ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(getTitle(items.size() + 1));
         View itemView = itemViewBuilder.build();
@@ -144,4 +153,5 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         }
         mView.setEnabled(false);
     }
+
 }

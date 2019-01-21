@@ -5,8 +5,11 @@ import android.content.Context;
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruObjectView;
 import com.trufla.androidtruforms.truviews.TruSectionView;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by ohefny on 6/27/18.
@@ -24,9 +27,10 @@ public class ObjectInstance extends SchemaInstance {
     @SerializedName("description")
     protected String description;
 
-    public ObjectInstance(){
+    public ObjectInstance() {
 
     }
+
     public ObjectInstance(ObjectInstance copyInstance) {
         super(copyInstance);
         this.maxProperties = copyInstance.getMaxProperties();
@@ -56,6 +60,7 @@ public class ObjectInstance extends SchemaInstance {
 
     public void setRequired(ArrayList<String> required) {
         this.required = required;
+
     }
 
     public ObjectProperties getProperties() {
@@ -73,5 +78,14 @@ public class ObjectInstance extends SchemaInstance {
     @Override
     public TruObjectView getViewBuilder(Context context) {
         return new TruSectionView(context, this);
+    }
+
+    public void markRequiredFields() {
+        if (!TruUtils.isNullOrEmpty(required)) {
+            for (SchemaInstance child : properties.vals) {
+                if (required.contains(child.key))
+                    child.setRequiredField(true);
+            }
+        }
     }
 }

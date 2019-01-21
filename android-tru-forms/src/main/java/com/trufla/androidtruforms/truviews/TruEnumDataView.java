@@ -28,8 +28,8 @@ public class TruEnumDataView extends TruEnumView {
 
     @Override
     protected Object getSelectedObject() {
-        if (selectedPosition < 0)
-            return "null";
+       /* if (selectedPosition < 0)
+            return "null";*/
         Object selected = instance.getEnumVals().get(selectedPosition);
         return selected;
 

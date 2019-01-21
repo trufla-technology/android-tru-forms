@@ -11,6 +11,7 @@ import com.trufla.androidtruforms.models.BooleanInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
 import com.trufla.androidtruforms.models.NumericInstance;
 import com.trufla.androidtruforms.models.ObjectInstance;
+import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaKeywords;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.models.StringInstance;
@@ -61,7 +62,7 @@ public class SchemaInstanceDeserializer implements JsonDeserializer<SchemaInstan
         klass = getInstanceClass(type);
         SchemaInstance instance = context.deserialize(json, klass);
         if (instance instanceof ObjectInstance)
-            setObjectRequiredFields((ObjectInstance) instance);
+            ((ObjectInstance) instance).markRequiredFields();
         return instance;
     }
 
@@ -98,13 +99,4 @@ public class SchemaInstanceDeserializer implements JsonDeserializer<SchemaInstan
             return (EnumInstance<Double>) context.deserialize(json, klass);
         return context.deserialize(json, klass);
     }
-
-    private void setObjectRequiredFields(ObjectInstance objInstance) {
-        if (!(objInstance.getRequired() == null || objInstance.getRequired().isEmpty())) {
-            for (SchemaInstance instance : objInstance.getProperties().getVals()) {
-                instance.setRequiredField(objInstance.getRequired().contains(instance.getKey()));
-            }
-        }
-    }
-
 }

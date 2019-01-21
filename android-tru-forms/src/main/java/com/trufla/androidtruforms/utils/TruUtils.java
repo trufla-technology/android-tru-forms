@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -50,47 +51,56 @@ public class TruUtils {
         return et.getText().toString().trim();
     }
 
-    public static String getText(EditText et,String defaultText){
+    public static String getText(EditText et, String defaultText) {
         return isEmpty(et.getText()) ? defaultText : et.getText().toString();
     }
-    public static String getText(String val,String defaultText){
-        if(val==null||val.equals(""))
+
+    public static String getText(String val, String defaultText) {
+        if (val == null || val.equals(""))
             return defaultText;
 
         return val;
     }
+
     public static String removeUnderscoresAndCapitalize(String value) {
-        if(!isEmpty(value)) {
+        if (!isEmpty(value)) {
             return value.replaceAll("_", " ");
         }
         return value;
     }
-    public static String convertToData(long timeInMillis,String dateFormat) {
+
+    public static String convertToData(long timeInMillis, String dateFormat) {
         Date date = new Date(timeInMillis);
-        Format format = new SimpleDateFormat(dateFormat , Locale.getDefault());
+        Format format = new SimpleDateFormat(dateFormat, Locale.getDefault());
         return format.format(date);
     }
+
     public static Activity getHostActivity(View view) {
         Context context = view.getContext();
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {
-                return (Activity)context;
+                return (Activity) context;
             }
-            context = ((ContextWrapper)context).getBaseContext();
+            context = ((ContextWrapper) context).getBaseContext();
         }
         return null;
     }
-    public static String numberToString(double d)
-    {
-        if(d == (long) d)
-            return String.format("%d",(long)d);
+
+    public static String numberToString(double d) {
+        if (d == (long) d)
+            return String.format("%d", (long) d);
         else
-            return String.format("%s",d);
+            return String.format("%s", d);
     }
-    public static float convertDpToPixel(float dp, Context context){
+
+    public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return px;
+    }
+
+    public static boolean isNullOrEmpty(ArrayList list) {
+        return list == null || list.isEmpty();
     }
 }

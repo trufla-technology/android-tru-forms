@@ -54,7 +54,8 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
 
     }
 
-    protected boolean hasData() {
+    @Override
+    protected boolean isFilled() {
         try {
             if (!TruUtils.isEmpty(extractData()))
                 return true;
@@ -66,11 +67,11 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
 
     @Override
     public boolean validate() {
-        if (!hasData() && instance.isRequiredField()) {
+        if (!isFilled() && instance.isRequiredField()) {
             setRequiredError();
             return false;
         }
-        if (TruUtils.isEmpty(instance.getPattern()) || !hasData())
+        if (TruUtils.isEmpty(instance.getPattern()) || !isFilled())
             return super.validate();
         try {
             Pattern patternObj = Pattern.compile(instance.getPattern());

@@ -74,6 +74,11 @@ public class TruSectionView extends TruObjectView {
     }
 
     @Override
+    protected boolean isFilled() {
+        return false;
+    }
+
+    @Override
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof String) {
             constItem = new JsonParser().parse(constItem.toString());

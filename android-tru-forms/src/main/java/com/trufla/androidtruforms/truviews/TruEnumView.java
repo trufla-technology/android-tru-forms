@@ -74,6 +74,15 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     }
 
     @Override
+    protected boolean isFilled() {
+        try {
+            return getSelectedObject() != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
     protected void setNonEditableValues(Object constItem) {
         String constStr = String.valueOf(constItem);
         for (int i = 0; i < instance.getEnumVals().size(); i++) {

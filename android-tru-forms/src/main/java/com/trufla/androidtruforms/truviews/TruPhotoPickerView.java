@@ -104,4 +104,5 @@ public class TruPhotoPickerView extends TruStringView {
         }
         mView.setEnabled(false);
     }
+
 }
