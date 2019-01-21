@@ -6,12 +6,13 @@
       "type": "number",
       "title": "Select Vehicle",
       "_data": {
-        "href": "/5b8d43623300008200c1593e",
+        "href": "/vehicles",
         "enum": "id",
         "enumNames": "vehicle_model"
       }
     },
     "driver_information": {
+      "title": "Driver Information",
       "type": "object",
       "properties": {
         "description": {
@@ -25,14 +26,21 @@
           "type": "string",
           "format": "map_lat_long"
         },
-        "where_you_driving": {
+        "description_of_accident": {
           "type": "string",
-          "enum": ["Yes", "No"]
+          "format": "textarea"
+        },
+        "were_you_driving": {
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ]
         },
         "who_was_driving": {
           "type": "string"
         },
-        "damage_photos": {
+        "your_damage_photos": {
           "type": "array",
           "items": {
             "type": "object",
@@ -44,12 +52,17 @@
             }
           }
         }
-      }
+      },
+      "required": [
+        "description_of_accident",
+        "were_you_driving",
+        "date_time_of_accident"
+      ]
     },
     "other_driver_information": {
       "type": "object",
       "properties": {
-        "information": {
+        "other_driver_information": {
           "type": "array",
           "items": {
             "type": "object",
@@ -113,8 +126,8 @@
                   "license_plate": {
                     "type": "string"
                   },
-                  "car": {
-                    "title": "Car",
+                  "other_drivers_car": {
+                    "title": "Other Drivers Car",
                     "type": "object",
                     "properties": {
                       "year": {
@@ -168,7 +181,6 @@
     }
   },
   "required": [
-    "description",
-    "date_time_of_damage"
+    "vehicle"
   ]
 }
