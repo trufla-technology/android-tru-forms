@@ -75,14 +75,17 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     @Override
     public String getInputtedData() {
         if (mView == null)
-            return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
+            return "";
+        //return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
         StringBuilder stringBuilder = new StringBuilder();
         for (SchemaBaseView viewBuilder : items) {
-            stringBuilder.append(viewBuilder.getInputtedData().substring(viewBuilder.getInputtedData().indexOf(":") + 1) + ",");
+            if (!viewBuilder.getInputtedData().equals(""))
+                stringBuilder.append(viewBuilder.getInputtedData().substring(viewBuilder.getInputtedData().indexOf(":") + 1)).append(",");
         }
-        if (stringBuilder.length() > 0)
+        if (stringBuilder.length() > 0 && stringBuilder.charAt(stringBuilder.length() - 1) == ',')
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-
+        else
+            return "";
         return String.format(Locale.getDefault(), "\"%s\":[%s]", instance.getKey(), stringBuilder.toString());
     }
 
@@ -93,8 +96,8 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     @Override
     protected boolean isFilled() {
-        for (SchemaBaseView v:items){
-            if(v.isFilled())
+        for (SchemaBaseView v : items) {
+            if (v.isFilled())
                 return true;
         }
         return false;

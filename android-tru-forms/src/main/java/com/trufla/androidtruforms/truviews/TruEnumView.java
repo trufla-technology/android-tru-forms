@@ -58,7 +58,8 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
             return str;
         } catch (NullPointerException ex) {
             ex.printStackTrace();
-            return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
+            return "";
+            //return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
         }
     }
 

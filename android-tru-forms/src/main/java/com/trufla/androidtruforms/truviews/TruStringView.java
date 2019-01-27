@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
@@ -38,11 +39,13 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     @Override
     public String getInputtedData() {
         try {
-            return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), extractData());
+            if(!TextUtils.isEmpty(extractData()))
+                return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), extractData());
         } catch (NullPointerException ex) {
             ex.printStackTrace();
-            return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
+            //return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
         }
+        return "";
     }
 
     @NonNull

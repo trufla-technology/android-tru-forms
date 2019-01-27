@@ -32,15 +32,14 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
 
     @Override
     public String getInputtedData() {
-        String value = "null";
         try {
-            if (!TextUtils.isEmpty(extractData()))
-                value = extractData();
+            String value = extractData();
+            if (!TextUtils.isEmpty(value))
+                return String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), value);
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
-        return String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), value);
-
+        return "";
     }
 
     @NonNull

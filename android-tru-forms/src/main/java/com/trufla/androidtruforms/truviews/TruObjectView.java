@@ -38,11 +38,13 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
             return null;
         StringBuilder stringBuilder = new StringBuilder();
         for (SchemaBaseView viewBuilder : childs) {
-            stringBuilder.append(viewBuilder.getInputtedData() + ",");
+            if (!viewBuilder.getInputtedData().equals(""))
+                stringBuilder.append(viewBuilder.getInputtedData()).append(",");
         }
-        if (stringBuilder.length() > 0)
+        if (stringBuilder.length() > 0 && stringBuilder.charAt(stringBuilder.length() - 1) == ',')
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-
+        else
+            return "";
         return String.format(Locale.getDefault(), "\"%s\":{%s}", instance.getKey(), stringBuilder.toString());
     }
 
