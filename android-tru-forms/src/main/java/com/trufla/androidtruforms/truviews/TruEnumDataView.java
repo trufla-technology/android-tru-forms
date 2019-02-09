@@ -95,6 +95,9 @@ public class TruEnumDataView extends TruEnumView {
                 .setSingleChoiceItems(displayedNames, 0, null)
                 .setPositiveButton("OK", (dialog, whichButton) -> {
                     selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                    if(valueChangedListener!=null){
+                        valueChangedListener.onEnumValueChanged(instance.getKey(),instance.getEnumVals().get(selectedPosition));
+                    }
                     setInstanceData();
                 })
                 .show();

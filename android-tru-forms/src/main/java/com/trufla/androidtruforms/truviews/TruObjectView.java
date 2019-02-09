@@ -5,23 +5,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ObjectInstance;
+import com.trufla.androidtruforms.models.OneOfPropertyWrapper;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 
 /**
  * Created by ohefny on 7/2/18.
  */
 
-public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
+public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> implements TruEnumView.EnumValueChangedListener {
     protected ArrayList<SchemaBaseView> childs = new ArrayList<>();
+    protected HashMap<String, SchemaBaseView> childsAsHash = new HashMap();
 
     public TruObjectView(Context context, ObjectInstance instance) {
         super(context, instance);
@@ -51,10 +51,18 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
     protected void addChildView(SchemaInstance child) {
         SchemaBaseView childViewBuilder = child.getViewBuilder(mContext);
         View childView = childViewBuilder.build();
+        initBooleanLogicForChild(childViewBuilder);
         childs.add(childViewBuilder);
         ((ViewGroup) mView.findViewById(R.id.container)).addView(childView);
         setLayoutParams(childView, childViewBuilder);
         childViewBuilder.setParentView(this);
+    }
+
+    private void initBooleanLogicForChild(SchemaBaseView childViewBuilder) {
+        if (hasDependencies(childViewBuilder.instance.getKey()))
+            childViewBuilder.build().setVisibility(View.GONE);
+        if (isRequiredForOthers(childViewBuilder.instance.getKey()) && childViewBuilder instanceof TruEnumView)
+            ((TruEnumView) childViewBuilder).setValueChangedListener(this);
     }
 
     protected void setLayoutParams(View childView, SchemaBaseView truView) {
@@ -72,4 +80,49 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> {
         return true;
     }
 
+    public boolean isRequiredForOthers(String itemKey) {
+        if(instance.getOneOf()!=null) {
+            for (OneOfPropertyWrapper oneOfPropertyWrapper : instance.getOneOf()) {
+                if (oneOfPropertyWrapper.getProperty().getKey().equals(itemKey)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean hasDependencies(String itemKey) {
+        if (instance.getOneOf() != null) {
+            for (OneOfPropertyWrapper oneOfPropertyWrapper : instance.getOneOf()) {
+                for (String dependOnItem : oneOfPropertyWrapper.getProperty().getRequired()) {
+                    if (dependOnItem.equals(itemKey))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onEnumValueChanged(String itemKey, Object val) {
+        for (OneOfPropertyWrapper oneOfProperty : instance.getOneOf()) {
+            if (oneOfProperty.getProperty().getKey().equals(itemKey.toLowerCase())) {
+                for (String required : oneOfProperty.getProperty().getRequired()) {
+                    for (SchemaBaseView childView : childs) {
+                        if (childView.instance.getKey().equals(required)) {
+                            if (isValueRequireItem(val, oneOfProperty))
+                                childView.build().setVisibility(View.VISIBLE);
+                            else
+                                childView.build().setVisibility(View.GONE);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isValueRequireItem(Object val, OneOfPropertyWrapper oneOfProperty) {
+        return oneOfProperty.getProperty().getEnums().contains(val.toString());
+    }
 }

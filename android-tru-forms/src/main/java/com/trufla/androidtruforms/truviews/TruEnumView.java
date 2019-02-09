@@ -2,6 +2,7 @@ package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import java.util.Locale;
 public class TruEnumView extends SchemaBaseView<EnumInstance> {
     protected ArrayAdapter<String> adapter;
     private Spinner spinner;
+    protected EnumValueChangedListener valueChangedListener;
 
     public TruEnumView(Context context, EnumInstance instance) {
         super(context, instance);
@@ -38,8 +40,26 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (valueChangedListener != null)
+                    valueChangedListener.onEnumValueChanged(instance.getKey(),instance.getEnumVals().get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
+    @Override
+    protected void onViewCreated() {
+        super.onViewCreated();
+        if (valueChangedListener != null)
+            valueChangedListener.onEnumValueChanged(instance.getKey(),instance.getEnumVals().get(0));
+    }
 
     @Override
     protected void setInstanceData() {
@@ -94,6 +114,19 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
             }
         }
         spinner.setEnabled(false);
+    }
+
+    public EnumValueChangedListener getValueChangedListener() {
+        return valueChangedListener;
+    }
+
+    public void setValueChangedListener(EnumValueChangedListener valueChangedListener) {
+        this.valueChangedListener = valueChangedListener;
+    }
+
+
+    public interface EnumValueChangedListener {
+        void onEnumValueChanged(String itemKey,Object val);
     }
 
 }

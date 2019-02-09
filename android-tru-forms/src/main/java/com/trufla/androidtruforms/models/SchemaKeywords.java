@@ -9,7 +9,7 @@ public interface SchemaKeywords {
     String ENUM_KEY = "enum";
     String FORMAT_KEY = "format";
     String CONST_KEY = "const";
-
+    String ONE_OF_PROPERTIES="properties";
     interface InstanceTypes {
         String NUMBER = "number", STRING = "string", BOOLEAN = "boolean", OBJECT = "object", ARRAY = "array";
 

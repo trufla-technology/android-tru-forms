@@ -27,6 +27,9 @@ public class ObjectInstance extends SchemaInstance {
     @SerializedName("description")
     protected String description;
 
+    @SerializedName("oneOf")
+    protected ArrayList<OneOfPropertyWrapper> oneOf;
+
     public ObjectInstance() {
 
     }
@@ -73,6 +76,14 @@ public class ObjectInstance extends SchemaInstance {
 
     public String getDescription() {
         return description;
+    }
+
+    public ArrayList<OneOfPropertyWrapper> getOneOf() {
+        return oneOf;
+    }
+
+    public void setOneOf(ArrayList<OneOfPropertyWrapper> oneOf) {
+        this.oneOf = oneOf;
     }
 
     @Override

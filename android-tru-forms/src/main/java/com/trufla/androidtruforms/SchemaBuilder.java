@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.adapters.deserializers.DataEnumNamesDeserializer;
 import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesDeserializer;
 import com.trufla.androidtruforms.adapters.deserializers.ObjectPropertiesDeserializerWithConstValues;
+import com.trufla.androidtruforms.adapters.deserializers.OneOfPropertyWrapperDeserializer;
 import com.trufla.androidtruforms.adapters.deserializers.SchemaInstanceDeserializer;
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
 import com.trufla.androidtruforms.models.ArrayInstance;
@@ -22,6 +23,8 @@ import com.trufla.androidtruforms.models.DataEnumNames;
 import com.trufla.androidtruforms.models.NumericInstance;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.ObjectProperties;
+import com.trufla.androidtruforms.models.OneOfProperty;
+import com.trufla.androidtruforms.models.OneOfPropertyWrapper;
 import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.models.StringInstance;
@@ -77,7 +80,8 @@ public class SchemaBuilder {
         okHttpClient = new OkHttpClient.Builder().addInterceptor(getLoggingInterceptor()).build();
         gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer(arrayInstanceClass, booleanInstanceClass, stringInstanceClass, numericInstanceClass, objectInstanceClass)).
                 registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).
-                registerTypeAdapter(DataEnumNames.class, new DataEnumNamesDeserializer()).create();
+                registerTypeAdapter(DataEnumNames.class, new DataEnumNamesDeserializer())
+                .registerTypeAdapter(OneOfPropertyWrapper.class,new OneOfPropertyWrapperDeserializer()).create();
     }
 
     /*public SchemaBuilder(Class<ArrayInstance> arrayInstanceClass, Class<BooleanInstance> booleanInstanceClass, Class<StringInstance> stringInstanceClass, Class<NumericInstance> numericInstanceClass, Class<ObjectInstance> objectInstanceClass) {
