@@ -37,7 +37,8 @@ public class TruPhotoPickerView extends TruStringView {
 
     @Override
     protected void setInstanceData() {
-        String title = mView.getResources().getString(R.string.add_photo_label, instance.getPresentationTitle());
+//        String title = mView.getResources().getString(R.string.add_photo_label, instance.getPresentationTitle());
+        String title = mView.getResources().getString(R.string.add_photo_label);
         ((TextView) mView.findViewById(R.id.title)).setText(title);
     }
 
