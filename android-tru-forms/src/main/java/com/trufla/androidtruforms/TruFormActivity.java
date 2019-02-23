@@ -35,40 +35,35 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final int IMAGE_PICKER_CODE = 505;
     private static final String JSON_KEY = "JSON_KEY";
-    private static final String TITLE_KEY = "FORM_TITLE_KEY";
     private TruFormView truFormView;
     TruConsumer<String> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
 
-    public static void startActivityForFormResult(Activity context, String jsonStr, @Nullable String formTitle) {
+    public static void startActivityForFormResult(Activity context, String jsonStr) {
         Intent intent = new Intent(context, TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
-        intent.putExtra(TITLE_KEY, formTitle);
         context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
-    public static void startActivityForFormResult(Fragment hostFragment, String jsonStr, @Nullable String formTitle) {
+    public static void startActivityForFormResult(Fragment hostFragment, String jsonStr) {
         Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
-        intent.putExtra(TITLE_KEY, formTitle);
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
 
-    public static void startActivityToRenderConstSchema(Fragment hostFragment, String jsonStr, String jsonVal, @Nullable String formTitle) {
+    public static void startActivityToRenderConstSchema(Fragment hostFragment, String jsonStr, String jsonVal) {
         Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
         intent.putExtra(JSON_KEY, jsonVal);
-        intent.putExtra(TITLE_KEY, formTitle);
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
-    public static void startActivityToRenderConstSchema(Activity context, String jsonStr, String jsonVal, @Nullable String formTitle) {
+    public static void startActivityToRenderConstSchema(Activity context, String jsonStr, String jsonVal) {
         Intent intent = new Intent(context, TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
         intent.putExtra(JSON_KEY, jsonVal);
-        intent.putExtra(TITLE_KEY, formTitle);
         context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
