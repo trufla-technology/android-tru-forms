@@ -73,15 +73,20 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
 
     @Override
     public boolean validate() {
+        boolean isVaild = true;
         for (SchemaBaseView viewBuilder : childs) {
-            if (!viewBuilder.validate())
-                return false;
+            if (!viewBuilder.validate()) {
+                isVaild = false;
+                onFieldNotValid(viewBuilder);
+            }
         }
-        return true;
+        return isVaild;
     }
 
+    abstract protected void  onFieldNotValid(SchemaBaseView viewBuilder);
+
     public boolean isRequiredForOthers(String itemKey) {
-        if(instance.getOneOf()!=null) {
+        if (instance.getOneOf() != null) {
             for (OneOfPropertyWrapper oneOfPropertyWrapper : instance.getOneOf()) {
                 if (oneOfPropertyWrapper.getProperty().getKey().equals(itemKey)) {
                     return true;

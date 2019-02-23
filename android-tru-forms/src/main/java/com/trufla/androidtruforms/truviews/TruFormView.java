@@ -66,4 +66,9 @@ public class TruFormView extends TruObjectView {
             childView.setLayoutParams(layoutParams);
         }
     }
+
+    @Override
+    protected void onFieldNotValid(SchemaBaseView viewBuilder) {
+
+    }
 }

@@ -30,18 +30,20 @@ public class SchemaViews {
     }
 
     public static void startActivityForResult(Activity context, String schemaString) {
-        TruFormActivity.startActivityForFormResult(context, schemaString);
+        startActivityForResult(context, schemaString);
     }
 
     public static void startActivityForResult(Fragment fragment, String schemaString) {
-        TruFormActivity.startActivityForFormResult(fragment, schemaString);
+        startActivityForResult(fragment, schemaString);
     }
 
     public static void startActivityToRenderConstSchema(Activity activity, String schemaString, String constValue) {
-        TruFormActivity.startActivityToRenderConstSchema(activity, schemaString, constValue);
+        startActivityToRenderConstSchema(activity, schemaString, constValue);
     }
 
     public static void startActivityToRenderConstSchema(Fragment fragment, String schemaString, String constValue) {
-        TruFormActivity.startActivityToRenderConstSchema(fragment, schemaString, constValue);
+        startActivityToRenderConstSchema(fragment, schemaString, constValue);
     }
+
+
 }
