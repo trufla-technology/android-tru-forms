@@ -30,34 +30,20 @@ public class SchemaViews {
     }
 
     public static void startActivityForResult(Activity context, String schemaString) {
-        startActivityForResult(context, schemaString,null);
+        startActivityForResult(context, schemaString);
     }
 
     public static void startActivityForResult(Fragment fragment, String schemaString) {
-        startActivityForResult(fragment, schemaString,null);
+        startActivityForResult(fragment, schemaString);
     }
 
     public static void startActivityToRenderConstSchema(Activity activity, String schemaString, String constValue) {
-        startActivityToRenderConstSchema(activity, schemaString, constValue,null);
+        startActivityToRenderConstSchema(activity, schemaString, constValue);
     }
 
     public static void startActivityToRenderConstSchema(Fragment fragment, String schemaString, String constValue) {
-        startActivityToRenderConstSchema(fragment, schemaString, constValue,null);
+        startActivityToRenderConstSchema(fragment, schemaString, constValue);
     }
 
-    public static void startActivityForResult(Activity context, String schemaString,String title) {
-        TruFormActivity.startActivityForFormResult(context, schemaString,title);
-    }
 
-    public static void startActivityForResult(Fragment fragment, String schemaString,String title) {
-        TruFormActivity.startActivityForFormResult(fragment, schemaString,title);
-    }
-
-    public static void startActivityToRenderConstSchema(Activity activity, String schemaString, String constValue,String title) {
-        TruFormActivity.startActivityToRenderConstSchema(activity, schemaString, constValue,title);
-    }
-
-    public static void startActivityToRenderConstSchema(Fragment fragment, String schemaString, String constValue,String title) {
-        TruFormActivity.startActivityToRenderConstSchema(fragment, schemaString, constValue,title);
-    }
 }

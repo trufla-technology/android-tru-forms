@@ -21,7 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class EnumDataFetcher {
     TruConsumer<ArrayList<Pair<Object, String>>> mListener;
     String mSelector;
-    ArrayList<String> mNames = new ArrayList<>();
+    ArrayList<String> mNames;
 
     public EnumDataFetcher(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names) {
         this.mListener = listener;
