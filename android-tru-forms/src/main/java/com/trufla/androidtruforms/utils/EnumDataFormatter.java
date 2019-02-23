@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms.utils;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Pair;
 
@@ -11,6 +12,8 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import static com.trufla.androidtruforms.utils.TruUtils.removeLastColon;
 
 public class EnumDataFormatter {
     public static ArrayList<Pair<Object, String>> getPairList(String string, String selector, ArrayList<String> names) {
@@ -28,6 +31,7 @@ public class EnumDataFormatter {
             for (JsonElement element : jsonArray) {
                 list.add(getPairFromObject(element.getAsJsonObject(), selector, names));
             }
+            //todo if selector has a . in it these mean it's inside the nested object
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -47,17 +51,32 @@ public class EnumDataFormatter {
 
     private static Pair<Object, String> getPairFromObject(JsonObject asJsonObject, String selector, ArrayList<String> names) {
         Object key = new Gson().fromJson(asJsonObject.getAsJsonPrimitive(selector), Object.class);
-        String name = "";
-        for (String n : names) {
+        StringBuilder finalName = new StringBuilder();
+        for (String name : names) {
             try {
-                name += String.valueOf(new Gson().fromJson(asJsonObject.getAsJsonPrimitive(n), Object.class)) + ",";
+                if (name.contains(".")) {
+                    String[] parts = name.split("\\.");
+                    finalName.append(getNameFromNestedChild(asJsonObject, parts[0], parts[1]));
+                }
+                else
+                    finalName.append(getNameFromCurrentObject(asJsonObject, name));
+                finalName.append(',');
             } catch (Exception e) {
-                name += "N/A";
+                finalName.append("N/A");
             }
         }
-        if (name.length() > 0 && name.charAt(name.length() - 1) == ',') {
-            name = name.substring(0, name.length() - 1);
-        }
-        return new Pair<>(key, name);
+        finalName = new StringBuilder(removeLastColon(finalName.toString()));
+        return new Pair<>(key, finalName.toString());
     }
+
+    private static String getNameFromNestedChild(JsonObject asJsonObject, String childObject,String realName) {
+        return getNameFromCurrentObject(asJsonObject.get(childObject).getAsJsonObject(),realName);
+    }
+
+    @NonNull
+    private static String getNameFromCurrentObject(JsonObject asJsonObject, String n) {
+        return String.valueOf(new Gson().fromJson(asJsonObject.getAsJsonPrimitive(n), Object.class));
+    }
+
+
 }

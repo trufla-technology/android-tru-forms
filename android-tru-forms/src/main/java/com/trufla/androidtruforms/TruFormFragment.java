@@ -130,30 +130,8 @@ public class TruFormFragment extends Fragment implements FormContract {
     @Override
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
         this.mDataFetchListener = listener;
-        ArrayList<String> urlIncludes = new ArrayList<>();
-        ArrayList<String> newNames = new ArrayList<>();
-
-        for (int i = 0; i < names.size(); i++)
-        {
-            if (names.get(i).contains("."))
-            {
-                String[] parts = names.get(i).split("\\.");
-                urlIncludes.add(parts[0]);
-                newNames.add(parts[1]);
-            } else
-                newNames.add(names.get(i));
-        }
-
-        if(urlIncludes.size() != 0)
-        {
-            url = url + "?includes=";
-            for (int i=0 ; i< urlIncludes.size(); i++)
-                url = url + urlIncludes.get(i) +",";
-
-        }
-
-        EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, newNames);
-        fetcher.requestData(url, getHttpCallback(selector, newNames));
+        EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);
+        fetcher.requestData(url, getHttpCallback(selector, names));
         showProgressDialog();
     }
 
