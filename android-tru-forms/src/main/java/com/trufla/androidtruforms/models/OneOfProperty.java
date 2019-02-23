@@ -8,7 +8,7 @@ public class OneOfProperty {
     @SerializedName("enum")
     private ArrayList<String> enums;
     private String key;
-    private ArrayList<String> required;
+    private ArrayList<String> required = new ArrayList<>();
 
     public ArrayList<String> getEnums() {
         return enums;
@@ -31,6 +31,8 @@ public class OneOfProperty {
     }
 
     public void setRequired(ArrayList<String> required) {
-        this.required = required;
+        if (required != null)
+            this.required = required;
+
     }
 }

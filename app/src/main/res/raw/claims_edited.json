@@ -1,188 +1,42 @@
 {
-  "title": "Auto Claim - Vehicle Accident",
+  "title": "Change Phone Number",
+  "description": "Change Phone Number",
   "type": "object",
   "properties": {
-    "vehicle": {
-      "type": "number",
-      "title": "Select Vehicle",
-      "_data": {
-        "href": "/5c71b6863500006000e9e8a7",
-        "enum": "id",
-        "enumNames": [
-          "location.street_address_line_1",
-          "location.city",
-          "electrical_wiring_code_year"
+    "new_phone_number": {
+      "type": "string"
+    },
+    "phone_type": {
+      "type": "string",
+      "enum": [
+        "home",
+        "cell",
+        "other"
+      ],
+      "enumNames": [
+        "Home",
+        "Cell",
+        "Other"
+      ]
+    },
+    "phone_type_other": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "new_phone_number",
+    "phone_type"
+  ],
+  "oneOf": [{
+    "properties": {
+      "phone_type": {
+        "enum": [
+          "other"
         ]
       }
     },
-    "driver_information": {
-      "title": "Driver Information",
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "date_time_of_accident": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "location_of_accident": {
-          "type": "string",
-          "format": "map_lat_long"
-        },
-        "description_of_accident": {
-          "type": "string",
-          "format": "textarea"
-        },
-        "were_you_driving": {
-          "type": "string",
-          "enum": [
-            "Yes",
-            "No"
-          ]
-        },
-        "who_was_driving": {
-          "type": "string"
-        },
-        "your_damage_photos": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "photo": {
-                "type": "string",
-                "format": "photo"
-              }
-            }
-          }
-        }
-      },
-      "required": [
-        "description_of_accident",
-        "were_you_driving",
-        "date_time_of_accident",
-        "location_of_accident"
-      ]
-    },
-    "other_driver_information": {
-      "type": "object",
-      "properties": {
-        "other_driver_information": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "document_photos": {
-                "description": "Photos of other driver's documentation",
-                "type": "object",
-                "properties": {
-                  "pink_card": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "drivers_license": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "license_plate": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "registration": {
-                    "type": "string",
-                    "format": "photo"
-                  }
-                }
-              },
-              "document_details": {
-                "description": "Other driver's information if no photos taken",
-                "type": "object",
-                "properties": {
-                  "first_name": {
-                    "type": "string"
-                  },
-                  "last_name": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "string"
-                  },
-                  "city": {
-                    "type": "string"
-                  },
-                  "province": {
-                    "type": "string"
-                  },
-                  "postal_code": {
-                    "type": "string"
-                  },
-                  "home_phone_number": {
-                    "type": "string"
-                  },
-                  "cell_phone_number": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "drivers_license_number": {
-                    "type": "string"
-                  },
-                  "license_plate": {
-                    "type": "string"
-                  },
-                  "other_drivers_car": {
-                    "title": "Other Drivers Car",
-                    "type": "object",
-                    "properties": {
-                      "year": {
-                        "type": "string"
-                      },
-                      "make": {
-                        "type": "string"
-                      },
-                      "model": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "policy_number": {
-                    "type": "string"
-                  },
-                  "insurance_company": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "witness_information": {
-      "type": "object",
-      "properties": {
-        "witnesses": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "email": {
-                "type": "string"
-              },
-              "home_phone_number": {
-                "type": "string"
-              },
-              "cell_phone_number": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+    "required": [
+      "phone_type_other"
+    ]
+  }]
 }
