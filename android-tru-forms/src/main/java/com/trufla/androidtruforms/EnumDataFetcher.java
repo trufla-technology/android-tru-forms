@@ -21,7 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class EnumDataFetcher {
     TruConsumer<ArrayList<Pair<Object, String>>> mListener;
     String mSelector;
-    ArrayList<String> mNames;
+    ArrayList<String> mNames = new ArrayList<>();
 
     public EnumDataFetcher(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names) {
         this.mListener = listener;
@@ -35,10 +35,23 @@ public class EnumDataFetcher {
 
 
     private Request getFullRequest(String absoluteUrl) {
-        Request request = SchemaBuilder.getInstance().getRequestBuilder().build();
-        return request.newBuilder().url(request.url() + absoluteUrl).build();
-    }
+        ArrayList<String> urlIncludes = new ArrayList<>();
+        String fullURL = absoluteUrl;
+        for (String mName : mNames) {
+            if (mName.contains(".")) {
+                String[] parts = mName.split("\\.");
+                urlIncludes.add(parts[0]);
+            }
+        }
+        if (urlIncludes.size() != 0) {
+            fullURL = fullURL + "?includes=";
+            for (int i = 0; i < urlIncludes.size(); i++)
+                fullURL = fullURL + urlIncludes.get(i) + ",";
+        }
 
+        Request request = SchemaBuilder.getInstance().getRequestBuilder().build();
+        return request.newBuilder().url(request.url() + fullURL).build();
+    }
 
 
 }

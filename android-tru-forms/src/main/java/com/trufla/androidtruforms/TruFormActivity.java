@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -34,35 +35,40 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final int IMAGE_PICKER_CODE = 505;
     private static final String JSON_KEY = "JSON_KEY";
+    private static final String TITLE_KEY = "FORM_TITLE_KEY";
     private TruFormView truFormView;
     TruConsumer<String> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
 
-    public static void startActivityForFormResult(Activity context, String jsonStr) {
+    public static void startActivityForFormResult(Activity context, String jsonStr, @Nullable String formTitle) {
         Intent intent = new Intent(context, TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
+        intent.putExtra(TITLE_KEY, formTitle);
         context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
-    public static void startActivityForFormResult(Fragment hostFragment, String jsonStr) {
+    public static void startActivityForFormResult(Fragment hostFragment, String jsonStr, @Nullable String formTitle) {
         Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
+        intent.putExtra(TITLE_KEY, formTitle);
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
 
-    public static void startActivityToRenderConstSchema(Fragment hostFragment, String jsonStr, String jsonVal) {
+    public static void startActivityToRenderConstSchema(Fragment hostFragment, String jsonStr, String jsonVal, @Nullable String formTitle) {
         Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
         intent.putExtra(JSON_KEY, jsonVal);
+        intent.putExtra(TITLE_KEY, formTitle);
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
-    public static void startActivityToRenderConstSchema(Activity context, String jsonStr, String jsonVal) {
+    public static void startActivityToRenderConstSchema(Activity context, String jsonStr, String jsonVal, @Nullable String formTitle) {
         Intent intent = new Intent(context, TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
         intent.putExtra(JSON_KEY, jsonVal);
+        intent.putExtra(TITLE_KEY, formTitle);
         context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
@@ -102,6 +108,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
                 .start(IMAGE_PICKER_CODE);
     }
 
+    @Override
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
         this.mDataFetchListener = listener;
         EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);

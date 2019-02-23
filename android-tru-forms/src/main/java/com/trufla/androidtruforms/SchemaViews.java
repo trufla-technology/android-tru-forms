@@ -30,18 +30,34 @@ public class SchemaViews {
     }
 
     public static void startActivityForResult(Activity context, String schemaString) {
-        TruFormActivity.startActivityForFormResult(context, schemaString);
+        startActivityForResult(context, schemaString,null);
     }
 
     public static void startActivityForResult(Fragment fragment, String schemaString) {
-        TruFormActivity.startActivityForFormResult(fragment, schemaString);
+        startActivityForResult(fragment, schemaString,null);
     }
 
     public static void startActivityToRenderConstSchema(Activity activity, String schemaString, String constValue) {
-        TruFormActivity.startActivityToRenderConstSchema(activity, schemaString, constValue);
+        startActivityToRenderConstSchema(activity, schemaString, constValue,null);
     }
 
     public static void startActivityToRenderConstSchema(Fragment fragment, String schemaString, String constValue) {
-        TruFormActivity.startActivityToRenderConstSchema(fragment, schemaString, constValue);
+        startActivityToRenderConstSchema(fragment, schemaString, constValue,null);
+    }
+
+    public static void startActivityForResult(Activity context, String schemaString,String title) {
+        TruFormActivity.startActivityForFormResult(context, schemaString,title);
+    }
+
+    public static void startActivityForResult(Fragment fragment, String schemaString,String title) {
+        TruFormActivity.startActivityForFormResult(fragment, schemaString,title);
+    }
+
+    public static void startActivityToRenderConstSchema(Activity activity, String schemaString, String constValue,String title) {
+        TruFormActivity.startActivityToRenderConstSchema(activity, schemaString, constValue,title);
+    }
+
+    public static void startActivityToRenderConstSchema(Fragment fragment, String schemaString, String constValue,String title) {
+        TruFormActivity.startActivityToRenderConstSchema(fragment, schemaString, constValue,title);
     }
 }

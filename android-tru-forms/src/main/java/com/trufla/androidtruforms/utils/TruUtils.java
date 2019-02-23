@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -102,5 +103,12 @@ public class TruUtils {
 
     public static boolean isNullOrEmpty(ArrayList list) {
         return list == null || list.isEmpty();
+    }
+    @NonNull
+    public static String removeLastColon(String name) {
+        if (name.length() > 0 && name.charAt(name.length() - 1) == ',') {
+            name = name.substring(0, name.length() - 1);
+        }
+        return name;
     }
 }

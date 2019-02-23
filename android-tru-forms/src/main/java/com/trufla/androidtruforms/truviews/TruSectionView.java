@@ -48,6 +48,11 @@ public class TruSectionView extends TruObjectView {
         return ((ViewGroup) mView.findViewById(R.id.container));
     }
 
+    @Override
+    protected void onFieldNotValid(SchemaBaseView viewBuilder) {
+        if(!expanded)
+            mView.findViewById(R.id.section_header).performClick();
+    }
     private void handleExpandBehavior() {
         mView.findViewById(R.id.section_header).setOnClickListener(view -> {
             if (expanded) {
