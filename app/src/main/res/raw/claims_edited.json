@@ -60,7 +60,8 @@
       "required": [
         "description_of_accident",
         "were_you_driving",
-        "date_time_of_accident"
+        "date_time_of_accident",
+        "location_of_accident"
       ]
     },
     "other_driver_information": {
