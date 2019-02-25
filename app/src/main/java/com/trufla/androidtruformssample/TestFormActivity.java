@@ -28,7 +28,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
 
     enum FormType {FRAGMENT_FORM, ACTIVITY_FORM}
 
-    FormType type = FormType.FRAGMENT_FORM;
+    FormType type = FormType.ACTIVITY_FORM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         if (TextUtils.isEmpty(v))
             SchemaViews.startActivityForResult(this, jsonStringBuilder.toString());
         else
-            SchemaViews.startActivityToRenderConstSchema(this, js, v);
+            SchemaViews.startActivityToRenderConstSchema(this, jsonStringBuilder.toString(), v);
 
         //startActivity(new Intent(this, TruNavigationActivity.class));
     }

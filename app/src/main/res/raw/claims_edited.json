@@ -52,6 +52,9 @@
               "photo": {
                 "type": "string",
                 "format": "photo"
+              },
+              "description": {
+                "type": "string"
               }
             }
           }
@@ -62,126 +65,6 @@
         "were_you_driving",
         "date_time_of_accident"
       ]
-    },
-    "other_driver_information": {
-      "type": "object",
-      "properties": {
-        "other_driver_information": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "document_photos": {
-                "description": "Photos of other driver's documentation",
-                "type": "object",
-                "properties": {
-                  "pink_card": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "drivers_license": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "license_plate": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "registration": {
-                    "type": "string",
-                    "format": "photo"
-                  }
-                }
-              },
-              "document_details": {
-                "description": "Other driver's information if no photos taken",
-                "type": "object",
-                "properties": {
-                  "first_name": {
-                    "type": "string"
-                  },
-                  "last_name": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "string"
-                  },
-                  "city": {
-                    "type": "string"
-                  },
-                  "province": {
-                    "type": "string"
-                  },
-                  "postal_code": {
-                    "type": "string"
-                  },
-                  "home_phone_number": {
-                    "type": "string"
-                  },
-                  "cell_phone_number": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "drivers_license_number": {
-                    "type": "string"
-                  },
-                  "license_plate": {
-                    "type": "string"
-                  },
-                  "other_drivers_car": {
-                    "title": "Other Drivers Car",
-                    "type": "object",
-                    "properties": {
-                      "year": {
-                        "type": "string"
-                      },
-                      "make": {
-                        "type": "string"
-                      },
-                      "model": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "policy_number": {
-                    "type": "string"
-                  },
-                  "insurance_company": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "witness_information": {
-      "type": "object",
-      "properties": {
-        "witnesses": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "email": {
-                "type": "string"
-              },
-              "home_phone_number": {
-                "type": "string"
-              },
-              "cell_phone_number": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
     }
   }
 }
