@@ -108,6 +108,7 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         return false;
     }
 
+    //TODO : Refactor this piece of shit
     @Override
     public void onEnumValueChanged(String itemKey, Object val) {
         for (OneOfPropertyWrapper oneOfProperty : instance.getOneOf()) {

@@ -3,6 +3,7 @@ package com.trufla.androidtruforms.truviews;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -57,6 +58,7 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
 
     }
 
+    @CallSuper
     protected void onViewCreated() {
         setInstanceData();
         if (instance.getConstItem() != null) {

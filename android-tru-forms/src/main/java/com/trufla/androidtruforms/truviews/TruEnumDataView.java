@@ -51,9 +51,10 @@ public class TruEnumDataView extends TruEnumView {
 
     @Override
     protected void onViewCreated() {
-        setInstanceData();
         pickBtn = mView.findViewById(R.id.pick_item_btn);
+        setInstanceData();
         setButtonClickListener();
+        super.onViewCreated();
     }
 
     private void setButtonClickListener() {
@@ -61,6 +62,7 @@ public class TruEnumDataView extends TruEnumView {
             pickBtn.setOnClickListener(getLoadItemsAction());
         else
             pickBtn.setOnClickListener((v) -> showChooserDialogAction());
+
     }
 
     private View.OnClickListener getLoadItemsAction() {
@@ -84,9 +86,28 @@ public class TruEnumDataView extends TruEnumView {
             }
             instance.setEnumVals(ids);
             instance.setEnumNames(names);
-            setButtonClickListener();
-            showChooserDialogAction();
+            if (!hasConstValue()) {
+                setButtonClickListener();
+                showChooserDialogAction();
+            } else {
+                setNonEditableValues(getItemNameForItemValue());
+            }
         };
+    }
+
+    private boolean hasConstValue() {
+        return instance.getConstItem() != null;
+    }
+
+    private Object getItemNameForItemValue() {
+        int valIdx;
+        if (instance.getEnumVals().size() > 0 && instance.getEnumVals().get(0) instanceof String) {
+            valIdx = instance.getEnumVals().indexOf(instance.getConstItem());
+        } else valIdx = instance.getEnumVals().indexOf(Double.parseDouble(instance.getConstItem().toString()));
+        if (valIdx >= 0)
+            return instance.getEnumNames().get(valIdx);
+        else
+            return instance.getConstItem(); //to pervent any unpredictable crashes
     }
 
     public void showChooserDialogAction() {
@@ -95,8 +116,8 @@ public class TruEnumDataView extends TruEnumView {
                 .setSingleChoiceItems(displayedNames, 0, null)
                 .setPositiveButton("OK", (dialog, whichButton) -> {
                     selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                    if(valueChangedListener!=null){
-                        valueChangedListener.onEnumValueChanged(instance.getKey(),instance.getEnumVals().get(selectedPosition));
+                    if (valueChangedListener != null) {
+                        valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(selectedPosition));
                     }
                     setInstanceData();
                 })
@@ -106,6 +127,8 @@ public class TruEnumDataView extends TruEnumView {
 
     @Override
     protected void setNonEditableValues(Object constItem) {
+        if(pickBtn.isEnabled())
+            pickBtn.performClick();
         String constStr = String.valueOf(constItem);
         if (TextUtils.isEmpty(constStr))
             pickBtn.setText("Non Selected");

@@ -32,8 +32,10 @@ public class ObjectPropertiesDeserializerWithConstValues extends ObjectPropertie
         if (!(schemaInstance instanceof ObjectInstance) && constValues != null) {
             if (schemaInstance instanceof ArrayInstance)
                 schemaInstance.setConstItem(ValueToSchemaMapper.getArrayConst(schemaInstance.getKey(),constValues));
-            else
-                schemaInstance.setConstItem(ValueToSchemaMapper.getPrimitiveConst(schemaInstance.getKey(),constValues));
+            else {
+                Object primitiveConst = ValueToSchemaMapper.getPrimitiveConst(schemaInstance.getKey(), constValues);
+                schemaInstance.setConstItem(primitiveConst);
+            }
         }
     }
 
