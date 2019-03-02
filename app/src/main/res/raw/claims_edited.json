@@ -53,7 +53,7 @@
                 "type": "string",
                 "format": "photo"
               },
-              "description": {
+              "description_photo": {
                 "type": "string"
               }
             }

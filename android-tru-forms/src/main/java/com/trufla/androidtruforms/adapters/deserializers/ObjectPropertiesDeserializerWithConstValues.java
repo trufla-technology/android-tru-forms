@@ -11,7 +11,6 @@ import com.trufla.androidtruforms.utils.ValueToSchemaMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ObjectPropertiesDeserializerWithConstValues extends ObjectPropertiesDeserializer {
     HashMap<String, Object> constValues;
@@ -24,19 +23,25 @@ public class ObjectPropertiesDeserializerWithConstValues extends ObjectPropertie
     @Override
     public SchemaInstance getPropertyItem(String key, JsonObject jsonObject, JsonDeserializationContext context) {
         SchemaInstance instance = super.getPropertyItem(key, jsonObject, context);
-        setConstValueIfExist(instance);
+        instance.setConstItem(getConstValueIfExist(instance));
         return instance;
     }
 
-    private void setConstValueIfExist(SchemaInstance schemaInstance) {
+    private Object getConstValueIfExist(SchemaInstance schemaInstance) {
+        Object pluggableConst=schemaInstance.getDefaultConst();
         if (!(schemaInstance instanceof ObjectInstance) && constValues != null) {
-            if (schemaInstance instanceof ArrayInstance)
-                schemaInstance.setConstItem(ValueToSchemaMapper.getArrayConst(schemaInstance.getKey(),constValues));
-            else {
-                Object primitiveConst = ValueToSchemaMapper.getPrimitiveConst(schemaInstance.getKey(), constValues);
-                schemaInstance.setConstItem(primitiveConst);
+            if (schemaInstance instanceof ArrayInstance) {
+                ArrayList arrayConst = ValueToSchemaMapper.getArrayConst(schemaInstance.getKey(), constValues);
+                if (arrayConst.size() == 0)
+                    pluggableConst = null;
+                else pluggableConst = arrayConst;
+            } else {
+                pluggableConst = ValueToSchemaMapper.getPrimitiveConst(schemaInstance.getKey(), constValues);
             }
+            if (pluggableConst == null)
+                pluggableConst=schemaInstance.getDefaultConst();
         }
+        return pluggableConst;
     }
 
 

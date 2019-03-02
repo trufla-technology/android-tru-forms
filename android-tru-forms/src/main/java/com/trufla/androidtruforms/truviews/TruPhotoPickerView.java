@@ -104,6 +104,7 @@ public class TruPhotoPickerView extends TruStringView {
             }
         }
         mView.setEnabled(false);
+        mView.findViewById(R.id.photo_remove_icon).setVisibility(View.GONE);
     }
 
 }

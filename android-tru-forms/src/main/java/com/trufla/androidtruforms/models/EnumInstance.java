@@ -25,6 +25,12 @@ public class EnumInstance<T> extends SchemaInstance {
     public EnumInstance(){
 
     }
+
+    @Override
+    public Object getDefaultConst() {
+        return null;
+    }
+
     public EnumInstance(EnumInstance<T> copyInstance) {
         super(copyInstance);
         this.enumVals= new ArrayList<>(copyInstance.enumVals);

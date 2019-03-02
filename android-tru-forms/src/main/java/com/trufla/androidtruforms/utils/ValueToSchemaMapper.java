@@ -124,7 +124,7 @@ public class ValueToSchemaMapper {
                 return entry.getValue();
             }
         }
-        return "";
+        return null;
     }
 
     public static ArrayList getArrayConst(JsonArray asJsonArray) {

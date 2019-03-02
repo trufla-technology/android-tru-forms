@@ -28,6 +28,8 @@ public abstract class SchemaInstance implements Comparable<SchemaInstance>, Clon
 
     }
 
+    public abstract Object getDefaultConst();
+
     public SchemaInstance(SchemaInstance instance) {
         this.key = instance.getKey();
         this.title = instance.getTitle();

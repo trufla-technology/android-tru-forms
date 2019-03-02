@@ -2,6 +2,8 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruObjectView;
 import com.trufla.androidtruforms.truviews.TruSectionView;
@@ -32,6 +34,16 @@ public class ObjectInstance extends SchemaInstance {
 
     public ObjectInstance() {
 
+    }
+
+    @Override
+    public Object getDefaultConst() {
+        /*StringBuilder builder=new StringBuilder("{");
+        for(SchemaInstance instance:properties.getVals())
+            builder.append(instance.getDefaultConst().toString()).append(',');
+
+        return builder.deleteCharAt(builder.length()-1).append('}').toString();*/
+        return null;
     }
 
     public ObjectInstance(ObjectInstance copyInstance) {

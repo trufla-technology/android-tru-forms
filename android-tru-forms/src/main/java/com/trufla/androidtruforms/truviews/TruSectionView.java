@@ -90,15 +90,18 @@ public class TruSectionView extends TruObjectView {
         }
         if (constItem instanceof JsonObject) {
             JsonObject jsonObject = (JsonObject) constItem;
-            for (SchemaInstance child : instance.getProperties().getVals()) {
-                JsonElement val = jsonObject.get(child.getKey());
+            for (SchemaBaseView child : childs) {
+                if(!jsonObject.has(child.instance.getKey()))continue;
+                JsonElement val = jsonObject.get(child.instance.getKey());
+                Object mappedConstObject;
                 if (val.isJsonPrimitive()) {
-                    child.setConstItem(ValueToSchemaMapper.jsonVal2Obj(val.getAsJsonPrimitive()));
+                    mappedConstObject=ValueToSchemaMapper.jsonVal2Obj(val.getAsJsonPrimitive());
                 } else if (val.isJsonArray()) {
-                    child.setConstItem(ValueToSchemaMapper.getArrayConst(val.getAsJsonArray()));
+                    mappedConstObject=ValueToSchemaMapper.getArrayConst(val.getAsJsonArray());
                 } else {
-                    child.setConstItem(val.getAsJsonObject());
+                    mappedConstObject=val.getAsJsonObject();
                 }
+                child.addAfterBuildConstItem(mappedConstObject);
 
             }
         }

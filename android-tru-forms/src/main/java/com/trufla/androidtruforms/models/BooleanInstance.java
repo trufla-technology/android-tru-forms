@@ -12,6 +12,12 @@ public class BooleanInstance extends SchemaInstance {
     public BooleanInstance(){
 
     }
+
+    @Override
+    public Object getDefaultConst() {
+        return false;
+    }
+
     public BooleanInstance(SchemaInstance instance) {
         super(instance);
     }

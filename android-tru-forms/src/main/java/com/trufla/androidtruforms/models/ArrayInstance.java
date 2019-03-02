@@ -5,6 +5,8 @@ import android.content.Context;
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruArrayView;
 
+import java.util.ArrayList;
+
 /**
  * Created by ohefny on 6/26/18.
  */
@@ -22,6 +24,14 @@ public class ArrayInstance extends SchemaInstance {
     public ArrayInstance(){
 
     }
+
+    @Override
+    public Object getDefaultConst() {
+        ArrayList<Object> defaultConst=new ArrayList<Object>();
+        defaultConst.add(items.getDefaultConst());
+        return defaultConst;
+    }
+
     public ArrayInstance(ArrayInstance copyInstance) {
         super(copyInstance);
         this.items=copyInstance.items;
