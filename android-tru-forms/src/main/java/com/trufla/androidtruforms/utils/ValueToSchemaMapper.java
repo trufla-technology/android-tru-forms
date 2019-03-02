@@ -1,6 +1,7 @@
 package com.trufla.androidtruforms.utils;
 
 import android.util.Pair;
+import android.util.SparseArray;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -109,11 +110,18 @@ public class ValueToSchemaMapper {
     }
 
     public static ArrayList getArrayConst(String key, HashMap<String, Object> constValues) {
-        ArrayList arrayList = new ArrayList();
+        SparseArray<Object> sparseArray = new SparseArray<>();
+        ArrayList<Object>arrayList=new ArrayList<>();
         for (Map.Entry<String, Object> entry : constValues.entrySet()) {
-            int idx = entry.getKey().indexOf("[");
-            if (idx >= 0 && entry.getKey().substring(0, idx).equals(key))
-                arrayList.add(entry.getValue());
+            int openBracketIdx = entry.getKey().indexOf("[");
+            if (openBracketIdx >= 0 && entry.getKey().substring(0, openBracketIdx).equals(key)) {
+                int closedBracketIdx = entry.getKey().indexOf("]");
+                int itemPosition = Integer.parseInt(entry.getKey().substring(openBracketIdx+1,closedBracketIdx));
+                sparseArray.put(itemPosition, entry.getValue());
+            }
+        }
+        for(int i=0;i<sparseArray.size();i++){
+            arrayList.add(sparseArray.get(i));
         }
         return arrayList;
     }

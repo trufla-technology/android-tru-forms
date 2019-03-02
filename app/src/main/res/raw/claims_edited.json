@@ -59,12 +59,7 @@
             }
           }
         }
-      },
-      "required": [
-        "description_of_accident",
-        "were_you_driving",
-        "date_time_of_accident"
-      ]
+      }
     }
   }
 }

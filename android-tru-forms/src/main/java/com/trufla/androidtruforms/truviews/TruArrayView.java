@@ -11,6 +11,7 @@ import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ArrayInstance;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 /**
@@ -134,11 +135,12 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         layoutParams.setMargins(0, 4, 0, 4);
         childView.setLayoutParams(layoutParams);
     }
-
+    //todo fix when showing empty photo in the second array item it reshows the first item photo
     @Override
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof ArrayList) {
             ArrayList constItemsList = (ArrayList) constItem;
+            //Collections.reverse(constItemsList);
             if (constItemsList.size() == 0)
                 primaryItem.mView.setVisibility(View.GONE);
 
