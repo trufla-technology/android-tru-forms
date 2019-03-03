@@ -15,14 +15,15 @@ Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.trufla-technology:android-tru-forms:v.0.1-alpha'
+	        implementation 'com.github.trufla-technology:android-tru-forms:v.1.4-alpha'
 	}	
 	
-Step 3. Add Java 8 support
+Step 3. Add Java 8 support	
+
 	android {
 		....
 	        compileOptions {
         		sourceCompatibility JavaVersion.VERSION_1_8
         		targetCompatibility JavaVersion.VERSION_1_8
     		}
-	}	
+	}
