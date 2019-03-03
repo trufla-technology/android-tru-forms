@@ -1,6 +1,7 @@
 # android-tru-forms
 
 Step 1. Add the JitPack repository to your build file
+[![](https://jitpack.io/v/trufla-technology/android-tru-forms.svg)](https://jitpack.io/#trufla-technology/android-tru-forms)
 
 Add it in your root build.gradle at the end of repositories:
 
@@ -27,3 +28,5 @@ Step 3. Add Java 8 support
         		targetCompatibility JavaVersion.VERSION_1_8
     		}
 	}
+
+
