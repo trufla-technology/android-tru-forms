@@ -56,7 +56,9 @@ public class SchemaInstanceDeserializer implements JsonDeserializer<SchemaInstan
         Class<?> klass;
         if (jsonObject.has(SchemaKeywords.ENUM_KEY) || jsonObject.has(SchemaKeywords.TruVocabulary.DATA)) {
             klass = EnumInstance.class;
-            return getProperEnumInstance(json, context, type, klass);
+            SchemaInstance enumInstance = getProperEnumInstance(json, context, type, klass);
+            enumInstance.setRequiredField(true); // enum instance is reuqired by it's meaning
+            return enumInstance;
 
         }
         klass = getInstanceClass(type);
