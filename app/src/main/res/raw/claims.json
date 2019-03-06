@@ -1,183 +1,146 @@
 {
-  "title": "Auto Claim - Vehicle Accident",
+  "title": "Add a Property",
+  "description": "Add a Property",
   "type": "object",
   "properties": {
-    "vehicle": {
-      "type": "number",
-      "title": "Select Vehicle",
-      "_data": {
-        "href": "/vehicles",
-        "enum": "id",
-        "enumNames": "vehicle_model"
-      }
+    "effective_date": {
+      "type": "string",
+      "format": "date"
     },
-    "driver_information": {
-      "title": "Driver Information",
+    "new_address": {
       "type": "object",
       "properties": {
-        "description": {
+        "address": {
           "type": "string"
         },
-        "date_time_of_accident": {
-          "type": "string",
-          "format": "datetime"
+        "city": {
+          "type": "string"
         },
-        "location_of_accident": {
-          "type": "string",
-          "format": "map_lat_long"
+        "postal_code": {
+          "type": "string"
         },
-        "description_of_accident": {
-          "type": "string",
-          "format": "textarea"
-        },
-        "were_you_driving": {
+        "province": {
           "type": "string",
           "enum": [
-            "Yes",
-            "No"
+            "AB",
+            "BC",
+            "MB",
+            "NB",
+            "NL",
+            "NT",
+            "Ns",
+            "NU",
+            "ON",
+            "PE",
+            "QC",
+            "SK",
+            "YT"
+          ],
+          "enumNames": [
+            "Alberta",
+            "British Columbia",
+            "Manitoba",
+            "New Brunswick",
+            "Newfoundland and Labrador",
+            "Northwest Territories",
+            "Nova Scotia",
+            "Nunavut",
+            "Ontario",
+            "Prince Edward Island",
+            "Quebec",
+            "Saskatchewan",
+            "Yukon Territory"
           ]
-        },
-        "who_was_driving": {
-          "type": "string"
-        },
-        "your_damage_photos": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "photo": {
-                "type": "string",
-                "format": "photo"
-              }
-            }
-          }
         }
       },
       "required": [
-        "description_of_accident",
-        "were_you_driving",
-        "date_time_of_accident"
+        "address",
+        "city",
+        "postal_code",
+        "province"
       ]
     },
-    "other_driver_information": {
-      "type": "object",
-      "properties": {
-        "other_driver_information": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "document_photos": {
-                "description": "Photos of other driver's documentation",
-                "type": "object",
-                "properties": {
-                  "pink_card": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "drivers_license": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "license_plate": {
-                    "type": "string",
-                    "format": "photo"
-                  },
-                  "registration": {
-                    "type": "string",
-                    "format": "photo"
-                  }
-                }
-              },
-              "document_details": {
-                "description": "Other driver's information if no photos taken",
-                "type": "object",
-                "properties": {
-                  "first_name": {
-                    "type": "string"
-                  },
-                  "last_name": {
-                    "type": "string"
-                  },
-                  "address": {
-                    "type": "string"
-                  },
-                  "city": {
-                    "type": "string"
-                  },
-                  "province": {
-                    "type": "string"
-                  },
-                  "postal_code": {
-                    "type": "string"
-                  },
-                  "home_phone_number": {
-                    "type": "string"
-                  },
-                  "cell_phone_number": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string"
-                  },
-                  "drivers_license_number": {
-                    "type": "string"
-                  },
-                  "license_plate": {
-                    "type": "string"
-                  },
-                  "other_drivers_car": {
-                    "title": "Other Drivers Car",
-                    "type": "object",
-                    "properties": {
-                      "year": {
-                        "type": "string"
-                      },
-                      "make": {
-                        "type": "string"
-                      },
-                      "model": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "policy_number": {
-                    "type": "string"
-                  },
-                  "insurance_company": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+    "ownership": {
+      "type": "string",
+      "enum": [
+        "rent",
+        "own"
+      ],
+      "enumNames": [
+        "Rent",
+        "Own"
+      ]
     },
-    "witness_information": {
-      "type": "object",
-      "properties": {
-        "witnesses": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "email": {
-                "type": "string"
-              },
-              "home_phone_number": {
-                "type": "string"
-              },
-              "cell_phone_number": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
+    "type_of_dwelling": {
+      "type": "string",
+      "enum": [
+        "detached",
+        "semi_detached",
+        "condo",
+        "other"
+      ],
+      "enumNames": [
+        "Detached",
+        "Semi-Detached",
+        "Condo",
+        "Other"
+      ]
+    },
+    "property_type": {
+      "type": "string",
+      "enum": [
+        "principal",
+        "seasonal",
+        "rental"
+      ],
+      "enumNames": [
+        "Principal",
+        "Seasonal",
+        "Rental"
+      ]
+    },
+    "year_built": {
+      "type": "string"
+    },
+    "sq_feet_above_ground": {
+      "type": "string"
+    },
+    "fire_alarm": {
+      "type": "string",
+      "enum": [
+        "Yes",
+        "No"
+      ]
+    },
+    "security_alarm": {
+      "type": "string",
+      "enum": [
+        "Yes",
+        "No"
+      ]
+    },
+    "value_of_personal_belongings": {
+      "title": "Value of personal belongings",
+      "type": "string"
+    },
+    "capability_for_property_details": {
+      "type": "string",
+      "format": "photo"
+    },
+    "additional_info": {
+      "title": "Additional Info",
+      "type": "string",
+      "format": "textarea"
     }
-  }
+  },
+  "required": [
+    "effective_date",
+    "new_address",
+    "ownership",
+    "value_of_personal_belongings",
+    "type_of_dwelling",
+    "property_type",
+    "fire_alarm",
+    "security_alarm"
+  ]
 }
