@@ -1,65 +1,146 @@
 {
-  "title": "Auto Claim - Vehicle Accident",
+  "title": "Add a Property",
+  "description": "Add a Property",
   "type": "object",
   "properties": {
-    "vehicle": {
-      "type": "number",
-      "title": "Select Vehicle",
-      "_data": {
-        "href": "/5c71b6863500006000e9e8a7",
-        "enum": "id",
-        "enumNames": [
-          "location.street_address_line_1",
-          "location.city",
-          "electrical_wiring_code_year"
-        ]
-      }
+    "effective_date": {
+      "type": "string",
+      "format": "date"
     },
-    "driver_information": {
-      "title": "Driver Information",
+    "new_address": {
       "type": "object",
       "properties": {
-        "description": {
+        "address": {
           "type": "string"
         },
-        "date_time_of_accident": {
-          "type": "string",
-          "format": "datetime"
+        "city": {
+          "type": "string"
         },
-        "location_of_accident": {
-          "type": "string",
-          "format": "map_lat_long"
+        "postal_code": {
+          "type": "string"
         },
-        "description_of_accident": {
-          "type": "string",
-          "format": "textarea"
-        },
-        "were_you_driving": {
+        "province": {
           "type": "string",
           "enum": [
-            "Yes",
-            "No"
+            "AB",
+            "BC",
+            "MB",
+            "NB",
+            "NL",
+            "NT",
+            "Ns",
+            "NU",
+            "ON",
+            "PE",
+            "QC",
+            "SK",
+            "YT"
+          ],
+          "enumNames": [
+            "Alberta",
+            "British Columbia",
+            "Manitoba",
+            "New Brunswick",
+            "Newfoundland and Labrador",
+            "Northwest Territories",
+            "Nova Scotia",
+            "Nunavut",
+            "Ontario",
+            "Prince Edward Island",
+            "Quebec",
+            "Saskatchewan",
+            "Yukon Territory"
           ]
-        },
-        "who_was_driving": {
-          "type": "string"
-        },
-        "your_damage_photos": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "photo": {
-                "type": "string",
-                "format": "photo"
-              },
-              "description_photo": {
-                "type": "string"
-              }
-            }
-          }
         }
-      }
+      },
+      "required": [
+        "address",
+        "city",
+        "postal_code",
+        "province"
+      ]
+    },
+    "ownership": {
+      "type": "string",
+      "enum": [
+        "rent",
+        "own"
+      ],
+      "enumNames": [
+        "Rent",
+        "Own"
+      ]
+    },
+    "type_of_dwelling": {
+      "type": "string",
+      "enum": [
+        "detached",
+        "semi_detached",
+        "condo",
+        "other"
+      ],
+      "enumNames": [
+        "Detached",
+        "Semi-Detached",
+        "Condo",
+        "Other"
+      ]
+    },
+    "property_type": {
+      "type": "string",
+      "enum": [
+        "principal",
+        "seasonal",
+        "rental"
+      ],
+      "enumNames": [
+        "Principal",
+        "Seasonal",
+        "Rental"
+      ]
+    },
+    "year_built": {
+      "type": "string"
+    },
+    "sq_feet_above_ground": {
+      "type": "string"
+    },
+    "fire_alarm": {
+      "type": "string",
+      "enum": [
+        "Yes",
+        "No"
+      ]
+    },
+    "security_alarm": {
+      "type": "string",
+      "enum": [
+        "Yes",
+        "No"
+      ]
+    },
+    "value_of_personal_belongings": {
+      "title": "Value of personal belongings",
+      "type": "string"
+    },
+    "capability_for_property_details": {
+      "type": "string",
+      "format": "photo"
+    },
+    "additional_info": {
+      "title": "Additional Info",
+      "type": "string",
+      "format": "textarea"
     }
-  }
+  },
+  "required": [
+    "effective_date",
+    "new_address",
+    "ownership",
+    "value_of_personal_belongings",
+    "type_of_dwelling",
+    "property_type",
+    "fire_alarm",
+    "security_alarm"
+  ]
 }

@@ -39,13 +39,26 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     @Override
     public String getInputtedData() {
         try {
+            if(instance.getKey().equals("who_was_driving") || instance.getKey().equals("phone_type_other"))
+                return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
+
             if(!TextUtils.isEmpty(extractData()))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), extractData());
+
         } catch (NullPointerException ex) {
             ex.printStackTrace();
             //return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
         }
         return "";
+
+//        try {
+//            if(!TextUtils.isEmpty(extractData()))
+//                return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), extractData());
+//        } catch (NullPointerException ex) {
+//            ex.printStackTrace();
+//            //return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
+//        }
+//        return "";
     }
 
     @NonNull
@@ -94,7 +107,8 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @Override
     protected String getOtherRulesErrorMessage() {
-        return mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern());
+        return mView.getResources().getString(R.string.in_valid_email);
+//        return mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern());
     }
 
 /*    @Override
