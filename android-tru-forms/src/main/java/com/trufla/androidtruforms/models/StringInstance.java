@@ -47,7 +47,8 @@ public class StringInstance extends SchemaInstance {
     }
 
     @Override
-    public TruStringView getViewBuilder(Context context) {
+    public TruStringView getViewBuilder(Context context)
+    {
         if (TruUtils.isEmpty(format))
             return new TruStringView(context, this);
         switch (format) {
@@ -62,7 +63,6 @@ public class StringInstance extends SchemaInstance {
             default:
                 return new TruStringView(context,this);
         }
-
     }
 
     public String getFormat() {

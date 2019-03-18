@@ -10,6 +10,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
 
+import org.apache.commons.text.WordUtils;
+
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,8 +67,8 @@ public class TruUtils {
 
     public static String removeUnderscoresAndCapitalize(String value) {
         if (!isEmpty(value)) {
-//            return WordUtils.capitalize(value.replaceAll("_", " "), null);
-            return value.replaceAll("_", " ");
+            return WordUtils.capitalize(value.replaceAll("_", " "), null);
+//            return value.replaceAll("_", " ");
         }
         return value;
     }

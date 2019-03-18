@@ -13,14 +13,10 @@ import android.widget.Toast;
 import com.trufla.androidtruforms.SchemaBuilder;
 import com.trufla.androidtruforms.SchemaViews;
 import com.trufla.androidtruforms.TruFormFragment;
-import com.trufla.androidtruforms.TruNavigationActivity;
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
-
 import java.io.InputStream;
 import java.util.Scanner;
 
-import okhttp3.HttpUrl;
-import okhttp3.Request;
 
 public class TestFormActivity extends AppCompatActivity implements TruFormFragment.OnFormActionsListener {
 
@@ -106,7 +102,6 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
             Log.d("Json values", str);
         }
     }
-
 
     @Override
     public void onFormSubmitted(String jsonReperesentation) {

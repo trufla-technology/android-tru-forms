@@ -67,6 +67,7 @@ public class TruDatePickerView extends TruStringView {
     protected void showDateDialog() {
         DatePickerDialog dialog = new DatePickerDialog(mContext, getOnDateSetListener(), cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         dialog.setTitle(R.string.select_date);
+        dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         dialog.show();
     }
 
