@@ -6,13 +6,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Base64;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-public class BitmapUtils {
 
+public class BitmapUtils
+{
     public static String downScaleImageAndConvertToWebPAsBase64(Context ctx, Uri imageUri, int width, int height) {
         String originalPath = imageUri.toString();
         Bitmap bitmap = BitmapFactory.decodeFile(originalPath);
@@ -51,7 +51,9 @@ public class BitmapUtils {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.WEBP, 80, outputStream);
             outputStream.close();
-            return Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
+            String encodedImage = Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
+            return "data:image/jpeg;base64,"+encodedImage.replaceAll("\n","");
+//            return Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

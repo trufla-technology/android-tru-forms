@@ -19,8 +19,11 @@ import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.ColorFactory;
 
+import java.io.File;
+
 public class TruPhotoPickerView extends TruStringView {
     String mBitmapPath;
+    String base64Image = "";
 
     public TruPhotoPickerView(Context context, StringInstance instance) {
         super(context, instance);
@@ -57,7 +60,7 @@ public class TruPhotoPickerView extends TruStringView {
         return (bitmapPath) -> {
             mBitmapPath = bitmapPath;
             setImageToView(BitmapUtils.loadBitmapFromPath(bitmapPath));
-
+            base64Image = BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath), 150, 170);
         };
     }
 
@@ -74,8 +77,10 @@ public class TruPhotoPickerView extends TruStringView {
 
     @NonNull
     @Override
-    protected String extractData() {
-        return BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath), 200, 200);
+    protected String extractData()
+    {
+        return base64Image;
+//        return BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath), 200, 200);
     }
 
     public View.OnClickListener getOnRemoveImageListener() {

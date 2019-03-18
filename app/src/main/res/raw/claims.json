@@ -1,146 +1,55 @@
 {
-  "title": "Add a Property",
-  "description": "Add a Property",
+  "title": "Other Claim",
   "type": "object",
   "properties": {
-    "effective_date": {
-      "type": "string",
-      "format": "date"
-    },
-    "new_address": {
+    "claim_information": {
       "type": "object",
       "properties": {
-        "address": {
+        "claim_description": {
           "type": "string"
         },
-        "city": {
-          "type": "string"
-        },
-        "postal_code": {
-          "type": "string"
-        },
-        "province": {
+        "date_of_loss": {
           "type": "string",
-          "enum": [
-            "AB",
-            "BC",
-            "MB",
-            "NB",
-            "NL",
-            "NT",
-            "Ns",
-            "NU",
-            "ON",
-            "PE",
-            "QC",
-            "SK",
-            "YT"
-          ],
-          "enumNames": [
-            "Alberta",
-            "British Columbia",
-            "Manitoba",
-            "New Brunswick",
-            "Newfoundland and Labrador",
-            "Northwest Territories",
-            "Nova Scotia",
-            "Nunavut",
-            "Ontario",
-            "Prince Edward Island",
-            "Quebec",
-            "Saskatchewan",
-            "Yukon Territory"
-          ]
+          "format": "date"
+        },
+        "your_damage_photos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "photo": {
+                "type": "string",
+                "format": "photo"
+              }
+            }
+          }
         }
       },
       "required": [
-        "address",
-        "city",
-        "postal_code",
-        "province"
+        "claim_description",
+        "date_of_loss"
       ]
     },
-    "ownership": {
-      "type": "string",
-      "enum": [
-        "rent",
-        "own"
-      ],
-      "enumNames": [
-        "Rent",
-        "Own"
-      ]
-    },
-    "type_of_dwelling": {
-      "type": "string",
-      "enum": [
-        "detached",
-        "semi_detached",
-        "condo",
-        "other"
-      ],
-      "enumNames": [
-        "Detached",
-        "Semi-Detached",
-        "Condo",
-        "Other"
-      ]
-    },
-    "property_type": {
-      "type": "string",
-      "enum": [
-        "principal",
-        "seasonal",
-        "rental"
-      ],
-      "enumNames": [
-        "Principal",
-        "Seasonal",
-        "Rental"
-      ]
-    },
-    "year_built": {
-      "type": "string"
-    },
-    "sq_feet_above_ground": {
-      "type": "string"
-    },
-    "fire_alarm": {
-      "type": "string",
-      "enum": [
-        "Yes",
-        "No"
-      ]
-    },
-    "security_alarm": {
-      "type": "string",
-      "enum": [
-        "Yes",
-        "No"
-      ]
-    },
-    "value_of_personal_belongings": {
-      "title": "Value of personal belongings",
-      "type": "string"
-    },
-    "capability_for_property_details": {
-      "type": "string",
-      "format": "photo"
-    },
-    "additional_info": {
-      "title": "Additional Info",
-      "type": "string",
-      "format": "textarea"
+    "witness_information": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "home_phone_number": {
+            "type": "string"
+          },
+          "cell_phone_number": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
-  "required": [
-    "effective_date",
-    "new_address",
-    "ownership",
-    "value_of_personal_belongings",
-    "type_of_dwelling",
-    "property_type",
-    "fire_alarm",
-    "security_alarm"
-  ]
+  "required": []
 }
