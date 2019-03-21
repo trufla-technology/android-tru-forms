@@ -60,8 +60,10 @@ public class BitmapUtils
         }
     }
 
-    public static Bitmap decodeBase64ToBitmap(String imgBase64) {
-        byte[] imageByteArray = Base64.decode(imgBase64, Base64.DEFAULT);
+    public static Bitmap decodeBase64ToBitmap(String imgBase64)
+    {
+        String myNewImage = imgBase64.replace("data:image/jpeg;base64,", "");
+        byte[] imageByteArray = Base64.decode(myNewImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
     }
 
