@@ -170,7 +170,7 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     protected abstract boolean isFilled();
 
     private void removeErrorMsg() {
-        if (isErrorViewAdded()) {
+        if (isErrorViewAdded() && mView != null) {
             ((ViewGroup) mView).removeView(errView);
             parentView.mView.invalidate();
         }
