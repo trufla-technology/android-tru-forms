@@ -11,7 +11,6 @@ import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ArrayInstance;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 
 /**
@@ -117,11 +116,14 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     }
 
     private void removeItem(View itemView) {
-        int idx = ((ViewGroup) mView).indexOfChild(itemView);
-        ((ViewGroup) mView).removeView(itemView);
-        items.remove(idx - 1);
-        headerViews.remove(idx - 1);
-        renameTitleViews(idx - 1);
+        if(itemView != null)
+        {
+            int idx = ((ViewGroup) mView).indexOfChild(itemView);
+            ((ViewGroup) mView).removeView(itemView);
+            items.remove(idx - 1);
+            headerViews.remove(idx - 1);
+            renameTitleViews(idx - 1);
+        }
     }
 
     private void renameTitleViews(int beginIdx) {
