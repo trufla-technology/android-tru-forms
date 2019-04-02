@@ -45,7 +45,7 @@ public class TruEnumDataView extends TruEnumView {
         ((TextView) mView.findViewById(R.id.pick_item_btn_title)).setText(instance.getPresentationTitle());
         if (selectedPosition >= 0 && instance.enumExists()) {
             String choosedItemTitle = "";
-            if(instance.getEnumDisplayedNames().size() != 0)
+            if(instance.getEnumDisplayedNames().size() > 0)
                 choosedItemTitle = String.valueOf(instance.getEnumDisplayedNames().get(selectedPosition));
 
             ((Button) mView.findViewById(R.id.pick_item_btn)).setText(choosedItemTitle);
@@ -115,7 +115,7 @@ public class TruEnumDataView extends TruEnumView {
 
     public void showChooserDialogAction() {
         String[] displayedNames = new String[]{};
-        if(instance.getEnumDisplayedNames().size() != 0)
+        if(instance.getEnumDisplayedNames().size() > 0)
             displayedNames = ((List<String>) instance.getEnumDisplayedNames()).toArray(new String[0]);
 
         new AlertDialog.Builder(mContext)
