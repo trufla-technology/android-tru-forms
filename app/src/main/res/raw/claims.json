@@ -1,55 +1,89 @@
 {
-  "title": "Other Claim",
+  "title": "Change Mortgagee",
+  "description": "Change Mortgagee",
   "type": "object",
   "properties": {
-    "claim_information": {
+    "effective_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "select_property": {
+      "type": "number",
+      "_data": {
+        "href": "/properties",
+        "enum": "id",
+        "enumNames": [
+          "location.street_address_line_1"
+        ]
+      }
+    },
+    "enter_new_mortgagee": {
       "type": "object",
       "properties": {
-        "claim_description": {
+        "address": {
           "type": "string"
         },
-        "date_of_loss": {
-          "type": "string",
-          "format": "date"
+        "city": {
+          "type": "string"
         },
-        "your_damage_photos": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "photo": {
-                "type": "string",
-                "format": "photo"
-              }
-            }
-          }
+        "postal_code": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string",
+          "enum": [
+            "AB",
+            "BC",
+            "MB",
+            "NB",
+            "NL",
+            "NT",
+            "Ns",
+            "NU",
+            "ON",
+            "PE",
+            "QC",
+            "SK",
+            "YT"
+          ],
+          "enumNames": [
+            "Alberta",
+            "British Columbia",
+            "Manitoba",
+            "New Brunswick",
+            "Newfoundland and Labrador",
+            "Northwest Territories",
+            "Nova Scotia",
+            "Nunavut",
+            "Ontario",
+            "Prince Edward Island",
+            "Quebec",
+            "Saskatchewan",
+            "Yukon Territory"
+          ]
         }
       },
       "required": [
-        "claim_description",
-        "date_of_loss"
+        "address",
+        "city",
+        "postal_code",
+        "province"
       ]
     },
-    "witness_information": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "home_phone_number": {
-            "type": "string"
-          },
-          "cell_phone_number": {
-            "type": "string"
-          }
-        }
-      }
+    "mortgagee_documentation": {
+      "type": "string",
+      "format": "photo"
+    },
+    "additional_info": {
+      "title": "Additional Info",
+      "type": "string",
+      "format": "textarea"
     }
   },
-  "required": []
+  "required": [
+    "effective_date",
+    "select_property",
+    "enter_new_mortgagee",
+    "additional_info"
+  ]
 }
