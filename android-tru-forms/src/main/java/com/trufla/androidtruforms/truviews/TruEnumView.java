@@ -6,7 +6,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.EnumInstance;

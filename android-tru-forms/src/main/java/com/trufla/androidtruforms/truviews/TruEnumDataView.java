@@ -44,7 +44,10 @@ public class TruEnumDataView extends TruEnumView {
     protected void setInstanceData() {
         ((TextView) mView.findViewById(R.id.pick_item_btn_title)).setText(instance.getPresentationTitle());
         if (selectedPosition >= 0 && instance.enumExists()) {
-            String choosedItemTitle = String.valueOf(instance.getEnumDisplayedNames().get(selectedPosition));
+            String choosedItemTitle = "";
+            if(instance.getEnumDisplayedNames().size() != 0)
+                choosedItemTitle = String.valueOf(instance.getEnumDisplayedNames().get(selectedPosition));
+
             ((Button) mView.findViewById(R.id.pick_item_btn)).setText(choosedItemTitle);
         }
     }
@@ -111,7 +114,10 @@ public class TruEnumDataView extends TruEnumView {
     }
 
     public void showChooserDialogAction() {
-        String[] displayedNames = ((List<String>) instance.getEnumDisplayedNames()).toArray(new String[0]);
+        String[] displayedNames = new String[]{};
+        if(instance.getEnumDisplayedNames().size() != 0)
+            displayedNames = ((List<String>) instance.getEnumDisplayedNames()).toArray(new String[0]);
+
         new AlertDialog.Builder(mContext)
                 .setSingleChoiceItems(displayedNames, 0, null)
                 .setPositiveButton("OK", (dialog, whichButton) -> {
@@ -122,7 +128,6 @@ public class TruEnumDataView extends TruEnumView {
                     setInstanceData();
                 })
                 .show();
-
     }
 
     @Override

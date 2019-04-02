@@ -3,12 +3,10 @@ package com.trufla.androidtruforms.models;
 import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
-import com.trufla.androidtruforms.truviews.SchemaBaseView;
 import com.trufla.androidtruforms.truviews.TruEnumDataView;
 import com.trufla.androidtruforms.truviews.TruEnumView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by ohefny on 7/3/18.
@@ -56,12 +54,15 @@ public class EnumInstance<T> extends SchemaInstance {
         if (enumNames != null && !enumNames.isEmpty())
             return enumNames;
 
-        if (enumVals.get(0) instanceof String)
-            return (ArrayList<String>) enumVals;
+        if(enumVals.size() != 0)
+        {
+            if (enumVals.get(0) instanceof String)
+                return (ArrayList<String>) enumVals;
 
-        if (enumVals.get(0) instanceof Number) {
-            for (T d : enumVals)
-                displayedNames.add(String.valueOf(d));
+            if (enumVals.get(0) instanceof Number) {
+                for (T d : enumVals)
+                    displayedNames.add(String.valueOf(d));
+            }
         }
         return displayedNames;
     }
