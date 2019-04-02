@@ -54,7 +54,7 @@ public class EnumInstance<T> extends SchemaInstance {
         if (enumNames != null && !enumNames.isEmpty())
             return enumNames;
 
-        if(enumVals.size() != 0)
+        if(enumVals.size() > 0)
         {
             if (enumVals.get(0) instanceof String)
                 return (ArrayList<String>) enumVals;
