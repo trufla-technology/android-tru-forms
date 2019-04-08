@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentManager;
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
 
 public class SchemaViews {
-    public static TruFormFragment newSchemaFragmentInstance(String schemaString, Context context) throws UnableToParseSchemaException {
-        TruFormFragment formFragment = TruFormFragment.newInstance(schemaString.toString());
+    public static TruFormFragment newSchemaFragmentInstance(int schemaType, String schemaString, Context context) throws UnableToParseSchemaException {
+        TruFormFragment formFragment = TruFormFragment.newInstance(schemaType, schemaString.toString());
         return formFragment;
     }
 
@@ -19,8 +19,8 @@ public class SchemaViews {
         return formFragment;
     }
 
-    public static <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment(String schemaString, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId) throws UnableToParseSchemaException {
-        TruFormFragment formFragment = newSchemaFragmentInstance(schemaString, hostActivity);
+    public static <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment(int schemaType, String schemaString, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId) throws UnableToParseSchemaException {
+        TruFormFragment formFragment = newSchemaFragmentInstance(schemaType, schemaString, hostActivity);
         fragmentManager.beginTransaction().replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
     }
 

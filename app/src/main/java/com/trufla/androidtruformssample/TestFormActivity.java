@@ -21,6 +21,7 @@ import java.util.Scanner;
 public class TestFormActivity extends AppCompatActivity implements TruFormFragment.OnFormActionsListener {
 
     public static final String JSON_STR = "JSON_STR";
+    private static int schemaType = 2;
 
     enum FormType {FRAGMENT_FORM, ACTIVITY_FORM}
 
@@ -59,7 +60,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
         try {
             if (TextUtils.isEmpty(v))
-                SchemaViews.showFragment(jsonStringBuilder.toString(), this, getSupportFragmentManager(), R.id.container);
+                SchemaViews.showFragment(schemaType, jsonStringBuilder.toString(), this, getSupportFragmentManager(), R.id.container);
             else
                 SchemaViews.showFragmentWithConstValue(jsonStringBuilder.toString(), v, this, getSupportFragmentManager(), R.id.container);
         } catch (UnableToParseSchemaException e) {
