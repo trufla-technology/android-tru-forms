@@ -42,6 +42,7 @@ public class TruFormFragment extends Fragment implements FormContract {
     private OnFormActionsListener mListener;
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final String JSON_KEY = "JSON_VALUE";
+    private static final String SCHEMA_TYPE = "schema_type";
     private static final int IMAGE_PICKER_CODE = 505;
     private TruFormView truFormView;
     TruConsumer<String> mPickedImageListener;
@@ -49,15 +50,17 @@ public class TruFormFragment extends Fragment implements FormContract {
     ProgressDialog progressDialog;
     private String schemaString;
     public static final String FRAGMENT_TAG = "TRU_FORM_FRAGMENT";
+    public static int mySchemaType = 1;
 
     public TruFormFragment() {
         // Required empty public constructor
     }
 
-    public static TruFormFragment newInstance(String schemaString) {
+    public static TruFormFragment newInstance(int schemaType, String schemaString) {
         TruFormFragment fragment = new TruFormFragment();
         Bundle args = new Bundle();
         args.putString(SCHEMA_KEY, schemaString);
+        args.putInt(SCHEMA_TYPE, schemaType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,6 +80,7 @@ public class TruFormFragment extends Fragment implements FormContract {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             schemaString = getArguments().getString(SCHEMA_KEY);
+            mySchemaType = getArguments().getInt(SCHEMA_TYPE);
         }
     }
 
