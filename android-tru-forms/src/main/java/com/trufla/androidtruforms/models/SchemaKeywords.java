@@ -20,6 +20,7 @@ public interface SchemaKeywords {
         String PHOTO = "photo";
         String MAP_LOCATION = "map_lat_long";
         String DATE = "date";
+        String TIME = "time";
     }
 
     interface TruVocabulary {

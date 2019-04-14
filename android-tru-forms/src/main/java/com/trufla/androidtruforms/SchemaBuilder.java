@@ -1,10 +1,6 @@
 package com.trufla.androidtruforms;
 
-import android.app.Activity;
-import android.support.v4.app.FragmentManager;
 import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -37,9 +33,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class SchemaBuilder {
     public final static int REQUEST_CODE = 333;
     public final static String RESULT_DATA_KEY = "SCHEMA_DATA_KEY";
+    public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String DEFAULT_DATE_TIME_FORMAT = DEFAULT_DATE_FORMAT + " hh:mm:ss";
     private final SchemaViews schemaViews = new SchemaViews();
+    private String timeFormat;
     private String dateFormat;
     private String dateTimeFormat;
     private Class<ArrayInstance> arrayInstanceClass;
@@ -68,6 +66,7 @@ public class SchemaBuilder {
     }
 
     private void setDefaultSettings() {
+        timeFormat = DEFAULT_TIME_FORMAT;
         dateFormat = DEFAULT_DATE_FORMAT;
         dateTimeFormat = DEFAULT_DATE_TIME_FORMAT;
         arrayInstanceClass = ArrayInstance.class;
@@ -158,6 +157,16 @@ public class SchemaBuilder {
     public SchemaBuilder allowDefaultOrder(boolean allowDefaultOrder) {
         this.allowDefaultOrder = allowDefaultOrder;
         return this;
+    }
+
+    public String getTimeFormat() {
+        return timeFormat;
+    }
+
+    public SchemaBuilder setTimeFormat(String timeFormat)
+    {
+        this.timeFormat = timeFormat;
+        return instance;
     }
 
     public String getDateFormat() {
