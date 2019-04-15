@@ -1,11 +1,20 @@
 {
-  "title": "Change Mortgagee",
-  "description": "Change Mortgagee",
+  "title": "Manage My Coverage - Home",
+  "description": "Manage My Coverage",
   "type": "object",
   "properties": {
     "effective_date": {
       "type": "string",
       "format": "date"
+    },
+    "effective_time": {
+      "type": "string",
+      "format": "time"
+    },
+    "date_time_of_accident": {
+      "title": "Date and Time of Accident",
+      "type": "string",
+      "format": "datetime"
     },
     "select_property": {
       "type": "number",
@@ -17,65 +26,8 @@
         ]
       }
     },
-    "enter_new_mortgagee": {
-      "type": "object",
-      "properties": {
-        "address": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "postal_code": {
-          "type": "string"
-        },
-        "province": {
-          "type": "string",
-          "enum": [
-            "AB",
-            "BC",
-            "MB",
-            "NB",
-            "NL",
-            "NT",
-            "Ns",
-            "NU",
-            "ON",
-            "PE",
-            "QC",
-            "SK",
-            "YT"
-          ],
-          "enumNames": [
-            "Alberta",
-            "British Columbia",
-            "Manitoba",
-            "New Brunswick",
-            "Newfoundland and Labrador",
-            "Northwest Territories",
-            "Nova Scotia",
-            "Nunavut",
-            "Ontario",
-            "Prince Edward Island",
-            "Quebec",
-            "Saskatchewan",
-            "Yukon Territory"
-          ]
-        }
-      },
-      "required": [
-        "address",
-        "city",
-        "postal_code",
-        "province"
-      ]
-    },
-    "mortgagee_documentation": {
-      "type": "string",
-      "format": "photo"
-    },
-    "additional_info": {
-      "title": "Additional Info",
+    "coverage_request": {
+      "title": "Please tell us what changes you require to your coverage",
       "type": "string",
       "format": "textarea"
     }
@@ -83,7 +35,6 @@
   "required": [
     "effective_date",
     "select_property",
-    "enter_new_mortgagee",
-    "additional_info"
+    "coverage_request"
   ]
 }

@@ -1,10 +1,9 @@
 package com.trufla.androidtruforms.models;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 
 import com.google.gson.annotations.SerializedName;
-import com.trufla.androidtruforms.utils.BitmapUtils;
+import com.trufla.androidtruforms.truviews.TruTimePickerView;
 import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.truviews.TruDatePickerView;
 import com.trufla.androidtruforms.truviews.TruDateTimePickerView;
@@ -54,6 +53,8 @@ public class StringInstance extends SchemaInstance {
         switch (format) {
             case SchemaKeywords.StringFormats.DATE:
                 return new TruDatePickerView(context, this);
+            case SchemaKeywords.StringFormats.TIME:
+                return new TruTimePickerView(context, this);
             case SchemaKeywords.StringFormats.DATE_TIME:
                 return new TruDateTimePickerView(context, this);
             case SchemaKeywords.StringFormats.PHOTO:
