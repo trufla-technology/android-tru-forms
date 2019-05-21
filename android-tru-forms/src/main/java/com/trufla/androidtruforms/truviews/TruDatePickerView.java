@@ -3,8 +3,6 @@ package com.trufla.androidtruforms.truviews;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -69,7 +67,7 @@ public class TruDatePickerView extends TruStringView {
     protected void showDateDialog() {
         DatePickerDialog dialog = new DatePickerDialog(mContext, getOnDateSetListener(), cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         dialog.setTitle(R.string.select_date);
-        if(TruFormFragment.mySchemaType != 4)
+        if(TruFormFragment.mySchemaType != 4 && TruFormFragment.mySchemaType != 1)
             dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
         dialog.show();

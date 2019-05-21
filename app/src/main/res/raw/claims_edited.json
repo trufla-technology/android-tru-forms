@@ -7,15 +7,6 @@
       "type": "string",
       "format": "date"
     },
-    "effective_time": {
-      "type": "string",
-      "format": "time"
-    },
-    "date_time_of_accident": {
-      "title": "Date and Time of Accident",
-      "type": "string",
-      "format": "datetime"
-    },
     "select_property": {
       "type": "number",
       "_data": {

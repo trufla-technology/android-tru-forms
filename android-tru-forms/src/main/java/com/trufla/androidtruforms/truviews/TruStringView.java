@@ -26,9 +26,17 @@ import java.util.regex.Pattern;
 
 public class TruStringView extends SchemaBaseView<StringInstance> {
 
+    private static String STRING_TYPE = "";
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+
 
     public TruStringView(Context context, StringInstance instance) {
         super(context, instance);
+    }
+
+    public TruStringView(Context context, StringInstance instance, String type) {
+        super(context, instance);
+        STRING_TYPE = type;
     }
 
     @Override
@@ -85,10 +93,30 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @Override
     public boolean isValidAgainstOtherRules() {
-        if (TruUtils.isEmpty(instance.getPattern()))
+        if (TruUtils.isEmpty(instance.getPattern()) && !STRING_TYPE.equals("email"))
             return true;
+
+        else if(STRING_TYPE.equals("email"))
+            return checkPattern(EMAIL_PATTERN);
+
+        return checkPattern(instance.getPattern());
+
+//        try {
+//            Pattern patternObj = Pattern.compile(instance.getPattern());
+//            Matcher matcher = patternObj.matcher(extractData());
+//            if (matcher.matches())
+//                return true;
+//
+//        } catch (Exception ex) {
+//            ex.getMessage();
+//        }
+//        return false;
+    }
+
+    private boolean checkPattern(String originPattern)
+    {
         try {
-            Pattern patternObj = Pattern.compile(instance.getPattern());
+            Pattern patternObj = Pattern.compile(originPattern);
             Matcher matcher = patternObj.matcher(extractData());
             if (matcher.matches())
                 return true;
@@ -97,7 +125,6 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
             ex.getMessage();
         }
         return false;
-
     }
 
     @Override

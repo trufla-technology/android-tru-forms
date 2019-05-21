@@ -50,7 +50,7 @@ public class TruFormFragment extends Fragment implements FormContract {
     ProgressDialog progressDialog;
     private String schemaString;
     public static final String FRAGMENT_TAG = "TRU_FORM_FRAGMENT";
-    public static int mySchemaType = 1;
+    public static int mySchemaType = 0;
 
     public TruFormFragment() {
         // Required empty public constructor
