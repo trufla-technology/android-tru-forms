@@ -11,7 +11,11 @@ import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.SchemaInstance;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -35,8 +39,10 @@ public class EnumDataFetcher {
 
 
     private Request getFullRequest(String absoluteUrl) {
+
         ArrayList<String> urlIncludes = new ArrayList<>();
-        String fullURL = absoluteUrl;
+        StringBuilder fullURL = new StringBuilder(absoluteUrl);
+        String currentDate = getCurrentDate();
         for (String mName : mNames) {
             if (mName.contains(".")) {
                 String[] parts = mName.split("\\.");
@@ -44,13 +50,36 @@ public class EnumDataFetcher {
             }
         }
         if (urlIncludes.size() != 0) {
-            fullURL = fullURL + "?includes=";
+            fullURL.append("?includes=");
             for (int i = 0; i < urlIncludes.size(); i++)
-                fullURL = fullURL + urlIncludes.get(i) + ",";
+                fullURL.append(urlIncludes.get(i)).append(",");
+        }
+
+        switch (absoluteUrl)
+        {
+            case "/vehicles":
+            case "/properties":
+                if(fullURL.toString().contains("?includes="))
+                    fullURL.append("location.policy&location.policy.policy_expiration_date=gteq::").append(currentDate).append("&location.policy.cycle_business_purpose=!eq::XLN");
+                else
+                    fullURL.append("?includes=location.policy&location.policy.policy_expiration_date=gteq::").append(currentDate).append("&location.policy.cycle_business_purpose=!eq::XLN");
+                break;
+
+            case "/policies":
+                fullURL.append("?policy_expiration_date=gteq::").append(currentDate).append("&cycle_business_purpose=!eq::XLN");
+                break;
         }
 
         Request request = SchemaBuilder.getInstance().getRequestBuilder().build();
-        return request.newBuilder().url(request.url() + fullURL).build();
+        return request.newBuilder().url(request.url() + fullURL.toString()).build();
+    }
+
+
+    private String getCurrentDate()
+    {
+        Date date = new Date();
+        Format format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return format.format(date);
     }
 
 

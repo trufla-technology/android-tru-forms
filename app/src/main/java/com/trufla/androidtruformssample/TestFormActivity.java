@@ -21,11 +21,11 @@ import java.util.Scanner;
 public class TestFormActivity extends AppCompatActivity implements TruFormFragment.OnFormActionsListener {
 
     public static final String JSON_STR = "JSON_STR";
-    private static int schemaType = 2;
+    private static int schemaType = 1;
 
     enum FormType {FRAGMENT_FORM, ACTIVITY_FORM}
 
-    FormType type = FormType.ACTIVITY_FORM;
+    FormType type = FormType.FRAGMENT_FORM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -61,6 +61,8 @@ public class StringInstance extends SchemaInstance {
                 return new TruPhotoPickerView(context, this);
             case SchemaKeywords.StringFormats.MAP_LOCATION:
                 return new TruLocationView(context, this);
+            case SchemaKeywords.StringFormats.EMAIL:
+                return new TruStringView(context, this, "email");
             default:
                 return new TruStringView(context,this);
         }
