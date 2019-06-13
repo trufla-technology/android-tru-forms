@@ -25,7 +25,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
 
     enum FormType {FRAGMENT_FORM, ACTIVITY_FORM}
 
-    FormType type = FormType.FRAGMENT_FORM;
+    FormType type = FormType.ACTIVITY_FORM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

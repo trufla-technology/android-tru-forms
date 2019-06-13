@@ -64,7 +64,7 @@ public class StringInstance extends SchemaInstance {
             case SchemaKeywords.StringFormats.EMAIL:
                 return new TruStringView(context, this, "email");
             default:
-                return new TruStringView(context,this);
+                return new TruStringView(context,this, "");
         }
     }
 
