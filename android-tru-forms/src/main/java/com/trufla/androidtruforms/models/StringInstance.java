@@ -49,7 +49,7 @@ public class StringInstance extends SchemaInstance {
     public TruStringView getViewBuilder(Context context)
     {
         if (TruUtils.isEmpty(format))
-            return new TruStringView(context, this);
+            return new TruStringView(context, this, "");
         switch (format) {
             case SchemaKeywords.StringFormats.DATE:
                 return new TruDatePickerView(context, this);
