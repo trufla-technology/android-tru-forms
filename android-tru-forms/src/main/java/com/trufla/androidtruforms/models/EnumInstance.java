@@ -61,7 +61,10 @@ public class EnumInstance<T> extends SchemaInstance {
 
             if (enumVals.get(0) instanceof Number) {
                 for (T d : enumVals)
-                    displayedNames.add(String.valueOf(d));
+                {
+                    String value = String.valueOf(d).replace(".0","");
+                    displayedNames.add(String.valueOf(value));
+                }
             }
         }
         return displayedNames;

@@ -1,55 +1,80 @@
 {
-  "title": "Other Claim",
+  "title": "Add Driver",
+  "description": "Add Driver",
   "type": "object",
   "properties": {
-    "claim_information": {
-      "type": "object",
-      "properties": {
-        "claim_description": {
-          "type": "string"
-        },
-        "date_of_loss": {
-          "type": "string",
-          "format": "date"
-        },
-        "your_damage_photos": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "photo": {
-                "type": "string",
-                "format": "photo"
-              }
-            }
-          }
-        }
-      },
-      "required": [
-        "claim_description",
-        "date_of_loss"
+    "effective_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "select_vehicle": {
+      "type": "number",
+      "_data": {
+        "href": "/vehicles",
+        "enum": "id",
+        "enumNames": [
+          "vehicle_make",
+          "vehicle_model"
+        ]
+      }
+    },
+    "first_name": {
+      "title": "First Name",
+      "type": "string"
+    },
+    "last_name": {
+      "title": "Last Name",
+      "type": "string"
+    },
+    "driver_license_no": {
+      "title": "Driver License No.",
+      "type": "string"
+    },
+    "insurance_duration": {
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "type": "number"
+    },
+    "number_of_conviction": {
+      "type": "string",
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4+"
       ]
     },
-    "witness_information": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "home_phone_number": {
-            "type": "string"
-          },
-          "cell_phone_number": {
-            "type": "string"
-          }
-        }
-      }
+    "number_of_accidents": {
+      "type": "string",
+      "enum": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4+"
+      ]
     }
   },
-  "required": []
+  "required": [
+    "first_name",
+    "last_name",
+    "driver_license_no",
+    "insurance_duration",
+    "number_of_conviction",
+    "number_of_accidents",
+    "effective_date",
+    "select_vehicle"
+  ]
 }
