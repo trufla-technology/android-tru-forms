@@ -28,8 +28,6 @@
         android:paddingEnd="8dp"
         android:text="None Selected"
         android:textAllCaps="false"
-        android:gravity="start|center_vertical"
-
-        />
+        android:gravity="start|center_vertical" />
 
 </LinearLayout>
