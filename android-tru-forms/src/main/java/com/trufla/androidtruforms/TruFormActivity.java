@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -24,6 +23,7 @@ import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Callback;
 
@@ -31,7 +31,8 @@ import okhttp3.Callback;
  * Created by ohefny on 8/13/18.
  */
 
-public class TruFormActivity extends AppCompatActivity implements FormContract {
+public class TruFormActivity extends AppCompatActivity implements FormContract
+{
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final int IMAGE_PICKER_CODE = 505;
     private static final String JSON_KEY = "JSON_KEY";
@@ -72,7 +73,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tru_form);
         try {
-            String jsonVal = getIntent().getExtras().getString(JSON_KEY);
+            String jsonVal = Objects.requireNonNull(getIntent().getExtras()).getString(JSON_KEY);
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(getIntent().getExtras().getString(SCHEMA_KEY), this);
             else {
@@ -107,7 +108,8 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
         this.mDataFetchListener = listener;
         EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);
-        fetcher.requestData(url, getHttpCallback(selector, names));
+        int userId = 1365;  //This is just a temp value because i don't use this activity
+        fetcher.requestData(userId, url, getHttpCallback(selector, names));
         showProgressDialog();
     }
 

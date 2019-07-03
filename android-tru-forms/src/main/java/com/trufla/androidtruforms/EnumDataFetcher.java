@@ -1,28 +1,19 @@
 package com.trufla.androidtruforms;
 
-import android.app.ProgressDialog;
-import android.util.Log;
 import android.util.Pair;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
-import com.trufla.androidtruforms.models.SchemaInstance;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
 
-public class EnumDataFetcher {
+
+public class EnumDataFetcher
+{
     TruConsumer<ArrayList<Pair<Object, String>>> mListener;
     String mSelector;
     ArrayList<String> mNames;
@@ -33,13 +24,12 @@ public class EnumDataFetcher {
         this.mSelector = selector;
     }
 
-    public void requestData(String url, Callback callback) {
-        SchemaBuilder.getInstance().getOkHttpClient().newCall(getFullRequest(url)).enqueue(callback);
+    public void requestData(int userId, String url, Callback callback) {
+        SchemaBuilder.getInstance().getOkHttpClient().newCall(getFullRequest(userId, url)).enqueue(callback);
     }
 
-
-    private Request getFullRequest(String absoluteUrl) {
-
+    private Request getFullRequest(int userId, String absoluteUrl)
+    {
         ArrayList<String> urlIncludes = new ArrayList<>();
         StringBuilder fullURL = new StringBuilder(absoluteUrl);
         String currentDate = getCurrentDate();
@@ -59,14 +49,23 @@ public class EnumDataFetcher {
         {
             case "/vehicles":
             case "/properties":
+                StringBuilder filterUrl = new StringBuilder("location.policy&location.policy.policy_expiration_date=gteq::")
+                        .append(currentDate)
+                        .append("&location.policy.relatedInsureds&location.policy.relatedInsureds.user_id=")
+                        .append(userId)
+                        .append("&location.policy.cycle_business_purpose=!eq::XLN");
+
                 if(fullURL.toString().contains("?includes="))
-                    fullURL.append("location.policy&location.policy.policy_expiration_date=gteq::").append(currentDate).append("&location.policy.cycle_business_purpose=!eq::XLN");
+                    fullURL.append(filterUrl);
+
                 else
-                    fullURL.append("?includes=location.policy&location.policy.policy_expiration_date=gteq::").append(currentDate).append("&location.policy.cycle_business_purpose=!eq::XLN");
+                    fullURL.append("?includes=").append(filterUrl);
                 break;
 
             case "/policies":
-                fullURL.append("?policy_expiration_date=gteq::").append(currentDate).append("&cycle_business_purpose=!eq::XLN");
+                fullURL.append("?policy_expiration_date=gteq::").append(currentDate)
+                        .append("&policy.relatedInsureds&policy.relatedInsureds.user_id=").append(userId)
+                        .append("&cycle_business_purpose=!eq::XLN");
                 break;
         }
 
