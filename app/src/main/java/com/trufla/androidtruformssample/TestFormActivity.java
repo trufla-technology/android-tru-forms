@@ -60,7 +60,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         schemaBuilder.getRequestBuilder().url("http://www.mocky.io/v2");
         try {
             if (TextUtils.isEmpty(v))
-                SchemaViews.showFragment(schemaType, jsonStringBuilder.toString(), this, getSupportFragmentManager(), R.id.container);
+                SchemaViews.showFragment(1365,schemaType, jsonStringBuilder.toString(), this, getSupportFragmentManager(), R.id.container);
             else
                 SchemaViews.showFragmentWithConstValue(jsonStringBuilder.toString(), v, this, getSupportFragmentManager(), R.id.container);
         } catch (UnableToParseSchemaException e) {

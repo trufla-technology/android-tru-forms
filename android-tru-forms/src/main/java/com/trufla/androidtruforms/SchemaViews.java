@@ -8,23 +8,30 @@ import android.support.v4.app.FragmentManager;
 
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
 
-public class SchemaViews {
-    public static TruFormFragment newSchemaFragmentInstance(int schemaType, String schemaString, Context context) throws UnableToParseSchemaException {
-        TruFormFragment formFragment = TruFormFragment.newInstance(schemaType, schemaString.toString());
-        return formFragment;
+
+public class SchemaViews
+{
+    private static TruFormFragment newSchemaFragmentInstance(int userId, int schemaType, String schemaString, Context context)
+            throws UnableToParseSchemaException {
+        return TruFormFragment.newInstance(userId, schemaType, schemaString);
     }
 
-    public static TruFormFragment newSchemaFragmentWithConstValuesInstance(String schemaString, String jsonValue, Context context) throws UnableToParseSchemaException {
-        TruFormFragment formFragment = TruFormFragment.newInstanceWithConstJson(schemaString.toString(), jsonValue);
-        return formFragment;
+    private static TruFormFragment newSchemaFragmentWithConstValuesInstance(String schemaString, String jsonValue, Context context)
+            throws UnableToParseSchemaException {
+        return TruFormFragment.newInstanceWithConstJson(schemaString, jsonValue);
     }
 
-    public static <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment(int schemaType, String schemaString, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId) throws UnableToParseSchemaException {
-        TruFormFragment formFragment = newSchemaFragmentInstance(schemaType, schemaString, hostActivity);
+    public static <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragment
+            (int userId, int schemaType, String schemaString, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId)
+            throws UnableToParseSchemaException
+    {
+        TruFormFragment formFragment = newSchemaFragmentInstance(userId, schemaType, schemaString, hostActivity);
         fragmentManager.beginTransaction().replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
     }
 
-    public static <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragmentWithConstValue(String schemaString, String jsonValues, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId) throws UnableToParseSchemaException {
+    public static <T extends Activity & TruFormFragment.OnFormActionsListener> void showFragmentWithConstValue
+            (String schemaString, String jsonValues, T hostActivity, FragmentManager fragmentManager, @IdRes int containerViewId)
+            throws UnableToParseSchemaException {
         TruFormFragment formFragment = newSchemaFragmentWithConstValuesInstance(schemaString, jsonValues, hostActivity);
         fragmentManager.beginTransaction().replace(containerViewId, formFragment, TruFormFragment.FRAGMENT_TAG).commit();
     }
@@ -44,6 +51,4 @@ public class SchemaViews {
     public static void startActivityToRenderConstSchema(Fragment fragment, String schemaString, String constValue) {
         TruFormActivity.startActivityToRenderConstSchema(fragment, schemaString, constValue);
     }
-
-
 }
