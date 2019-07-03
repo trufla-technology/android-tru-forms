@@ -49,11 +49,10 @@ public class EnumDataFetcher
         {
             case "/vehicles":
             case "/properties":
-                StringBuilder filterUrl = new StringBuilder("location.policy&location.policy.policy_expiration_date=gteq::")
-                        .append(currentDate)
-                        .append("&location.policy.relatedInsureds&location.policy.relatedInsureds.user_id=")
-                        .append(userId)
-                        .append("&location.policy.cycle_business_purpose=!eq::XLN");
+                StringBuilder filterUrl = new StringBuilder
+                        ("&location.policy.relatedInsureds.user_id=").append(userId)
+                        .append("&location.policy.policy_expiration_date=gteq::").append(currentDate)
+                        .append("&location.policy.cycle_business_purpose=!eq::XLN&page_limit=20");
 
                 if(fullURL.toString().contains("?includes="))
                     fullURL.append(filterUrl);
@@ -64,8 +63,8 @@ public class EnumDataFetcher
 
             case "/policies":
                 fullURL.append("?policy_expiration_date=gteq::").append(currentDate)
-                        .append("&policy.relatedInsureds&policy.relatedInsureds.user_id=").append(userId)
-                        .append("&cycle_business_purpose=!eq::XLN");
+                        .append("&policy.relatedInsureds.user_id=").append(userId)
+                        .append("&cycle_business_purpose=!eq::XLN&&page_limit=20");
                 break;
         }
 
