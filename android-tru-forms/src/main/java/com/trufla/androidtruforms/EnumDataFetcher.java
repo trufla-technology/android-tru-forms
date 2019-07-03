@@ -62,9 +62,16 @@ public class EnumDataFetcher
                 break;
 
             case "/policies":
-                fullURL.append("?policy_expiration_date=gteq::").append(currentDate)
-                        .append("&policy.relatedInsureds.user_id=").append(userId)
-                        .append("&cycle_business_purpose=!eq::XLN&&page_limit=20");
+                StringBuilder policiesFilter = new StringBuilder
+                        ("&policy.relatedInsureds.user_id=").append(userId)
+                        .append("&policy_expiration_date=gteq::").append(currentDate)
+                        .append("&cycle_business_purpose=!eq::XLN&page_limit=20");
+
+                if(fullURL.toString().contains("?includes="))
+                    fullURL.append(policiesFilter);
+
+                else
+                    fullURL.append("?includes=").append(policiesFilter);
                 break;
         }
 
