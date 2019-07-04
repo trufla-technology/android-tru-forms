@@ -62,9 +62,9 @@ public class EnumDataFetcher
                 break;
 
             case "/policies":
-                fullURL.append("?policy_expiration_date=gteq::")
+                fullURL.append("?includes=&policy_expiration_date=gteq::")
                         .append(currentDate)
-                        .append("&policy.relatedInsureds.user_id=")
+                        .append("&relatedInsureds.user_id=")
                         .append(userId)
                         .append("&cycle_business_purpose=!eq::XLN&page_limit=20");
                 break;
