@@ -6,23 +6,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
-import com.trufla.androidtruforms.models.ArrayInstance;
-import com.trufla.androidtruforms.models.BooleanInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
-import com.trufla.androidtruforms.models.NumericInstance;
 import com.trufla.androidtruforms.models.ObjectInstance;
-import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaKeywords;
 import com.trufla.androidtruforms.models.SchemaInstance;
-import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
-import com.trufla.androidtruforms.utils.ValueToSchemaMapper;
-
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static com.trufla.androidtruforms.models.SchemaKeywords.InstanceTypes.NUMBER;
 import static com.trufla.androidtruforms.models.SchemaKeywords.InstanceTypes.STRING;
