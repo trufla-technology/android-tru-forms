@@ -109,7 +109,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
         this.mDataFetchListener = listener;
         EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);
         int userId = 1365;  //This is just a temp value because i don't use this activity
-        fetcher.requestData(userId, url, getHttpCallback(selector, names));
+        fetcher.requestData(url, getHttpCallback(selector, names));
         showProgressDialog();
     }
 
