@@ -1,17 +1,12 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.TextView;
+import androidx.annotation.NonNull;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.android.material.textfield.TextInputLayout;
+
+import android.text.TextUtils;
+
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.TruUtils;

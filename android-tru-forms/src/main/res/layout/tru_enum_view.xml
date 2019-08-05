@@ -14,7 +14,7 @@
         tools:text="Category:"
         android:layout_marginBottom="5dp"/>
 
-    <android.support.v7.widget.AppCompatSpinner
+    <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinner"
         style="@style/Widget.AppCompat.Spinner.Underlined"
         android:paddingTop="8dp"

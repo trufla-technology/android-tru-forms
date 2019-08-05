@@ -3,10 +3,8 @@ package com.trufla.androidtruforms.truviews;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.widget.EditText;
+import androidx.annotation.NonNull;
 
-import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.SchemaBuilder;
 import com.trufla.androidtruforms.models.StringInstance;
 

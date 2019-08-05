@@ -1,10 +1,7 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
-import android.support.design.widget.TextInputEditText;
-import android.view.View;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.trufla.androidtruforms.R;

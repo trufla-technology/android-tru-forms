@@ -2,7 +2,7 @@ package com.trufla.androidtruforms.utils;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.ColorRes;
+import androidx.annotation.ColorRes;
 
 public class ColorFactory {
 

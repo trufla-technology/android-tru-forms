@@ -1,7 +1,7 @@
 package com.trufla.androidtruforms.utils;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
+
 import android.util.Pair;
 
 import com.google.gson.Gson;
