@@ -2,16 +2,9 @@ package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.TextView;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -47,10 +40,10 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     @Override
     public String getInputtedData() {
         try {
-            if(instance.getKey().equals("who_was_driving") || instance.getKey().equals("phone_type_other"))
+            if (instance.getKey().equals("who_was_driving") || instance.getKey().equals("phone_type_other"))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
 
-            if(!TextUtils.isEmpty(extractData()))
+            if (!TextUtils.isEmpty(extractData()))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), extractData());
 
         } catch (NullPointerException ex) {
@@ -96,7 +89,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         if (TruUtils.isEmpty(instance.getPattern()) && !STRING_TYPE.equals("email"))
             return true;
 
-        else if(STRING_TYPE.equals("email"))
+        else if (STRING_TYPE.equals("email"))
             return checkPattern(EMAIL_PATTERN);
 
         return checkPattern(instance.getPattern());
@@ -113,8 +106,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 //        return false;
     }
 
-    private boolean checkPattern(String originPattern)
-    {
+    private boolean checkPattern(String originPattern) {
         try {
             Pattern patternObj = Pattern.compile(originPattern);
             Matcher matcher = patternObj.matcher(extractData());

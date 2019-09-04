@@ -1,7 +1,6 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
