@@ -6,13 +6,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Base64;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
 
-public class BitmapUtils
-{
+public class BitmapUtils {
+
     public static String downScaleImageAndConvertToWebPAsBase64(Context ctx, Uri imageUri, int width, int height) {
         String originalPath = imageUri.toString();
         Bitmap bitmap = BitmapFactory.decodeFile(originalPath);
@@ -45,14 +46,12 @@ public class BitmapUtils
             bitmap.recycle();
             bitmap = resizedBitmap;
         }
-
-
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.WEBP, 80, outputStream);
             outputStream.close();
             String encodedImage = Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
-            return "data:image/jpeg;base64,"+encodedImage.replaceAll("\n","");
+            return "data:image/jpeg;base64," + encodedImage.replaceAll("\n", "");
 //            return Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,9 +59,9 @@ public class BitmapUtils
         }
     }
 
-    public static Bitmap decodeBase64ToBitmap(String imgBase64)
-    {
-        String myNewImage = imgBase64.replace("data:image/jpeg;base64,", "");
+    public static Bitmap decodeBase64ToBitmap(String imgBase64) {
+        String regex = "(^data).*(,)";
+        String myNewImage = imgBase64.replaceAll(regex, "");
         byte[] imageByteArray = Base64.decode(myNewImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
     }
