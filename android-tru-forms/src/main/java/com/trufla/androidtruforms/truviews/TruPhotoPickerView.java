@@ -41,7 +41,7 @@ public class TruPhotoPickerView extends TruStringView {
     @Override
     protected void setInstanceData() {
 //        String title = mView.getResources().getString(R.string.add_photo_label, instance.getPresentationTitle());
-        String title = instance.getPresentationTitle()+"";
+        String title = instance.getPresentationTitle() + "";
         ((TextView) mView.findViewById(R.id.title)).setText(title);
     }
 
@@ -77,8 +77,7 @@ public class TruPhotoPickerView extends TruStringView {
 
     @NonNull
     @Override
-    protected String extractData()
-    {
+    protected String extractData() {
         return base64Image;
 //        return BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath), 200, 200);
     }
