@@ -12,16 +12,18 @@ import java.util.ArrayList;
  * Created by ohefny on 7/3/18.
  */
 
-public class EnumInstance<T> extends SchemaInstance {
+public class EnumInstance<T> extends SchemaInstance
+{
     @SerializedName("enum")
     protected ArrayList<T> enumVals; //instance of String or Number or Boolean
+
     @SerializedName("enumNames")
     protected ArrayList<String> enumNames; //instance of String or Number or Boolean
+
     @SerializedName("_data")
     protected DataInstance dataInstance;
 
     public EnumInstance(){
-
     }
 
     @Override
@@ -29,27 +31,29 @@ public class EnumInstance<T> extends SchemaInstance {
         return null;
     }
 
-    public EnumInstance(EnumInstance<T> copyInstance) {
+    public EnumInstance(EnumInstance<T> copyInstance)
+    {
         super(copyInstance);
         this.enumVals= new ArrayList<>(copyInstance.enumVals);
         this.enumNames=new ArrayList<>(copyInstance.enumNames);
         this.dataInstance=new DataInstance(copyInstance.getDataInstance());
     }
 
-
     public boolean enumExists() {
         return enumVals != null && !enumVals.isEmpty();
     }
 
     @Override
-    public TruEnumView getViewBuilder(Context context) {
+    public TruEnumView getViewBuilder(Context context)
+    {
         if (dataInstance == null)   
             return new TruEnumView(context, this);
         else
             return new TruEnumDataView(context, this);
     }
 
-    public ArrayList<String> getEnumDisplayedNames() {
+    public ArrayList<String> getEnumDisplayedNames()
+    {
         ArrayList<String> displayedNames = new ArrayList<>();
         if (enumNames != null && !enumNames.isEmpty())
             return enumNames;
@@ -63,7 +67,7 @@ public class EnumInstance<T> extends SchemaInstance {
                 for (T d : enumVals)
                 {
                     String value = String.valueOf(d).replace(".0","");
-                    displayedNames.add(String.valueOf(value));
+                    displayedNames.add(value);
                 }
             }
         }
