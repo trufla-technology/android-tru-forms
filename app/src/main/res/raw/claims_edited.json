@@ -1,31 +1,80 @@
 {
-  "title": "Delete a Property",
-  "description": "Delete a Property",
-  "type": "object",
-  "properties": {
-    "effective_date": {
-      "type": "string",
-      "format": "date"
+  "title":"Add Driver",
+  "description":"Add Driver",
+  "type":"object",
+  "properties":{
+    "effective_date":{
+      "type":"string",
+      "format":"date"
     },
-    "select_property": {
-      "type": "number",
-      "_data": {
-        "href": "/properties",
-        "enum": "id",
-        "enumNames": [
-          "location.street_address_line_1"
+    "select_vehicle":{
+      "type":"number",
+      "_data":{
+        "href":"/vehicles",
+        "enum":"id",
+        "enumNames":[
+          "vehicle_make",
+          "vehicle_model"
         ]
       }
     },
-    "property_delete_request": {
-      "title": "Please tell us reason for deleting this property",
-      "type": "string",
-      "format": "textarea"
+    "first_name":{
+      "title":"First Name",
+      "type":"string"
+    },
+    "last_name":{
+      "title":"Last Name",
+      "type":"string"
+    },
+    "driver_license_no":{
+      "title":"Driver License No.",
+      "type":"string"
+    },
+    "insurance_duration":{
+      "enum":[
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "type":"number"
+    },
+    "number_of_conviction":{
+      "type":"string",
+      "enum":[
+        "0",
+        "1",
+        "2",
+        "3",
+        "4+"
+      ]
+    },
+    "number_of_accidents":{
+      "type":"string",
+      "enum":[
+        "0",
+        "1",
+        "2",
+        "3",
+        "4+"
+      ]
     }
   },
-  "required": [
+  "required":[
+    "first_name",
+    "last_name",
+    "driver_license_no",
+    "insurance_duration",
+    "number_of_conviction",
+    "number_of_accidents",
     "effective_date",
-    "select_property",
-    "property_delete_request"
+    "select_vehicle"
   ]
 }

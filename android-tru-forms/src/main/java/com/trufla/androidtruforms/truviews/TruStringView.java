@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+
 import android.text.TextUtils;
 
 import com.trufla.androidtruforms.R;
@@ -42,10 +43,10 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     @Override
     public String getInputtedData() {
         try {
-            if(instance.getKey().equals("who_was_driving") || instance.getKey().equals("phone_type_other"))
+            if (instance.getKey().equals("who_was_driving") || instance.getKey().equals("phone_type_other"))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
 
-            if(!TextUtils.isEmpty(extractData()))
+            if (!TextUtils.isEmpty(extractData()))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), extractData());
 
         } catch (NullPointerException ex) {
@@ -91,7 +92,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         if (TruUtils.isEmpty(instance.getPattern()) && !STRING_TYPE.equals("email"))
             return true;
 
-        else if(STRING_TYPE.equals("email"))
+        else if (STRING_TYPE.equals("email"))
             return checkPattern(EMAIL_PATTERN);
 
         return checkPattern(instance.getPattern());
@@ -108,8 +109,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 //        return false;
     }
 
-    private boolean checkPattern(String originPattern)
-    {
+    private boolean checkPattern(String originPattern) {
         try {
             Pattern patternObj = Pattern.compile(originPattern);
             Matcher matcher = patternObj.matcher(extractData());
