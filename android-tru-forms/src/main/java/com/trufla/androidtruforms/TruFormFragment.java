@@ -1,10 +1,8 @@
 package com.trufla.androidtruforms;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -26,6 +24,7 @@ import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Callback;
 
@@ -38,7 +37,8 @@ import okhttp3.Callback;
  * Use the {@link TruFormFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TruFormFragment extends Fragment implements FormContract {
+public class TruFormFragment extends Fragment implements FormContract
+{
     private OnFormActionsListener mListener;
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final String JSON_KEY = "JSON_VALUE";
@@ -89,16 +89,20 @@ public class TruFormFragment extends Fragment implements FormContract {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tru_form, container, false);
         try {
+            assert getArguments() != null;
             String jsonVal = getArguments().getString(JSON_KEY);
+
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
             else {
                 truFormView = SchemaBuilder.getInstance().buildSchemaViewWithConstValues(schemaString, jsonVal, getContext());
                 rootView.findViewById(R.id.submit_btn).setVisibility(View.GONE);
             }
+
             View formView = truFormView.build();
             ((LinearLayout) rootView.findViewById(R.id.form_container)).addView(formView);
             rootView.findViewById(R.id.submit_btn).setOnClickListener((v) -> onSubmitClicked());
+
         } catch (Exception ex) {
             mListener.onFormFailed();
             ex.printStackTrace();
@@ -164,14 +168,14 @@ public class TruFormFragment extends Fragment implements FormContract {
             if (!TruUtils.isEmpty(path) && mPickedImageListener != null) {
                 mPickedImageListener.accept(path);
             }
-
         }
     }
 
-
     @NonNull
-    private Callback getHttpCallback(final String selector, final ArrayList<String> names) {
-        return new TruCallback(getContext().getApplicationContext()) {
+    private Callback getHttpCallback(final String selector, final ArrayList<String> names)
+    {
+        return new TruCallback(Objects.requireNonNull(getContext()).getApplicationContext())
+        {
             @Override
             public void onUIFailure(String message) {
                 if (progressDialog.isShowing())
@@ -186,7 +190,6 @@ public class TruFormFragment extends Fragment implements FormContract {
             }
         };
     }
-
 
     public void onSubmitClicked() {
         if (!isValidData()) {
