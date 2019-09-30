@@ -53,8 +53,7 @@ public class TruFormView extends TruObjectView {
         String json = super.getInputtedData();
         if(json==null)
             return null;
-        String subString = json.substring(json.indexOf(':') + 1);
-        return subString;
+        return json.substring(json.indexOf(':') + 1);
     }
 
     protected void setLayoutParams(View childView, SchemaBaseView truView) {
