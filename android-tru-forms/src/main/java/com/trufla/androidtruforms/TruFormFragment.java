@@ -37,8 +37,7 @@ import okhttp3.Callback;
  * Use the {@link TruFormFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TruFormFragment extends Fragment implements FormContract
-{
+public class TruFormFragment extends Fragment implements FormContract {
     private OnFormActionsListener mListener;
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final String JSON_KEY = "JSON_VALUE";
@@ -147,7 +146,7 @@ public class TruFormFragment extends Fragment implements FormContract
         if (progressDialog != null && progressDialog.isShowing())
             return;
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading...");
+        progressDialog.setTitle(getString(R.string.loading));
         progressDialog.show();
     }
 
@@ -172,15 +171,13 @@ public class TruFormFragment extends Fragment implements FormContract
     }
 
     @NonNull
-    private Callback getHttpCallback(final String selector, final ArrayList<String> names)
-    {
-        return new TruCallback(Objects.requireNonNull(getContext()).getApplicationContext())
-        {
+    private Callback getHttpCallback(final String selector, final ArrayList<String> names) {
+        return new TruCallback(Objects.requireNonNull(getContext()).getApplicationContext()) {
             @Override
             public void onUIFailure(String message) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                Toast.makeText(getContext(), "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.cant_load_data) + message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -193,7 +190,7 @@ public class TruFormFragment extends Fragment implements FormContract
 
     public void onSubmitClicked() {
         if (!isValidData()) {
-            Toast.makeText(getContext(), "Please correct the errors", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.please_correct_errors), Toast.LENGTH_SHORT).show();
             return;
         }
         //Toast.makeText(getContext(), "submitted", Toast.LENGTH_SHORT).show();
