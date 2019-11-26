@@ -14,6 +14,7 @@ import com.trufla.androidtruforms.SchemaBuilder;
 import com.trufla.androidtruforms.SchemaViews;
 import com.trufla.androidtruforms.TruFormFragment;
 import com.trufla.androidtruforms.exceptions.UnableToParseSchemaException;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -26,6 +27,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
     //FRAGMENT_FORM type to display view as submit new request or claim
     //ACTIVITY_FORM //  //  //     //   //  History
     enum FormType {FRAGMENT_FORM, ACTIVITY_FORM}
+
     FormType type = FormType.FRAGMENT_FORM;
 
     @Override
@@ -42,14 +44,12 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         activityFormParseClicked();
     }
 
-    private void fragmentFormParseClicked()
-    {
+    private void fragmentFormParseClicked() {
         StringBuilder jsonStringBuilder = new StringBuilder();
         String js = "";
         String v = "";
 
-        if (TextUtils.isEmpty(js))
-        {
+        if (TextUtils.isEmpty(js)) {
             InputStream inputStream = getResources().openRawResource(R.raw.claims_edited);
             Scanner scanner = new Scanner(inputStream);
 
@@ -76,8 +76,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         String js = ((EditText) findViewById(R.id.et)).getText().toString().trim();
         String v = ((EditText) findViewById(R.id.submitted_data)).getText().toString().trim();
 
-        if (TextUtils.isEmpty(js))
-        {
+        if (TextUtils.isEmpty(js)) {
             Toast.makeText(this, "No Json Entered ... Form from claims.json will be built", Toast.LENGTH_LONG).show();
             InputStream inputStream = getResources().openRawResource(R.raw.claims_edited);
             Scanner scanner = new Scanner(inputStream);
@@ -107,15 +106,14 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
     }
 
     @Override
-    public void onFormSubmitted(String jsonReperesentation)
-    {
+    public void onFormSubmitted(String jsonReperesentation) {
         Log.d("Json values", jsonReperesentation);
         //((TextView) findViewById(R.id.submitted_data)).setText(str);
     }
 
     @Override
     public void onFormFailed() {
-        Toast.makeText(this, "Unable to create the form ... please check the schema", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.unable_to_create_form), Toast.LENGTH_SHORT).show();
     }
 
 }
