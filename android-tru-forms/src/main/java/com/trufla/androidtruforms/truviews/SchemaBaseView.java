@@ -53,12 +53,15 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         return mView;
     }
 
+    protected abstract void setCustomColor();
+
     protected void buildSubview() {
 
     }
 
     @CallSuper
     protected void onViewCreated() {
+        setCustomColor();
         setInstanceData();
         if (instance.getConstItem() != null) {
             setNonEditableValues(instance.getConstItem());

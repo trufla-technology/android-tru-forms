@@ -34,6 +34,11 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         mView.findViewById(R.id.add_item_img).setOnClickListener((v) -> onAddNewView());
     }
 
+    @Override
+    protected void setCustomColor() {
+
+    }
+
     private void initPrimaryItem() {
         primaryItem = instance.getItems().getViewBuilder(mContext);
         View primaryItemView = primaryItem.build();

@@ -15,8 +15,7 @@ import com.trufla.androidtruforms.utils.TruUtils;
 import java.util.Calendar;
 
 
-public class TruTimePickerView extends TruStringView
-{
+public class TruTimePickerView extends TruStringView {
     private Calendar cal = Calendar.getInstance();
 
     public TruTimePickerView(Context context, StringInstance instance) {

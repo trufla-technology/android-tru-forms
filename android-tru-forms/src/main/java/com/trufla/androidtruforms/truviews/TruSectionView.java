@@ -30,6 +30,11 @@ public class TruSectionView extends TruObjectView {
     }
 
     @Override
+    protected void setCustomColor() {
+
+    }
+
+    @Override
     protected void buildSubview() {
         super.buildSubview();
         if (TruUtils.isEmpty(instance.getTitle())) {

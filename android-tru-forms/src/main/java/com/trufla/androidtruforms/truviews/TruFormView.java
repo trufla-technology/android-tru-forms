@@ -26,6 +26,11 @@ public class TruFormView extends TruObjectView {
     }
 
     @Override
+    protected void setCustomColor() {
+
+    }
+
+    @Override
     protected void buildSubview() {
         super.buildSubview();
         for (SchemaInstance child : instance.getProperties().getVals()) {

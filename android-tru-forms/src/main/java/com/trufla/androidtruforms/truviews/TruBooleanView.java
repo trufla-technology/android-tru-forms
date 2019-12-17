@@ -1,10 +1,7 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
-import android.support.design.widget.TextInputEditText;
-import android.view.View;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.trufla.androidtruforms.R;
@@ -25,14 +22,19 @@ public class TruBooleanView extends SchemaBaseView<BooleanInstance> {
     }
 
     @Override
+    protected void setCustomColor() {
+
+    }
+
+    @Override
     protected void setInstanceData() {
         ((TextView) (mView.findViewById(R.id.title_data))).setText(instance.getPresentationTitle());
     }
 
     @Override
     public String getInputtedData() {
-        if(mView==null)
-            return String.format(Locale.getDefault(),"\"%s\":null",instance.getKey());
+        if (mView == null)
+            return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
         boolean isChecked = ((CheckBox) mView.findViewById(R.id.input_data)).isChecked();
         String str = String.format(Locale.getDefault(), "\"%s\":%s", instance.getKey(), isChecked ? "true" : "false");
         return str;
@@ -45,12 +47,12 @@ public class TruBooleanView extends SchemaBaseView<BooleanInstance> {
 
     @Override
     protected boolean isFilled() {
-        return mView!=null;
+        return mView != null;
     }
 
     @Override
     protected void setNonEditableValues(Object constItem) {
-        if(constItem instanceof Boolean){
+        if (constItem instanceof Boolean) {
             ((CheckBox) mView.findViewById(R.id.input_data)).setChecked(((Boolean) constItem));
         }
         ((CheckBox) mView.findViewById(R.id.input_data)).setEnabled(false);

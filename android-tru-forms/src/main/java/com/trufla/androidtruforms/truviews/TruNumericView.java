@@ -42,6 +42,11 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
         return "";
     }
 
+    @Override
+    protected void setCustomColor() {
+
+    }
+
     @NonNull
     private String extractData() {
         return ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString();

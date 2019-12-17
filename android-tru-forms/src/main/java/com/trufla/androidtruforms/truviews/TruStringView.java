@@ -1,9 +1,14 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.widget.EditText;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.StringInstance;
@@ -23,6 +28,11 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     private String STRING_TYPE = "";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    protected void setCustomColor() {
+        ((EditText) (mView.findViewById(R.id.input_data))).setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+    }
 
     public TruStringView(Context context, StringInstance instance) {
         super(context, instance);
@@ -44,7 +54,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
             if (instance.getKey().equals("phone_type_other"))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
 
-            if(instance.getKey().equals("who_was_driving") && TextUtils.isEmpty(extractData()))
+            if (instance.getKey().equals("who_was_driving") && TextUtils.isEmpty(extractData()))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
 
             if (!TextUtils.isEmpty(extractData()))

@@ -18,8 +18,7 @@ import java.util.Locale;
  * Created by ohefny on 7/3/18.
  */
 
-public class TruEnumView extends SchemaBaseView<EnumInstance>
-{
+public class TruEnumView extends SchemaBaseView<EnumInstance> {
     protected ArrayAdapter<String> adapter;
     private Spinner spinner;
     protected EnumValueChangedListener valueChangedListener;
@@ -30,12 +29,16 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
     }
 
     @Override
+    protected void setCustomColor() {
+
+    }
+
+    @Override
     protected void buildSubview() {
         spinner = mView.findViewById(R.id.spinner);
     }
 
-    protected void setupAdapter(EnumInstance instance)
-    {
+    protected void setupAdapter(EnumInstance instance) {
         ArrayList<String> items;
         items = instance.getEnumDisplayedNames();
         adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
@@ -45,7 +48,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (valueChangedListener != null)
-                    valueChangedListener.onEnumValueChanged(instance.getKey(),instance.getEnumVals().get(position));
+                    valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(position));
             }
 
             @Override
@@ -59,7 +62,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
     protected void onViewCreated() {
         super.onViewCreated();
         if (valueChangedListener != null)
-            valueChangedListener.onEnumValueChanged(instance.getKey(),instance.getEnumVals().get(0));
+            valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(0));
     }
 
     @Override
@@ -107,12 +110,10 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
     @Override
     protected void setNonEditableValues(Object constItem) {
         String constStr = String.valueOf(constItem);
-        for (int i = 0; i < instance.getEnumVals().size(); i++)
-        {
+        for (int i = 0; i < instance.getEnumVals().size(); i++) {
             String enumStr = String.valueOf(instance.getEnumVals().get(i));
-            enumStr = String.valueOf(enumStr).replace(".0","");
-            if (enumStr.equals(constStr))
-            {
+            enumStr = String.valueOf(enumStr).replace(".0", "");
+            if (enumStr.equals(constStr)) {
                 spinner.setSelection(i);
                 break;
             }
@@ -130,7 +131,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
 
 
     public interface EnumValueChangedListener {
-        void onEnumValueChanged(String itemKey,Object val);
+        void onEnumValueChanged(String itemKey, Object val);
     }
 
 }
