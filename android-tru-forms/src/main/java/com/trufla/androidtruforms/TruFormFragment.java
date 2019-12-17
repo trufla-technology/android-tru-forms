@@ -24,6 +24,7 @@ import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Callback;
 
@@ -87,16 +88,20 @@ public class TruFormFragment extends Fragment implements FormContract {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tru_form, container, false);
         try {
+            assert getArguments() != null;
             String jsonVal = getArguments().getString(JSON_KEY);
+
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
             else {
                 truFormView = SchemaBuilder.getInstance().buildSchemaViewWithConstValues(schemaString, jsonVal, getContext());
                 rootView.findViewById(R.id.submit_btn).setVisibility(View.GONE);
             }
+
             View formView = truFormView.build();
             ((LinearLayout) rootView.findViewById(R.id.form_container)).addView(formView);
             rootView.findViewById(R.id.submit_btn).setOnClickListener((v) -> onSubmitClicked());
+
         } catch (Exception ex) {
             mListener.onFormFailed();
             ex.printStackTrace();
@@ -141,7 +146,7 @@ public class TruFormFragment extends Fragment implements FormContract {
         if (progressDialog != null && progressDialog.isShowing())
             return;
         progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Loading...");
+        progressDialog.setTitle(getString(R.string.loading));
         progressDialog.show();
     }
 
@@ -162,19 +167,17 @@ public class TruFormFragment extends Fragment implements FormContract {
             if (!TruUtils.isEmpty(path) && mPickedImageListener != null) {
                 mPickedImageListener.accept(path);
             }
-
         }
     }
 
-
     @NonNull
     private Callback getHttpCallback(final String selector, final ArrayList<String> names) {
-        return new TruCallback(getContext().getApplicationContext()) {
+        return new TruCallback(Objects.requireNonNull(getContext()).getApplicationContext()) {
             @Override
             public void onUIFailure(String message) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                Toast.makeText(getContext(), "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.cant_load_data) + message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -185,10 +188,9 @@ public class TruFormFragment extends Fragment implements FormContract {
         };
     }
 
-
     public void onSubmitClicked() {
         if (!isValidData()) {
-            Toast.makeText(getContext(), "Please correct the errors", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.please_correct_errors), Toast.LENGTH_SHORT).show();
             return;
         }
         //Toast.makeText(getContext(), "submitted", Toast.LENGTH_SHORT).show();

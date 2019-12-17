@@ -13,6 +13,7 @@ import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,7 +44,10 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     @Override
     public String getInputtedData() {
         try {
-            if (instance.getKey().equals("who_was_driving") || instance.getKey().equals("phone_type_other"))
+            if (instance.getKey().equals("phone_type_other"))
+                return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
+
+            if(instance.getKey().equals("who_was_driving") && TextUtils.isEmpty(extractData()))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
 
             if (!TextUtils.isEmpty(extractData()))
@@ -67,7 +71,8 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @NonNull
     protected String extractData() {
-        return ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().getText().toString().trim();
+        return Objects.requireNonNull(((TextInputLayout) mView.findViewById(R.id.input_view_container))
+                .getEditText()).getText().toString().trim();
     }
 
 
@@ -152,7 +157,8 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     @Override
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof String) {
-            ((TextInputLayout) mView.findViewById(R.id.input_view_container)).getEditText().setText(constItem.toString());
+            Objects.requireNonNull(((TextInputLayout) mView.findViewById(R.id.input_view_container))
+                    .getEditText()).setText(constItem.toString());
         }
         mView.findViewById(R.id.input_view_container).setEnabled(false);
     }

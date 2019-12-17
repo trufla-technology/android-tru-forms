@@ -19,7 +19,9 @@ import java.util.Locale;
  * Created by ohefny on 7/2/18.
  */
 
-public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> implements TruEnumView.EnumValueChangedListener {
+public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> implements
+        TruEnumView.EnumValueChangedListener
+{
     protected ArrayList<SchemaBaseView> childs = new ArrayList<>();
     protected HashMap<String, SchemaBaseView> childsAsHash = new HashMap();
 

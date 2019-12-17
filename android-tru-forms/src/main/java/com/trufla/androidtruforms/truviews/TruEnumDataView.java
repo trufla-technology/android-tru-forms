@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.DataInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
@@ -21,18 +21,18 @@ import java.util.List;
 public class TruEnumDataView extends TruEnumView {
     private int selectedPosition = -1;
     private Button pickBtn;
+    private Context context;
 
     public TruEnumDataView(Context context, EnumInstance instance) {
         super(context, instance);
+        this.context = context;
     }
 
     @Override
     protected Object getSelectedObject() {
        /* if (selectedPosition < 0)
             return "null";*/
-        Object selected = instance.getEnumVals().get(selectedPosition);
-        return selected;
-
+        return instance.getEnumVals().get(selectedPosition);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TruEnumDataView extends TruEnumView {
         ((TextView) mView.findViewById(R.id.pick_item_btn_title)).setText(instance.getPresentationTitle());
         if (selectedPosition >= 0 && instance.enumExists()) {
             String choosedItemTitle = "";
-            if(instance.getEnumDisplayedNames().size() > 0)
+            if (instance.getEnumDisplayedNames().size() > 0)
                 choosedItemTitle = String.valueOf(instance.getEnumDisplayedNames().get(selectedPosition));
 
             ((Button) mView.findViewById(R.id.pick_item_btn)).setText(choosedItemTitle);
@@ -106,7 +106,8 @@ public class TruEnumDataView extends TruEnumView {
         int valIdx;
         if (instance.getEnumVals().size() > 0 && instance.getEnumVals().get(0) instanceof String) {
             valIdx = instance.getEnumVals().indexOf(instance.getConstItem());
-        } else valIdx = instance.getEnumVals().indexOf(Double.parseDouble(instance.getConstItem().toString()));
+        } else
+            valIdx = instance.getEnumVals().indexOf(Double.parseDouble(instance.getConstItem().toString()));
         if (valIdx >= 0)
             return instance.getEnumNames().get(valIdx);
         else
@@ -115,12 +116,12 @@ public class TruEnumDataView extends TruEnumView {
 
     public void showChooserDialogAction() {
         String[] displayedNames = new String[]{};
-        if(instance.getEnumDisplayedNames().size() > 0)
+        if (instance.getEnumDisplayedNames().size() > 0)
             displayedNames = ((List<String>) instance.getEnumDisplayedNames()).toArray(new String[0]);
 
         new AlertDialog.Builder(mContext)
                 .setSingleChoiceItems(displayedNames, 0, null)
-                .setPositiveButton("OK", (dialog, whichButton) -> {
+                .setPositiveButton(context.getString(R.string.ok), (dialog, whichButton) -> {
                     selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                     if (valueChangedListener != null) {
                         valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(selectedPosition));
@@ -132,11 +133,11 @@ public class TruEnumDataView extends TruEnumView {
 
     @Override
     protected void setNonEditableValues(Object constItem) {
-        if(pickBtn.isEnabled())
+        if (pickBtn.isEnabled())
             pickBtn.performClick();
         String constStr = String.valueOf(constItem);
         if (TextUtils.isEmpty(constStr))
-            pickBtn.setText("Non Selected");
+            pickBtn.setText(context.getString(R.string.non_selected));
         else
             pickBtn.setText(constStr.toString());
         pickBtn.setEnabled(false);

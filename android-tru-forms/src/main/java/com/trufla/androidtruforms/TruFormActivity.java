@@ -84,7 +84,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
             ((LinearLayout) findViewById(R.id.form_container)).addView(formView);
         } catch (Exception ex) {
             ex.printStackTrace();
-            Toast.makeText(this, "Unable to create the form ... please check the schema", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.unable_to_create_form), Toast.LENGTH_SHORT).show();
             setResult(RESULT_CANCELED);
             finish();
         }
@@ -117,7 +117,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
         if (progressDialog != null && progressDialog.isShowing())
             return;
         progressDialog = new ProgressDialog(TruFormActivity.this);
-        progressDialog.setTitle("Loading...");
+        progressDialog.setTitle(getString(R.string.loading));
         progressDialog.show();
     }
 
@@ -150,7 +150,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
             public void onUIFailure(String message) {
                 if (progressDialog.isShowing())
                     progressDialog.dismiss();
-                Toast.makeText(TruFormActivity.this, "Can't Load your data " + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(TruFormActivity.this, getString(R.string.cant_load_data) + message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -164,10 +164,10 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
 
     public void onSubmitClicked(View view) {
         if (!isValidData()) {
-            Toast.makeText(this, "Please correct the errors", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.please_correct_errors), Toast.LENGTH_SHORT).show();
             return;
         }
-        Toast.makeText(this, "submitted", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.submitted), Toast.LENGTH_SHORT).show();
         String result = truFormView.getInputtedData();
         Intent intent = new Intent();
         intent.putExtra(SchemaBuilder.RESULT_DATA_KEY, result);
