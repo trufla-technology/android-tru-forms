@@ -3,12 +3,13 @@
     package="com.trufla.androidtruforms"> <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application>
+    <application
+        android:theme="@style/AppTheme" >
         <activity android:name=".TruFormActivity" />
         <activity
             android:name=".TruNavigationActivity"
             android:label="@string/title_activity_tru_navigation"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

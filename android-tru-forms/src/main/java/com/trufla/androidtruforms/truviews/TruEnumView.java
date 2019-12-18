@@ -1,12 +1,14 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.AdapterView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+
+import com.google.android.material.textfield.TextInputLayout;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.EnumInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -18,39 +20,62 @@ import java.util.Locale;
  * Created by ohefny on 7/3/18.
  */
 
-public class TruEnumView extends SchemaBaseView<EnumInstance>
-{
+public class TruEnumView extends SchemaBaseView<EnumInstance> {
+
+    private int selectedItemPos = -1;
+
     protected ArrayAdapter<String> adapter;
-    private Spinner spinner;
+    //    private Spinner spinner;
     protected EnumValueChangedListener valueChangedListener;
+
+    private AppCompatAutoCompleteTextView autoCompleteTextView;
+    private TextInputLayout inputLayout;
 
     public TruEnumView(Context context, EnumInstance instance) {
         super(context, instance);
-
     }
 
     @Override
     protected void buildSubview() {
-        spinner = mView.findViewById(R.id.spinner);
+        inputLayout = mView.findViewById(R.id.input_layout);
+        autoCompleteTextView = mView.findViewById(R.id.editText);
     }
 
-    protected void setupAdapter(EnumInstance instance)
-    {
+    protected void setupAdapter(EnumInstance instance) {
         ArrayList<String> items;
         items = instance.getEnumDisplayedNames();
-        adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
+        autoCompleteTextView.setAdapter(adapter);
+
+        autoCompleteTextView.setOnTouchListener((v, event) -> {
+            InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+            inputLayout.requestFocus();
+            autoCompleteTextView.showDropDown();
+            return true;
+        });
+
+        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+            selectedItemPos = position;
+            if (valueChangedListener != null)
+                valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(position));
+        });
+
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (valueChangedListener != null)
-                    valueChangedListener.onEnumValueChanged(instance.getKey(),instance.getEnumVals().get(position));
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0)
+                    selectedItemPos = -1;
             }
         });
     }
@@ -59,13 +84,13 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
     protected void onViewCreated() {
         super.onViewCreated();
         if (valueChangedListener != null)
-            valueChangedListener.onEnumValueChanged(instance.getKey(),instance.getEnumVals().get(0));
+            valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(0));
     }
 
     @Override
     protected void setInstanceData() {
         setupAdapter(instance);
-        ((TextView) mView.findViewById(R.id.spinner_title)).setText(instance.getPresentationTitle());
+        inputLayout.setHint(instance.getPresentationTitle());
     }
 
     @Override
@@ -85,10 +110,8 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
     }
 
     protected Object getSelectedObject() {
-        int position = ((Spinner) mView.findViewById(R.id.spinner)).getSelectedItemPosition();
-        return instance.getEnumVals().get(position);
+        return instance.getEnumVals().get(selectedItemPos);
     }
-
 
     @Override
     protected int getLayoutId() {
@@ -107,17 +130,15 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
     @Override
     protected void setNonEditableValues(Object constItem) {
         String constStr = String.valueOf(constItem);
-        for (int i = 0; i < instance.getEnumVals().size(); i++)
-        {
+        for (int i = 0; i < instance.getEnumVals().size(); i++) {
             String enumStr = String.valueOf(instance.getEnumVals().get(i));
-            enumStr = String.valueOf(enumStr).replace(".0","");
-            if (enumStr.equals(constStr))
-            {
-                spinner.setSelection(i);
+            enumStr = String.valueOf(enumStr).replace(".0", "");
+            if (enumStr.equals(constStr)) {
+                autoCompleteTextView.setSelection(i);
                 break;
             }
         }
-        spinner.setEnabled(false);
+        inputLayout.setEnabled(false);
     }
 
     public EnumValueChangedListener getValueChangedListener() {
@@ -128,9 +149,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance>
         this.valueChangedListener = valueChangedListener;
     }
 
-
     public interface EnumValueChangedListener {
-        void onEnumValueChanged(String itemKey,Object val);
+        void onEnumValueChanged(String itemKey, Object val);
     }
-
 }

@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/spinner_title"
-        android:layout_width="fill_parent"
+    <!--    <TextView-->
+    <!--        android:id="@+id/spinner_title"-->
+    <!--        android:layout_width="fill_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="10dip"-->
+    <!--        android:textColor="@color/colorAccent"-->
+    <!--        tools:text="Category:"-->
+    <!--        android:layout_marginBottom="5dp"/>-->
+
+    <!--    <androidx.appcompat.widget.AppCompatSpinner-->
+    <!--        android:id="@+id/spinner"-->
+    <!--        style="@style/Widget.AppCompat.Spinner.Underlined"-->
+    <!--        android:paddingTop="8dp"-->
+    <!--        android:paddingBottom="8dp"-->
+    <!--        android:layout_width="fill_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        />-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:textColor="@color/colorAccent"
-        tools:text="Category:"
-        android:layout_marginBottom="5dp"/>
+        android:hint="Hello">
 
-    <androidx.appcompat.widget.AppCompatSpinner
-        android:id="@+id/spinner"
-        style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        />
-
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/editText"
+            android:inputType="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false" />
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

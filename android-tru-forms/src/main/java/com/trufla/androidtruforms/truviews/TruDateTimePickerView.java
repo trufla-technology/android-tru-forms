@@ -3,6 +3,7 @@ package com.trufla.androidtruforms.truviews;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.trufla.androidtruforms.SchemaBuilder;
@@ -29,6 +30,7 @@ public class TruDateTimePickerView extends TruDatePickerView {
         }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false);
         dialogTime.show();
     }
+
     @NonNull
     protected DatePickerDialog.OnDateSetListener getOnDateSetListener() {
         return (view, year, month, dayOfMonth) -> {
@@ -44,7 +46,8 @@ public class TruDateTimePickerView extends TruDatePickerView {
 
         return super.getInputtedData();
     }
-    protected String getFormat(){
+
+    protected String getFormat() {
         return SchemaBuilder.getInstance().getDateTimeFormat();
     }
 }
