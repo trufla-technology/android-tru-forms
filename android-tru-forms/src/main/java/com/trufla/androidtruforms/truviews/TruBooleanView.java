@@ -27,6 +27,11 @@ public class TruBooleanView extends SchemaBaseView<BooleanInstance> {
     }
 
     @Override
+    protected void setViewError(String errorMsg) {
+
+    }
+
+    @Override
     public String getInputtedData() {
         if (mView == null)
             return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());

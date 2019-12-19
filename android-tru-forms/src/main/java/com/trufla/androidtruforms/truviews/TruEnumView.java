@@ -3,6 +3,7 @@ package com.trufla.androidtruforms.truviews;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
@@ -50,12 +51,16 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         autoCompleteTextView.setOnTouchListener((v, event) -> {
             InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+
             inputLayout.requestFocus();
             autoCompleteTextView.showDropDown();
             return true;
         });
 
+
         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+            inputLayout.setErrorEnabled(false);
+            inputLayout.setError(null);
             selectedItemPos = position;
             if (valueChangedListener != null)
                 valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(position));
@@ -92,6 +97,15 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         setupAdapter(instance);
         inputLayout.setHint(instance.getPresentationTitle());
     }
+
+    @Override
+    protected void setViewError(String errorMsg) {
+        if (inputLayout != null) {
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(errorMsg);
+        }
+    }
+
 
     @Override
     public String getInputtedData() {

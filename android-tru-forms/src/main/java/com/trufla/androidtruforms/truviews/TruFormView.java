@@ -14,7 +14,7 @@ import com.trufla.androidtruforms.utils.TruUtils;
  * Created by ohefny on 7/2/18.
  */
 
-public class TruFormView extends TruObjectView {
+public abstract class TruFormView extends TruObjectView {
 
     public TruFormView(Context context, SchemaDocument instance) {
         super(context, instance);

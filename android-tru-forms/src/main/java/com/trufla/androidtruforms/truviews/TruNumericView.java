@@ -30,6 +30,11 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
     }
 
     @Override
+    protected void setViewError(String errorMsg) {
+
+    }
+
+    @Override
     public String getInputtedData() {
         try {
             String value = extractData();

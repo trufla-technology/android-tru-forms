@@ -68,6 +68,11 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         ((AppCompatTextView) (mView.findViewById(R.id.input_data))).setText(title);
     }
 
+    @Override
+    protected void setViewError(String errorMsg) {
+
+    }
+
     @NonNull
     private String getTitle(int number) {
         return mView.getResources().getString(R.string.array_item_no_title, instance.getPresentationTitle(), number);

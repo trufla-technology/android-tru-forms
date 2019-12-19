@@ -32,7 +32,12 @@ public class SchemaDocument extends ObjectInstance {
 
     @Override
     public TruFormView getViewBuilder(Context context) {
-        return new TruFormView(context, this);
+        return new TruFormView(context, this) {
+            @Override
+            protected void setViewError(String errorMsg) {
+
+            }
+        };
     }
 
 

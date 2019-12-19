@@ -1,13 +1,14 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+
 import androidx.annotation.NonNull;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-
-import android.text.TextUtils;
-
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -25,6 +26,8 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     private String STRING_TYPE = "";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+    private TextInputLayout textInputLayout;
+    private TextInputEditText editText;
 
 
     public TruStringView(Context context, StringInstance instance) {
@@ -37,8 +40,40 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     }
 
     @Override
+    protected void buildSubview() {
+        textInputLayout = mView.findViewById(R.id.input_view_container);
+        editText = mView.findViewById(R.id.input_data);
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                textInputLayout.setErrorEnabled(false);
+                textInputLayout.setError(null);
+            }
+        });
+    }
+
+    @Override
     protected void setInstanceData() {
-        ((TextInputLayout) (mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
+        textInputLayout.setHint(instance.getPresentationTitle());
+    }
+
+    @Override
+    protected void setViewError(String errorMsg) {
+        if (textInputLayout != null) {
+            textInputLayout.setErrorEnabled(true);
+            textInputLayout.setError(errorMsg);
+        }
     }
 
     @Override
@@ -47,7 +82,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
             if (instance.getKey().equals("phone_type_other"))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
 
-            if(instance.getKey().equals("who_was_driving") && TextUtils.isEmpty(extractData()))
+            if (instance.getKey().equals("who_was_driving") && TextUtils.isEmpty(extractData()))
                 return String.format(Locale.getDefault(), "\"%s\":\"%s\"", instance.getKey(), " ");
 
             if (!TextUtils.isEmpty(extractData()))
@@ -71,7 +106,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @NonNull
     protected String extractData() {
-        return Objects.requireNonNull(((TextInputLayout) mView.findViewById(R.id.input_view_container))
+        return Objects.requireNonNull((textInputLayout)
                 .getEditText()).getText().toString().trim();
     }
 
@@ -160,7 +195,6 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
             Objects.requireNonNull(((TextInputLayout) mView.findViewById(R.id.input_view_container))
                     .getEditText()).setText(constItem.toString());
         }
-        mView.findViewById(R.id.input_view_container).setEnabled(false);
+        textInputLayout.setEnabled(false);
     }
-
 }
