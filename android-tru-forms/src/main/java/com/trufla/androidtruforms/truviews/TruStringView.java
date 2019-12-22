@@ -43,26 +43,27 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     protected void buildSubview() {
         textInputLayout = mView.findViewById(R.id.input_view_container);
         editText = mView.findViewById(R.id.input_data);
+        if (editText != null) {
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (textInputLayout != null) {
-                    textInputLayout.setErrorEnabled(false);
-                    textInputLayout.setError(null);
                 }
-            }
-        });
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (textInputLayout != null) {
+                        textInputLayout.setErrorEnabled(false);
+                        textInputLayout.setError(null);
+                    }
+                }
+            });
+        }
     }
 
     @Override
