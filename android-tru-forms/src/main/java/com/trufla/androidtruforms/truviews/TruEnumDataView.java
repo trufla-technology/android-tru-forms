@@ -2,13 +2,14 @@ package com.trufla.androidtruforms.truviews;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
@@ -16,11 +17,10 @@ import com.trufla.androidtruforms.models.DataInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TruEnumDataView extends TruEnumView {
     private int selectedPosition = -1;
-    private Button pickBtn;
+    private MaterialButton pickBtn;
     private Context context;
 
     public TruEnumDataView(Context context, EnumInstance instance) {
@@ -42,13 +42,13 @@ public class TruEnumDataView extends TruEnumView {
 
     @Override
     protected void setInstanceData() {
-        ((TextView) mView.findViewById(R.id.pick_item_btn_title)).setText(instance.getPresentationTitle());
+        ((MaterialButton) mView.findViewById(R.id.pick_item_btn)).setText(instance.getPresentationTitle());
         if (selectedPosition >= 0 && instance.enumExists()) {
             String choosedItemTitle = "";
             if (instance.getEnumDisplayedNames().size() > 0)
                 choosedItemTitle = String.valueOf(instance.getEnumDisplayedNames().get(selectedPosition));
 
-            ((Button) mView.findViewById(R.id.pick_item_btn)).setText(choosedItemTitle);
+            ((MaterialButton) mView.findViewById(R.id.pick_item_btn)).setText(choosedItemTitle);
         }
     }
 
@@ -65,7 +65,6 @@ public class TruEnumDataView extends TruEnumView {
             pickBtn.setOnClickListener(getLoadItemsAction());
         else
             pickBtn.setOnClickListener((v) -> showChooserDialogAction());
-
     }
 
     private View.OnClickListener getLoadItemsAction() {
@@ -115,11 +114,13 @@ public class TruEnumDataView extends TruEnumView {
     }
 
     public void showChooserDialogAction() {
-        String[] displayedNames = new String[]{};
-        if (instance.getEnumDisplayedNames().size() > 0)
-            displayedNames = ((List<String>) instance.getEnumDisplayedNames()).toArray(new String[0]);
+        String[] displayedNames = new String[2];
+        displayedNames[0] = "123";
+        displayedNames[1] = "1234";
 
-        new AlertDialog.Builder(mContext)
+
+        new MaterialAlertDialogBuilder(mContext)
+                .setTitle(instance.getPresentationTitle())
                 .setSingleChoiceItems(displayedNames, 0, null)
                 .setPositiveButton(context.getString(R.string.ok), (dialog, whichButton) -> {
                     selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();

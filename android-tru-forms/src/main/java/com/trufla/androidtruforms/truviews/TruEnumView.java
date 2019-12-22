@@ -48,13 +48,18 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
         autoCompleteTextView.setAdapter(adapter);
 
-        autoCompleteTextView.setOnTouchListener((v, event) -> {
-            InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+        autoCompleteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (inputManager != null)
+                    inputManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
 
-            inputLayout.requestFocus();
-            autoCompleteTextView.showDropDown();
-            return true;
+                if (inputLayout != null)
+                    inputLayout.requestFocus();
+                if (autoCompleteTextView != null)
+                    autoCompleteTextView.showDropDown();
+            }
         });
 
 

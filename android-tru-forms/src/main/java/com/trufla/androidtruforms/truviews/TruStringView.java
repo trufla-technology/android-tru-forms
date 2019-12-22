@@ -57,8 +57,10 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
             @Override
             public void afterTextChanged(Editable s) {
-                textInputLayout.setErrorEnabled(false);
-                textInputLayout.setError(null);
+                if (textInputLayout != null) {
+                    textInputLayout.setErrorEnabled(false);
+                    textInputLayout.setError(null);
+                }
             }
         });
     }
@@ -195,6 +197,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
             Objects.requireNonNull(((TextInputLayout) mView.findViewById(R.id.input_view_container))
                     .getEditText()).setText(constItem.toString());
         }
-        textInputLayout.setEnabled(false);
+        if (textInputLayout != null)
+            textInputLayout.setEnabled(false);
     }
 }

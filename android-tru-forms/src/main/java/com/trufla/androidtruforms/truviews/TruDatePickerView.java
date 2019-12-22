@@ -20,13 +20,15 @@ public class TruDatePickerView extends TruStringView {
 
     Calendar cal = Calendar.getInstance();
 
+    private TextInputLayout inputLayout;
+
     public TruDatePickerView(Context context, StringInstance instance) {
         super(context, instance);
     }
 
     @Override
     protected void setInstanceData() {
-        ((TextInputLayout) (mView.findViewById(R.id.input_label))).setHint(instance.getPresentationTitle());
+        inputLayout.setHint(instance.getPresentationTitle());
 //        ((TextInputEditText) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
     }
 
@@ -51,15 +53,31 @@ public class TruDatePickerView extends TruStringView {
         return R.layout.tru_date_pick_view;
     }
 
+
+    @Override
+    protected void setViewError(String errorMsg) {
+        if (inputLayout != null) {
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(errorMsg);
+        }
+    }
+
     @Override
     protected void buildSubview() {
         super.buildSubview();
+        inputLayout = mView.findViewById(R.id.input_label);
+
         mView.findViewById(R.id.input_data).setOnClickListener(this::onDateViewClicked);
+
         mView.setOnClickListener(this::onDateViewClicked);
 
     }
 
     private void onDateViewClicked(View view) {
+        if (inputLayout != null) {
+            inputLayout.setErrorEnabled(false);
+            inputLayout.setError(null);
+        }
         showDateDialog();
     }
 
