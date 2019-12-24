@@ -17,6 +17,7 @@ import com.trufla.androidtruforms.models.DataInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TruEnumDataView extends TruEnumView {
     private int selectedPosition = -1;
@@ -114,10 +115,9 @@ public class TruEnumDataView extends TruEnumView {
     }
 
     public void showChooserDialogAction() {
-        String[] displayedNames = new String[2];
-        displayedNames[0] = "123";
-        displayedNames[1] = "1234";
-
+        String[] displayedNames = new String[]{};
+        if (instance.getEnumDisplayedNames().size() > 0)
+            displayedNames = ((List<String>) instance.getEnumDisplayedNames()).toArray(new String[0]);
 
         new MaterialAlertDialogBuilder(mContext)
                 .setTitle(instance.getPresentationTitle())
