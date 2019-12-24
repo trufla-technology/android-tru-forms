@@ -29,6 +29,8 @@ public class TruDatePickerView extends TruStringView {
     @Override
     protected void setInstanceData() {
         inputLayout.setHint(instance.getPresentationTitle());
+        inputLayout.setHelperTextEnabled(true);
+        inputLayout.setHelperText(getDateHint());
 //        ((TextInputEditText) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
     }
 
