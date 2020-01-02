@@ -4,22 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:orientation="vertical">
+    android:layout_marginBottom="8dp">
 
-    <FrameLayout
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
         android:id="@+id/section_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:alpha="0.25"
-            android:background="@drawable/accent_color_gradient" />
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        app:cardElevation="4dp"
+        android:minHeight="44dp">
 
         <TextView
             android:id="@+id/input_data"
@@ -38,7 +35,43 @@
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="8dp"
             app:srcCompat="@drawable/ic_expand_more_white_24dp" />
-    </FrameLayout>
+
+        <!-- Card contents. -->
+
+    </com.google.android.material.card.MaterialCardView>
+<!--    <FrameLayout-->
+<!--        android:id="@+id/section_header"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="gone"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingBottom="8dp">-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="44dp"-->
+<!--            android:alpha="0.25"-->
+<!--            android:background="@drawable/accent_color_gradient" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/input_data"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="start|center_vertical"-->
+<!--            android:textColor="@android:color/black"-->
+<!--            android:paddingStart="16dp"-->
+<!--            android:textStyle="bold"-->
+<!--            tools:text="TextView" />-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/expand_collapse_img"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end|center_vertical"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            app:srcCompat="@drawable/ic_expand_more_white_24dp" />-->
+<!--    </FrameLayout>-->
 
     <LinearLayout
         android:id="@+id/container"
@@ -48,5 +81,7 @@
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:layout_marginTop="8dp"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical">
+
+    </LinearLayout>
 </RelativeLayout>

@@ -2,11 +2,13 @@ package com.trufla.androidtruforms.truviews;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.SchemaBuilder;
 import com.trufla.androidtruforms.models.StringInstance;
@@ -15,8 +17,7 @@ import com.trufla.androidtruforms.utils.TruUtils;
 import java.util.Calendar;
 
 
-public class TruTimePickerView extends TruStringView
-{
+public class TruTimePickerView extends TruStringView {
     private Calendar cal = Calendar.getInstance();
 
     public TruTimePickerView(Context context, StringInstance instance) {
@@ -25,8 +26,10 @@ public class TruTimePickerView extends TruStringView
 
     @Override
     protected void setInstanceData() {
-        ((TextView) (mView.findViewById(R.id.input_label))).setText(instance.getPresentationTitle());
-        ((TextView) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
+        ((TextInputLayout) (mView.findViewById(R.id.input_label))).setHint(instance.getPresentationTitle());
+        ((TextInputLayout) (mView.findViewById(R.id.input_label))).setHelperTextEnabled(true);
+        ((TextInputLayout) (mView.findViewById(R.id.input_label))).setHelperText(getDateHint());
+//        ((TextView) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
     }
 
     @NonNull
@@ -42,7 +45,7 @@ public class TruTimePickerView extends TruStringView
     @NonNull
     @Override
     protected String extractData() {
-        return ((EditText) mView.findViewById(R.id.input_data)).getText().toString().trim();
+        return ((TextInputEditText) mView.findViewById(R.id.input_data)).getText().toString().trim();
     }
 
     @Override
@@ -55,7 +58,6 @@ public class TruTimePickerView extends TruStringView
         super.buildSubview();
         mView.findViewById(R.id.input_data).setOnClickListener(this::onTimeViewClicked);
         mView.setOnClickListener(this::onTimeViewClicked);
-
     }
 
     private void onTimeViewClicked(View view) {

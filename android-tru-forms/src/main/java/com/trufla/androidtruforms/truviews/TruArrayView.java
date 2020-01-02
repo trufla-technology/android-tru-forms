@@ -1,11 +1,12 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ArrayInstance;
@@ -19,9 +20,9 @@ import java.util.Locale;
 
 public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
-    SchemaBaseView primaryItem;
-    ArrayList<SchemaBaseView> items = new ArrayList<>();
-    ArrayList<TextView> headerViews = new ArrayList<>();
+    private SchemaBaseView primaryItem;
+    private ArrayList<SchemaBaseView> items = new ArrayList<>();
+    private ArrayList<AppCompatTextView> headerViews = new ArrayList<>();
 
     public TruArrayView(Context context, ArrayInstance instance) {
         super(context, instance);
@@ -64,7 +65,12 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     @Override
     protected void setInstanceData() {
         String title = getTitle(items.size());
-        ((TextView) (mView.findViewById(R.id.input_data))).setText(title);
+        ((AppCompatTextView) (mView.findViewById(R.id.input_data))).setText(title);
+    }
+
+    @Override
+    protected void setViewError(String errorMsg) {
+
     }
 
     @NonNull
@@ -105,7 +111,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     private View getNewItemView(SchemaBaseView itemViewBuilder) {
         View arrayLayoutView = layoutInflater.inflate(R.layout.tru_array_item_view, null);
-        ((TextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(getTitle(items.size() + 1));
+        ((AppCompatTextView) (arrayLayoutView.findViewById(R.id.input_data))).setText(getTitle(items.size() + 1));
         View itemView = itemViewBuilder.build();
         ((ViewGroup) arrayLayoutView).addView(itemView);
         setLayoutParams(itemView, itemViewBuilder);
@@ -116,8 +122,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     }
 
     private void removeItem(View itemView) {
-        if(itemView != null)
-        {
+        if (itemView != null) {
             int idx = ((ViewGroup) mView).indexOfChild(itemView);
             ((ViewGroup) mView).removeView(itemView);
             items.remove(idx - 1);
@@ -137,6 +142,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         layoutParams.setMargins(0, 4, 0, 4);
         childView.setLayoutParams(layoutParams);
     }
+
     //todo fix when showing empty photo in the second array item it reshows the first item photo
     @Override
     protected void setNonEditableValues(Object constItem) {
@@ -160,5 +166,4 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         }
         mView.setEnabled(false);
     }
-
 }

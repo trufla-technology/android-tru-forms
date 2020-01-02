@@ -2,14 +2,15 @@ package com.trufla.androidtruforms.truviews;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.LayoutRes;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.TruFormFragment;
@@ -90,6 +91,8 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
 
     protected abstract void setInstanceData();
 
+    protected abstract void setViewError(String errorMsg);
+
     public abstract String getInputtedData();
 
     protected @LayoutRes
@@ -119,11 +122,17 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
 
     public boolean validate() {
         if (!isValidAgainstRequired()) {
-            setError(getRequiredErrorMessage());
+            if (this instanceof TruEnumView || this instanceof TruStringView)
+                setViewError(getRequiredErrorMessage());
+            else
+                setError(getRequiredErrorMessage());
             return false;
         }
         if (!isValidAgainstOtherRules()) {
-            setError(getOtherRulesErrorMessage());
+            if (this instanceof TruEnumView || this instanceof TruStringView)
+                setViewError(getOtherRulesErrorMessage());
+            else
+                setError(getOtherRulesErrorMessage());
             return false;
         }
         removeErrorMsg();

@@ -22,7 +22,7 @@
         <Button
             android:id="@+id/submit_btn"
             android:layout_width="328dp"
-            android:layout_height="36dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_margin="16dp"
             android:background="@color/colorAccent"

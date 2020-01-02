@@ -1,33 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/pick_item_btn_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dip"
-        android:textColor="@color/colorAccent"
-        tools:text="Category:" />
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/pick_item_btn"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:background="@android:color/transparent"
         android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
+        android:gravity="start|center_vertical"
         android:paddingStart="8dp"
+        android:paddingTop="8dp"
         android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
         android:text="None Selected"
-        android:textAllCaps="false"
-        android:gravity="start|center_vertical" />
+        android:textAllCaps="false" />
 
 </LinearLayout>

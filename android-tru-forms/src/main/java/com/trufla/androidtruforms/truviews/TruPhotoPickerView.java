@@ -3,8 +3,8 @@ package com.trufla.androidtruforms.truviews;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +18,6 @@ import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.ColorFactory;
-
-import java.io.File;
 
 public class TruPhotoPickerView extends TruStringView {
     String mBitmapPath;

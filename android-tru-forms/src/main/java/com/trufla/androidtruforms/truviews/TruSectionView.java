@@ -74,6 +74,11 @@ public class TruSectionView extends TruObjectView {
     }
 
     @Override
+    protected void setViewError(String errorMsg) {
+
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.tru_section_view;
     }

@@ -1,7 +1,7 @@
 package com.trufla.androidtruforms.models;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.utils.TruUtils;

@@ -2,16 +2,17 @@ package com.trufla.androidtruforms.truviews;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.SchemaBuilder;
 import com.trufla.androidtruforms.TruFormFragment;
-import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.models.StringInstance;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.Calendar;
 
@@ -19,15 +20,18 @@ public class TruDatePickerView extends TruStringView {
 
     Calendar cal = Calendar.getInstance();
 
+    private TextInputLayout inputLayout;
+
     public TruDatePickerView(Context context, StringInstance instance) {
         super(context, instance);
     }
 
     @Override
     protected void setInstanceData() {
-        ((TextView) (mView.findViewById(R.id.input_label))).setText(instance.getPresentationTitle());
-        ((TextView) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
-
+        inputLayout.setHint(instance.getPresentationTitle());
+        inputLayout.setHelperTextEnabled(true);
+        inputLayout.setHelperText(getDateHint());
+//        ((TextInputEditText) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
     }
 
     @NonNull
@@ -43,7 +47,7 @@ public class TruDatePickerView extends TruStringView {
     @NonNull
     @Override
     protected String extractData() {
-        return ((EditText) mView.findViewById(R.id.input_data)).getText().toString().trim();
+        return ((TextInputEditText) mView.findViewById(R.id.input_data)).getText().toString().trim();
     }
 
     @Override
@@ -51,23 +55,38 @@ public class TruDatePickerView extends TruStringView {
         return R.layout.tru_date_pick_view;
     }
 
+
+    @Override
+    protected void setViewError(String errorMsg) {
+        if (inputLayout != null) {
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(errorMsg);
+        }
+    }
+
     @Override
     protected void buildSubview() {
         super.buildSubview();
+        inputLayout = mView.findViewById(R.id.input_label);
+
         mView.findViewById(R.id.input_data).setOnClickListener(this::onDateViewClicked);
+
         mView.setOnClickListener(this::onDateViewClicked);
 
     }
 
     private void onDateViewClicked(View view) {
+        if (inputLayout != null) {
+            inputLayout.setErrorEnabled(false);
+            inputLayout.setError(null);
+        }
         showDateDialog();
     }
-
 
     protected void showDateDialog() {
         DatePickerDialog dialog = new DatePickerDialog(mContext, getOnDateSetListener(), cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         dialog.setTitle(R.string.select_date);
-        if(TruFormFragment.mySchemaType != 4 && TruFormFragment.mySchemaType != 1)
+        if (TruFormFragment.mySchemaType != 4 && TruFormFragment.mySchemaType != 1)
             dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
         dialog.show();
@@ -84,7 +103,7 @@ public class TruDatePickerView extends TruStringView {
     }
 
     protected void onDateChanged(long milliseconds) {
-        ((EditText) mView.findViewById(R.id.input_data)).setText(TruUtils.convertToData(milliseconds, getFormat()));
+        ((TextInputEditText) mView.findViewById(R.id.input_data)).setText(TruUtils.convertToData(milliseconds, getFormat()));
     }
 
     protected String getFormat() {
@@ -114,7 +133,7 @@ public class TruDatePickerView extends TruStringView {
     @Override
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof String)
-            ((EditText) mView.findViewById(R.id.input_data)).setText(constItem.toString());
+            ((TextInputEditText) mView.findViewById(R.id.input_data)).setText(constItem.toString());
 
         mView.findViewById(R.id.input_data).setEnabled(false);
         mView.setEnabled(false);
