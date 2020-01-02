@@ -1,11 +1,10 @@
 package com.trufla.androidtruforms.truviews;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.material.button.MaterialButton;
@@ -92,9 +91,8 @@ public class TruEnumDataView extends TruEnumView {
             if (!hasConstValue()) {
                 setButtonClickListener();
                 showChooserDialogAction();
-            } else {
+            } else
                 setNonEditableValues(getItemNameForItemValue());
-            }
         };
     }
 
@@ -104,9 +102,9 @@ public class TruEnumDataView extends TruEnumView {
 
     private Object getItemNameForItemValue() {
         int valIdx;
-        if (instance.getEnumVals().size() > 0 && instance.getEnumVals().get(0) instanceof String) {
+        if (instance.getEnumVals().size() > 0 && instance.getEnumVals().get(0) instanceof String)
             valIdx = instance.getEnumVals().indexOf(instance.getConstItem());
-        } else
+        else
             valIdx = instance.getEnumVals().indexOf(Double.parseDouble(instance.getConstItem().toString()));
         if (valIdx >= 0)
             return instance.getEnumNames().get(valIdx);
@@ -124,12 +122,11 @@ public class TruEnumDataView extends TruEnumView {
                 .setSingleChoiceItems(displayedNames, 0, null)
                 .setPositiveButton(context.getString(R.string.ok), (dialog, whichButton) -> {
                     selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                    if (valueChangedListener != null) {
+                    if (valueChangedListener != null)
                         valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(selectedPosition));
-                    }
                     setInstanceData();
-                })
-                .show();
+
+                }).show();
     }
 
     @Override
