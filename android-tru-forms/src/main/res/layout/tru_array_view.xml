@@ -21,7 +21,7 @@
             android:gravity="start"
             android:layout_gravity="center_vertical"
             tools:text="TextView"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_item_img"
@@ -29,11 +29,9 @@
             android:layout_height="40dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:textColor="@android:color/white"
             android:text="Add More"
-            android:textColor="@color/colorAccent"
-            android:background="@drawable/rounded_button_with_border"
-            android:layout_gravity="center_vertical"
-            />
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
 </LinearLayout>

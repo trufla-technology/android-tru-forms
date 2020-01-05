@@ -1,9 +1,9 @@
 package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
@@ -48,18 +48,20 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.support_simple_spinner_dropdown_item, items);
         autoCompleteTextView.setAdapter(adapter);
 
-        autoCompleteTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputManager != null)
-                    inputManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
 
-                if (inputLayout != null)
-                    inputLayout.requestFocus();
-                if (autoCompleteTextView != null)
-                    autoCompleteTextView.showDropDown();
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            autoCompleteTextView.setShowSoftInputOnFocus(false);
+        }
+
+        autoCompleteTextView.setOnClickListener(view -> {
+            InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputManager != null)
+                inputManager.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+
+            if (inputLayout != null)
+                inputLayout.requestFocus();
+            if (autoCompleteTextView != null)
+                autoCompleteTextView.showDropDown();
         });
 
 
