@@ -22,5 +22,7 @@
     <string name="unable_to_create_form">Unable to create the form &#8230; please check the schema</string>
     <string name="non_selected">Non Selected</string>
     <string name="ok">OK</string>
+    <string name="remove">Remove</string>
+    <string name="add_more">Add More</string>
 
 </resources>
