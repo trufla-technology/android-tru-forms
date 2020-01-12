@@ -155,7 +155,8 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
             String enumStr = String.valueOf(instance.getEnumVals().get(i));
             enumStr = String.valueOf(enumStr).replace(".0", "");
             if (enumStr.equals(constStr)) {
-                autoCompleteTextView.setText(enumStr);
+                String textToDisplay = (String) instance.getEnumNames().get(i);
+                autoCompleteTextView.setText(textToDisplay);
                 break;
             }
         }
