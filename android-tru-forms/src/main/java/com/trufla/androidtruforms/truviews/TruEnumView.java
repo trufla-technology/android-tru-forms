@@ -149,13 +149,20 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     }
 
     @Override
-    protected void setNonEditableValues(Object constItem) {
+    protected void setNonEditableValues(Object constItem)
+    {
         String constStr = String.valueOf(constItem);
         for (int i = 0; i < instance.getEnumVals().size(); i++) {
             String enumStr = String.valueOf(instance.getEnumVals().get(i));
             enumStr = String.valueOf(enumStr).replace(".0", "");
-            if (enumStr.equals(constStr)) {
-                String textToDisplay = (String) instance.getEnumNames().get(i);
+            if (enumStr.equals(constStr))
+            {
+                String textToDisplay = "";
+                if(instance.getEnumNames().size() != 0)
+                    textToDisplay = (String) instance.getEnumNames().get(i);
+                else
+                    textToDisplay = enumStr;
+
                 autoCompleteTextView.setText(textToDisplay);
                 break;
             }
