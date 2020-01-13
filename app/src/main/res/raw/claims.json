@@ -1,37 +1,37 @@
 {
-  "title":"Add Driver",
-  "description":"Add Driver",
-  "type":"object",
-  "properties":{
-    "effective_date":{
-      "type":"string",
-      "format":"date"
+  "title": "Add Driver",
+  "description": "Add Driver",
+  "type": "object",
+  "properties": {
+    "effective_date": {
+      "type": "string",
+      "format": "date"
     },
-    "select_vehicle":{
-      "type":"number",
-      "_data":{
-        "href":"/vehicles",
-        "enum":"id",
-        "enumNames":[
+    "select_vehicle": {
+      "type": "number",
+      "_data": {
+        "href": "/vehicles",
+        "enum": "id",
+        "enumNames": [
           "vehicle_make",
           "vehicle_model"
         ]
       }
     },
-    "first_name":{
-      "title":"First Name",
-      "type":"string"
+    "first_name": {
+      "title": "First Name",
+      "type": "string"
     },
-    "last_name":{
-      "title":"Last Name",
-      "type":"string"
+    "last_name": {
+      "title": "Last Name",
+      "type": "string"
     },
-    "driver_license_no":{
-      "title":"Driver License No.",
-      "type":"string"
+    "driver_license_no": {
+      "title": "Driver License No.",
+      "type": "string"
     },
-    "insurance_duration":{
-      "enum":[
+    "insurance_duration": {
+      "enum": [
         0,
         1,
         2,
@@ -44,11 +44,11 @@
         9,
         10
       ],
-      "type":"number"
+      "type": "number"
     },
-    "number_of_conviction":{
-      "type":"string",
-      "enum":[
+    "number_of_conviction": {
+      "type": "string",
+      "enum": [
         "0",
         "1",
         "2",
@@ -56,9 +56,9 @@
         "4+"
       ]
     },
-    "number_of_accidents":{
-      "type":"string",
-      "enum":[
+    "number_of_accidents": {
+      "type": "string",
+      "enum": [
         "0",
         "1",
         "2",
@@ -67,7 +67,7 @@
       ]
     }
   },
-  "required":[
+  "required": [
     "first_name",
     "last_name",
     "driver_license_no",
