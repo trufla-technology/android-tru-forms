@@ -164,6 +164,10 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
                     textToDisplay = enumStr;
 
                 autoCompleteTextView.setText(textToDisplay);
+                if(textToDisplay.equals("No") || textToDisplay.equals("Other"))
+                    if (valueChangedListener != null)
+                        valueChangedListener.onEnumValueChanged(instance.getKey(), "marina");
+
                 break;
             }
         }
