@@ -60,10 +60,19 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         childViewBuilder.setParentView(this);
     }
 
-    private void initBooleanLogicForChild(SchemaBaseView childViewBuilder) {
+    private void initBooleanLogicForChild(SchemaBaseView childViewBuilder)
+    {
         if (hasDependencies(childViewBuilder.instance.getKey()))
-            childViewBuilder.build().setVisibility(View.GONE);
-        if (isRequiredForOthers(childViewBuilder.instance.getKey()) && childViewBuilder instanceof TruEnumView)
+            if(childViewBuilder.instance.getConstItem() != null)
+            {
+                if(childViewBuilder.instance.getConstItem().equals("N/A"))
+                    childViewBuilder.build().setVisibility(View.GONE);
+                else
+                    childViewBuilder.build().setVisibility(View.VISIBLE);
+            }else
+                childViewBuilder.build().setVisibility(View.GONE);
+
+        else if(isRequiredForOthers(childViewBuilder.instance.getKey()) && childViewBuilder instanceof TruEnumView)
             ((TruEnumView) childViewBuilder).setValueChangedListener(this);
     }
 
@@ -109,6 +118,7 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         }
         return false;
     }
+
 
     //TODO : Refactor this piece of shit
     @Override
