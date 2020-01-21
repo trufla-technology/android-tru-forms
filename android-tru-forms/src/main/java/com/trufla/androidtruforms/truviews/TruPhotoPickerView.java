@@ -2,7 +2,6 @@ package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import android.text.TextUtils;
@@ -19,6 +18,7 @@ import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.ColorFactory;
 
+
 public class TruPhotoPickerView extends TruStringView {
     String mBitmapPath;
     String base64Image = "";
@@ -33,7 +33,6 @@ public class TruPhotoPickerView extends TruStringView {
         ((CardView) mView.findViewById(R.id.photo_thumb_container)).setCardBackgroundColor(ColorFactory.getTransparentColor(R.color.colorPrimary, mContext, 25));
         mView.setOnClickListener(getOnViewClickedListener());
         mView.findViewById(R.id.photo_remove_icon).setOnClickListener(getOnRemoveImageListener());
-
     }
 
     @Override
@@ -49,7 +48,6 @@ public class TruPhotoPickerView extends TruStringView {
             FormContract hostActivity = getFormContract(v);
             if (hostActivity != null)
                 hostActivity.openImagePicker(getImagePickedListener());
-
         };
     }
 
@@ -58,7 +56,14 @@ public class TruPhotoPickerView extends TruStringView {
         return (bitmapPath) -> {
             mBitmapPath = bitmapPath;
             setImageToView(BitmapUtils.loadBitmapFromPath(bitmapPath));
-            base64Image = BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath), 150, 170);
+
+            new Thread ( new Runnable() {
+                @Override
+                public void run() {
+                    base64Image = BitmapUtils.encodeBase64Bitmap(350, 400, BitmapUtils.loadBitmapFromPath(bitmapPath));
+                    //base64Image = BitmapUtils.downScaleImageAndConvertToWebPAsBase64(Uri.parse(mBitmapPath), 150, 170);
+                }
+            }).start();
         };
     }
 
@@ -77,7 +82,6 @@ public class TruPhotoPickerView extends TruStringView {
     @Override
     protected String extractData() {
         return base64Image;
-//        return BitmapUtils.downScaleImageAndConvertToWebPAsBase64(mContext, Uri.parse(mBitmapPath), 200, 200);
     }
 
     public View.OnClickListener getOnRemoveImageListener() {
@@ -85,14 +89,13 @@ public class TruPhotoPickerView extends TruStringView {
             mBitmapPath = null;
             mView.findViewById(R.id.photo_thumb_container).setVisibility(View.VISIBLE);
             mView.findViewById(R.id.photo_container).setVisibility(View.GONE);
-
         };
     }
 
     @Override
-    public LinearLayout.LayoutParams getLayoutParams() {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        return params;
+    public LinearLayout.LayoutParams getLayoutParams()
+    {
+        return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 
     @Override

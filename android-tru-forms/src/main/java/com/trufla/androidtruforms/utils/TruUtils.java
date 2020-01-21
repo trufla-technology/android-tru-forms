@@ -24,32 +24,14 @@ import java.util.Locale;
 
 public class TruUtils {
 
-    /**
-     * Checks to see if EditText contains whitespace or no text
-     *
-     * @param et the EditText
-     * @return true if EditText contains whitespace or no text otherwise false
-     */
     public static boolean isEmpty(EditText et) {
         return TextUtils.isEmpty(et.getText().toString().trim());
     }
 
-    /**
-     * Checks to see if text is null or contains whitespace or no content
-     *
-     * @param charSequence
-     * @return true if text contains whitespace or no content otherwise false
-     */
     public static boolean isEmpty(CharSequence charSequence) {
         return charSequence == null || charSequence.equals("");
     }
 
-    /**
-     * Get the EditText text trimmed
-     *
-     * @param et
-     * @return the EditText text trimmed
-     */
     public static String getText(EditText et) {
         return et.getText().toString().trim();
     }
@@ -100,8 +82,7 @@ public class TruUtils {
     public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return px;
+        return dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
     public static boolean isNullOrEmpty(ArrayList list) {
@@ -113,5 +94,15 @@ public class TruUtils {
             name = name.substring(0, name.length() - 1);
         }
         return name;
+    }
+
+    public static boolean checkIfIsNotEmpty(Object myText)
+    {
+        if(myText != null)
+        {
+            String myNewStr = (String) myText;
+            return !myNewStr.trim().equals("") && !myNewStr.equals("N/A");
+        }
+        return false;
     }
 }
