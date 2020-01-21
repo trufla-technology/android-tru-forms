@@ -98,11 +98,10 @@ public class BitmapUtils {
                 Matrix imageMatrix = new Matrix();
                 imageMatrix.setRotate(angle);
 
-                Bitmap myNewBitMap = Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(),
-                        imageMatrix, true);
-                myBitmap.recycle();
+                // myBitmap.recycle();
 
-                return myNewBitMap;
+                return Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(),
+                        imageMatrix, true);
 
             } catch (IOException e)
             {
