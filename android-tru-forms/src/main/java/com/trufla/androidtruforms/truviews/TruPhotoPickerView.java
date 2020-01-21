@@ -60,7 +60,7 @@ public class TruPhotoPickerView extends TruStringView {
             new Thread ( new Runnable() {
                 @Override
                 public void run() {
-                    base64Image = BitmapUtils.encodeBase64Bitmap(350, 400, BitmapUtils.loadBitmapFromPath(bitmapPath));
+                    base64Image = BitmapUtils.encodeBase64Bitmap(150, 150, BitmapUtils.loadBitmapFromPath(bitmapPath));
                     //base64Image = BitmapUtils.downScaleImageAndConvertToWebPAsBase64(Uri.parse(mBitmapPath), 150, 170);
                 }
             }).start();

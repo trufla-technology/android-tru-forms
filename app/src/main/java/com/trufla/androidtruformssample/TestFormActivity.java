@@ -48,7 +48,6 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
         StringBuilder jsonStringBuilder = new StringBuilder();
         String js = "";
         String v = "";
-
         if (TextUtils.isEmpty(js)) {
             InputStream inputStream = getResources().openRawResource(R.raw.claims_edited);
             Scanner scanner = new Scanner(inputStream);
