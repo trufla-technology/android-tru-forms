@@ -4,7 +4,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:theme="@style/AppTheme" >
+
         <activity android:name=".TruFormActivity" />
         <activity
             android:name=".TruNavigationActivity"

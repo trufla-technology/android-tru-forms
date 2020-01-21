@@ -9,6 +9,7 @@ import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.OneOfPropertyWrapper;
 import com.trufla.androidtruforms.models.SchemaInstance;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,10 +66,10 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         if (hasDependencies(childViewBuilder.instance.getKey()))
             if(childViewBuilder.instance.getConstItem() != null)
             {
-                if(childViewBuilder.instance.getConstItem().equals("N/A"))
-                    childViewBuilder.build().setVisibility(View.GONE);
-                else
+                if(TruUtils.checkIfIsNotEmpty(childViewBuilder.instance.getConstItem()))
                     childViewBuilder.build().setVisibility(View.VISIBLE);
+                else
+                    childViewBuilder.build().setVisibility(View.GONE);
             }else
                 childViewBuilder.build().setVisibility(View.GONE);
 
