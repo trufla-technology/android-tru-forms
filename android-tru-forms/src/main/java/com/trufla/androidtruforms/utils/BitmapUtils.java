@@ -46,7 +46,7 @@ public class BitmapUtils {
             }
             try {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 80, outputStream);
                 outputStream.close();
                 String encodedImage = Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
                 return "data:image/jpeg;base64," + encodedImage.replaceAll("\n", "");
