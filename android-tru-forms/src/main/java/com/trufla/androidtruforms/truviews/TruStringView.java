@@ -2,6 +2,7 @@ package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.models.SchemaKeywords;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
 
@@ -43,6 +45,10 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     protected void buildSubview() {
         textInputLayout = mView.findViewById(R.id.input_view_container);
         editText = mView.findViewById(R.id.input_data);
+
+        if (instance.getFormat() != null && instance.getFormat().equals(SchemaKeywords.StringFormats.PHONE))
+            editText.setInputType(InputType.TYPE_CLASS_PHONE);
+
         if (editText != null) {
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -175,6 +181,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         return mView.getResources().getString(R.string.general_invalid_input);
 //        return mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern());
     }
+
 
 /*    @Override
     protected void setError(String errorMsg) {
