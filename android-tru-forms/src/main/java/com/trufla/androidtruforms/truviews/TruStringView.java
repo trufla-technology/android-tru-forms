@@ -46,7 +46,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         textInputLayout = mView.findViewById(R.id.input_view_container);
         editText = mView.findViewById(R.id.input_data);
 
-        if (instance.getFormat().equals(SchemaKeywords.StringFormats.PHONE))
+        if (instance.getFormat() != null && instance.getFormat().equals(SchemaKeywords.StringFormats.PHONE))
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
 
         if (editText != null) {
