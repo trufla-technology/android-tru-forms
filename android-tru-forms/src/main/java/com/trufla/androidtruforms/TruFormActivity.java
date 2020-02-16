@@ -101,6 +101,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         this.mPickedImageListener = pickedImageListener;
         ImagePicker.create(this).single() // single mode
                 // Activity or Fragment
+                .theme(R.style.AppTheme)
                 .start(IMAGE_PICKER_CODE);
     }
 
