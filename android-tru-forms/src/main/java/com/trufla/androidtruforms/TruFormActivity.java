@@ -88,13 +88,11 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
             setResult(RESULT_CANCELED);
             finish();
         }
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     public void openImagePicker(TruConsumer<String> pickedImageListener) {

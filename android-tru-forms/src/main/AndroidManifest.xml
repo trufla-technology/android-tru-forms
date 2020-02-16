@@ -11,8 +11,7 @@
         <activity android:name=".TruFormActivity" />
         <activity
             android:name=".TruNavigationActivity"
-            android:label="@string/title_activity_tru_navigation"
-            android:theme="@style/AppTheme"/>
+            android:label="@string/title_activity_tru_navigation" />
     </application>
 
 </manifest>

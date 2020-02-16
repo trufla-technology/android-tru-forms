@@ -1,11 +1,12 @@
 package com.trufla.androidtruforms.truviews;
 
-import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -61,10 +62,11 @@ public class TruEnumDataView extends TruEnumView {
     }
 
     private void setButtonClickListener() {
-        if (!instance.enumExists())
-            pickBtn.setOnClickListener(getLoadItemsAction());
-        else
+        if (!instance.enumExists()) {
+//            pickBtn.setOnClickListener(getLoadItemsAction());
+        } else {
             pickBtn.setOnClickListener((v) -> showChooserDialogAction());
+        }
     }
 
     private View.OnClickListener getLoadItemsAction() {
