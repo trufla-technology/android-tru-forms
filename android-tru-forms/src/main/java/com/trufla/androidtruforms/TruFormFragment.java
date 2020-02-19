@@ -1,30 +1,33 @@
 package com.trufla.androidtruforms;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.esafirm.imagepicker.features.ImagePicker;
-import com.esafirm.imagepicker.model.Image;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.truviews.TruFormView;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
-import com.trufla.androidtruforms.utils.TruUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import okhttp3.Callback;
@@ -39,13 +42,14 @@ import okhttp3.Callback;
  * create an instance of this fragment.
  */
 public class TruFormFragment extends Fragment implements FormContract {
+    private static final int PICK_IMAGE_CODE = 1;
+    private static final int CAPTURE_IMAGE_CODE = 2;
     private OnFormActionsListener mListener;
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final String JSON_KEY = "JSON_VALUE";
     private static final String SCHEMA_TYPE = "schema_type";
-    private static final int IMAGE_PICKER_CODE = 505;
     private TruFormView truFormView;
-    TruConsumer<String> mPickedImageListener;
+    TruConsumer<Bitmap> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
     private String schemaString;
@@ -128,12 +132,36 @@ public class TruFormFragment extends Fragment implements FormContract {
     }
 
     @Override
-    public void openImagePicker(TruConsumer<String> pickedImageListener) {
+    public void openImagePicker(TruConsumer<Bitmap> pickedImageListener) {
         this.mPickedImageListener = pickedImageListener;
-        ImagePicker.create(this).single() // single mode
-                // Activity or Fragment
-                .theme(R.style.AppTheme)
-                .start(IMAGE_PICKER_CODE);
+        pickFromGallery();
+    }
+
+    private void pickFromGallery() {
+        BottomSheetDialog dialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
+        dialog.setContentView(R.layout.bottom_dialog);
+
+        ImageView ivCameraSelect = dialog.findViewById(R.id.iv_camera);
+        ImageView ivGallerySelect = dialog.findViewById(R.id.iv_gallery);
+
+        assert ivCameraSelect != null;
+        ivCameraSelect.setOnClickListener(view -> {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, CAPTURE_IMAGE_CODE);
+                dialog.hide();
+            }
+        });
+
+        assert ivGallerySelect != null;
+        ivGallerySelect.setOnClickListener(view -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, PICK_IMAGE_CODE);
+            dialog.hide();
+        });
+
+        dialog.show();
     }
 
     @Override
@@ -158,16 +186,23 @@ public class TruFormFragment extends Fragment implements FormContract {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == IMAGE_PICKER_CODE) {
-            // Get a list of picked images
-            List<Image> images = ImagePicker.getImages(data);
-            // or get a single image only
-            if (images == null || images.size() == 0)
-                return;
-            Image image = ImagePicker.getImages(data).get(0);
-            String path = image.getPath();
-            if (!TruUtils.isEmpty(path) && mPickedImageListener != null) {
-                mPickedImageListener.accept(path);
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case PICK_IMAGE_CODE:
+                    Uri pickedImage = data.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), pickedImage);
+                        mPickedImageListener.accept(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+                case CAPTURE_IMAGE_CODE:
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    mPickedImageListener.accept(imageBitmap);
             }
         }
     }
