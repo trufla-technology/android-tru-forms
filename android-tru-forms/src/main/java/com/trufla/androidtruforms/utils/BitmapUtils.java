@@ -4,8 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import androidx.annotation.Nullable;
 import android.util.Base64;
+
+import androidx.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,8 +17,7 @@ public class BitmapUtils {
 
     @Nullable
     public static String encodeBase64Bitmap(int width, int height, Bitmap bitmap) {
-        if(bitmap != null)
-        {
+        if (bitmap != null) {
             int originalWidth = bitmap.getWidth();
             int originalHeight = bitmap.getHeight();
 
@@ -58,30 +58,34 @@ public class BitmapUtils {
         return "";
     }
 
-    public static Bitmap decodeBase64ToBitmap(String imgBase64)
-    {
+
+    public static String convertBitMapToBase64To(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    public static Bitmap decodeBase64ToBitmap(String imgBase64) {
         String regex = "(^data).*(,)";
         String myNewImage = imgBase64.replaceAll(regex, "");
         byte[] imageByteArray = Base64.decode(myNewImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
     }
 
-    public static Bitmap loadBitmapFromPath(String path)
-    {
+    public static Bitmap loadBitmapFromPath(String path) {
         File imgFile = new File(path);
         Bitmap myBitmap = null;
         int angle = 0;
 
-        if (imgFile.exists())
-        {
+        if (imgFile.exists()) {
             myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
             try {
                 ExifInterface exif = new ExifInterface(imgFile.getPath());
                 int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
-                switch (orientation)
-                {
+                switch (orientation) {
                     case ExifInterface.ORIENTATION_ROTATE_90:
                         angle = 90;
                         break;
@@ -103,8 +107,7 @@ public class BitmapUtils {
                 return Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(),
                         imageMatrix, true);
 
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
