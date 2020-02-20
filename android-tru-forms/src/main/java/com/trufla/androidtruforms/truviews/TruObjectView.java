@@ -21,8 +21,7 @@ import java.util.Locale;
  */
 
 public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> implements
-        TruEnumView.EnumValueChangedListener
-{
+        TruEnumView.EnumValueChangedListener {
     protected ArrayList<SchemaBaseView> childs = new ArrayList<>();
     protected HashMap<String, SchemaBaseView> childsAsHash = new HashMap();
 
@@ -41,7 +40,7 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
             return null;
         StringBuilder stringBuilder = new StringBuilder();
         for (SchemaBaseView viewBuilder : childs) {
-            if (!viewBuilder.getInputtedData().equals(""))
+            if (viewBuilder != null && viewBuilder.getInputtedData() != null && !viewBuilder.getInputtedData().equals(""))
                 stringBuilder.append(viewBuilder.getInputtedData()).append(",");
         }
         if (stringBuilder.length() > 0 && stringBuilder.charAt(stringBuilder.length() - 1) == ',')
@@ -61,19 +60,17 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         childViewBuilder.setParentView(this);
     }
 
-    private void initBooleanLogicForChild(SchemaBaseView childViewBuilder)
-    {
+    private void initBooleanLogicForChild(SchemaBaseView childViewBuilder) {
         if (hasDependencies(childViewBuilder.instance.getKey()))
-            if(childViewBuilder.instance.getConstItem() != null)
-            {
-                if(TruUtils.checkIfIsNotEmpty(childViewBuilder.instance.getConstItem()))
+            if (childViewBuilder.instance.getConstItem() != null) {
+                if (TruUtils.checkIfIsNotEmpty(childViewBuilder.instance.getConstItem()))
                     childViewBuilder.build().setVisibility(View.VISIBLE);
                 else
                     childViewBuilder.build().setVisibility(View.GONE);
-            }else
+            } else
                 childViewBuilder.build().setVisibility(View.GONE);
 
-        else if(isRequiredForOthers(childViewBuilder.instance.getKey()) && childViewBuilder instanceof TruEnumView)
+        else if (isRequiredForOthers(childViewBuilder.instance.getKey()) && childViewBuilder instanceof TruEnumView)
             ((TruEnumView) childViewBuilder).setValueChangedListener(this);
     }
 
@@ -95,7 +92,7 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         return isVaild;
     }
 
-    abstract protected void  onFieldNotValid(SchemaBaseView viewBuilder);
+    abstract protected void onFieldNotValid(SchemaBaseView viewBuilder);
 
     public boolean isRequiredForOthers(String itemKey) {
         if (instance.getOneOf() != null) {

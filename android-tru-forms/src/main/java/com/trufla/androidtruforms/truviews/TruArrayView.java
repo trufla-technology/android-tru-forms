@@ -85,7 +85,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         //return String.format(Locale.getDefault(), "\"%s\":null", instance.getKey());
         StringBuilder stringBuilder = new StringBuilder();
         for (SchemaBaseView viewBuilder : items) {
-            if (!viewBuilder.getInputtedData().equals(""))
+            if (viewBuilder != null && viewBuilder.getInputtedData() != null && !viewBuilder.getInputtedData().equals(""))
                 stringBuilder.append(viewBuilder.getInputtedData().substring(viewBuilder.getInputtedData().indexOf(":") + 1)).append(",");
         }
         if (stringBuilder.length() > 0 && stringBuilder.charAt(stringBuilder.length() - 1) == ',')
