@@ -150,7 +150,6 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
 
     @Override
     protected void setNonEditableValues(Object constItem) {
-        autoCompleteTextView.setEnabled(false);
         String constStr = String.valueOf(constItem);
         for (int i = 0; i < instance.getEnumVals().size(); i++) {
             String enumStr = String.valueOf(instance.getEnumVals().get(i));
@@ -162,7 +161,10 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
                 else
                     textToDisplay = enumStr;
 
+                ArrayAdapter<String> adapter = (ArrayAdapter<String>) autoCompleteTextView.getAdapter();
+                autoCompleteTextView.setAdapter(null);
                 autoCompleteTextView.setText(textToDisplay);
+                autoCompleteTextView.setAdapter(adapter);
                 break;
             }
         }
