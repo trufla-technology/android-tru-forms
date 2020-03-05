@@ -61,9 +61,10 @@ public class BitmapUtils {
 
     public static String convertBitMapToBase64To(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        String encodedImage = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+        return "data:image/jpeg;base64," + encodedImage.replaceAll("\n", "");
     }
 
     public static Bitmap decodeBase64ToBitmap(String imgBase64) {
