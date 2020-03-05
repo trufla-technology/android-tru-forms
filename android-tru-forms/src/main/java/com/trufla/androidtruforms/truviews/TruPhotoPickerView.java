@@ -58,7 +58,7 @@ public class TruPhotoPickerView extends TruStringView {
             setImageToView(bitmap);
             AsyncTask.execute(() -> {
                 //TODO your background code
-                base64Image = BitmapUtils.convertBitMapToBase64To(bitmap);
+                base64Image = BitmapUtils.encodeBase64Bitmap(150, 150, bitmap);
             });
         };
     }
