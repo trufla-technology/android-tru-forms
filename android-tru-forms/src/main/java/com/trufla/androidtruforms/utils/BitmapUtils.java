@@ -41,6 +41,8 @@ public class BitmapUtils {
                     newWidth = width;
                 }
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+
+
                 bitmap.recycle();
                 bitmap = resizedBitmap;
             }
@@ -58,10 +60,9 @@ public class BitmapUtils {
         return "";
     }
 
-
     public static String convertBitMapToBase64To(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         String encodedImage = Base64.encodeToString(byteArray, Base64.NO_WRAP);
         return "data:image/jpeg;base64," + encodedImage.replaceAll("\n", "");
