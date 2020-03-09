@@ -16,6 +16,7 @@ import androidx.cardview.widget.CardView;
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
+import com.trufla.androidtruforms.models.ImageModel;
 import com.trufla.androidtruforms.models.StringInstance;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.ColorFactory;
@@ -53,13 +54,15 @@ public class TruPhotoPickerView extends TruStringView {
     }
 
     @NonNull
-    private TruConsumer<Bitmap> getImagePickedListener() {
-        return (bitmap) -> {
-            setImageToView(bitmap);
-            AsyncTask.execute(() -> {
-                //TODO your background code
-                base64Image = BitmapUtils.convertBitMapToBase64To(bitmap);
-            });
+    private TruConsumer<ImageModel> getImagePickedListener() {
+        return (imageModel) ->
+        {
+            if(imageModel.getImagePath().isEmpty())
+                setImageToView(imageModel.getImageBitmap());
+            else
+                setImageToView(BitmapUtils.handleImageRotation(imageModel.getImagePath(), imageModel.getImageBitmap()));
+
+            AsyncTask.execute(() -> base64Image = BitmapUtils.convertBitMapToBase64To(imageModel.getImageBitmap()));
         };
     }
 

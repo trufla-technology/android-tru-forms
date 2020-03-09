@@ -21,7 +21,9 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
+import com.trufla.androidtruforms.models.ImageModel;
 import com.trufla.androidtruforms.truviews.TruFormView;
+import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
 
 import java.io.IOException;
@@ -41,7 +43,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final String JSON_KEY = "JSON_KEY";
     private TruFormView truFormView;
-    TruConsumer<Bitmap> mPickedImageListener;
+    TruConsumer<ImageModel> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
 
@@ -100,7 +102,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         super.onResume();
     }
 
-    public void openImagePicker(TruConsumer<Bitmap> pickedImageListener) {
+    public void openImagePicker(TruConsumer<ImageModel> pickedImageListener) {
         this.mPickedImageListener = pickedImageListener;
         pickFromGallery();
     }
@@ -163,16 +165,24 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
                     Uri pickedImage = data.getData();
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), pickedImage);
-                        mPickedImageListener.accept(bitmap);
+                        String imagePath = BitmapUtils.getRealPathFromURI(TruFormActivity.this, pickedImage);
+
+                        ImageModel imageModel = new ImageModel();
+                        imageModel.setImagePath(imagePath);
+                        imageModel.setImageBitmap(bitmap);
+
+                        mPickedImageListener.accept(imageModel);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     break;
 
                 case CAPTURE_IMAGE_CODE:
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    mPickedImageListener.accept(imageBitmap);
+                    ImageModel imageModel = new ImageModel();
+                    imageModel.setImagePath("");
+                    imageModel.setImageBitmap((Bitmap) data.getExtras().get("data"));
+
+                    mPickedImageListener.accept(imageModel);
             }
         }
     }

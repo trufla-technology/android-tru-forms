@@ -1,13 +1,16 @@
 package com.trufla.androidtruforms.utils;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Base64;
 
 import androidx.annotation.Nullable;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +63,8 @@ public class BitmapUtils {
         return "";
     }
 
-    public static String convertBitMapToBase64To(Bitmap bitmap) {
+    public static String convertBitMapToBase64To(Bitmap bitmap)
+    {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -75,16 +79,35 @@ public class BitmapUtils {
         return BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.length);
     }
 
-    public static Bitmap loadBitmapFromPath(String path) {
-        File imgFile = new File(path);
-        Bitmap myBitmap = null;
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public static String getRealPathFromURI(Context inContext, Uri uri) {
+        String path = "";
+        if (inContext.getContentResolver() != null) {
+            Cursor cursor = inContext.getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                path = cursor.getString(idx);
+                cursor.close();
+            }
+        }
+        return path;
+    }
+
+    public static Bitmap handleImageRotation(String filePath, Bitmap mBitmap)
+    {
+        File imgFile = new File(filePath);
         int angle = 0;
 
         if (imgFile.exists()) {
-            myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-
             try {
-                ExifInterface exif = new ExifInterface(imgFile.getPath());
+                ExifInterface exif = new ExifInterface(filePath);
                 int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
                 switch (orientation) {
@@ -106,7 +129,7 @@ public class BitmapUtils {
 
                 // myBitmap.recycle();
 
-                return Bitmap.createBitmap(myBitmap, 0, 0, myBitmap.getWidth(), myBitmap.getHeight(),
+                return Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(), mBitmap.getHeight(),
                         imageMatrix, true);
 
             } catch (IOException e) {
@@ -115,20 +138,4 @@ public class BitmapUtils {
         }
         return null;
     }
-
-//        public static Bitmap loadBitmapFromPath2(String path) {
-//        File imgFile = new File(path);
-//        if (imgFile.exists())
-//        {
-//            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-//            return myBitmap;
-//        }
-//        return null;
-//    }
-
-//    public static String downScaleImageAndConvertToWebPAsBase64(Uri imageUri, int width, int height) {
-//        String originalPath = imageUri.toString();
-//        Bitmap bitmap = BitmapFactory.decodeFile(originalPath);
-//        return encodeBase64Bitmap(width, height, bitmap);
-//    }
 }

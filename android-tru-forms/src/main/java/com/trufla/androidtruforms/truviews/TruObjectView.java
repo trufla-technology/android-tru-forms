@@ -32,7 +32,8 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
     protected abstract ViewGroup getContainerView();
 
     @Override
-    public String getInputtedData() {
+    public String getInputtedData()
+    {
         if (mView == null)
             return String.format(Locale.getDefault(), "\"%s\":{}", instance.getKey());
 
