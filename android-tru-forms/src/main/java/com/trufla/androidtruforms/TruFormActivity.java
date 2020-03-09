@@ -3,11 +3,14 @@ package com.trufla.androidtruforms;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -25,6 +30,7 @@ import com.trufla.androidtruforms.models.ImageModel;
 import com.trufla.androidtruforms.truviews.TruFormView;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
+import com.trufla.androidtruforms.utils.PermissionsUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +45,7 @@ import okhttp3.Callback;
 public class TruFormActivity extends AppCompatActivity implements FormContract {
     private static final int PICK_IMAGE_CODE = 1;
     private static final int CAPTURE_IMAGE_CODE = 2;
+    private static final int PERMISSION_REQUEST_CODE = 1;
 
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final String JSON_KEY = "JSON_KEY";
@@ -58,7 +65,6 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         intent.putExtra(SCHEMA_KEY, jsonStr);
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
-
 
     public static void startActivityToRenderConstSchema(Fragment hostFragment, String jsonStr, String jsonVal) {
         Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
@@ -104,7 +110,17 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
 
     public void openImagePicker(TruConsumer<ImageModel> pickedImageListener) {
         this.mPickedImageListener = pickedImageListener;
-        pickFromGallery();
+
+        if (Build.VERSION.SDK_INT >= 23)
+            if (PermissionsUtils.checkPermission(TruFormActivity.this))
+                pickFromGallery();
+            else
+                if(PermissionsUtils.requestPermission(TruFormActivity.this))
+                    Toast.makeText(TruFormActivity.this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+                else
+                    ActivityCompat.requestPermissions(TruFormActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        else
+            pickFromGallery();
     }
 
     private void pickFromGallery() {
@@ -134,6 +150,17 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         dialog.show();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    pickFromGallery();
+                else
+                    Toast.makeText(TruFormActivity.this, "You should allow the permission to upload photo", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 
     @Override
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
