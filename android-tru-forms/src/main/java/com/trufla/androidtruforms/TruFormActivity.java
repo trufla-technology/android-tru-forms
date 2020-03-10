@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -69,14 +67,24 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     public static void startActivityToRenderConstSchema(Fragment hostFragment, String jsonStr, String jsonVal) {
         Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
-        intent.putExtra(JSON_KEY, jsonVal);
+
+//        intent.putExtra(JSON_KEY, jsonVal);
+        FormModel formModel = new FormModel();
+        formModel.setJsonStr(jsonVal);
+        intent.putExtra(JSON_KEY, formModel);
+
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
     public static void startActivityToRenderConstSchema(Activity context, String jsonStr, String jsonVal) {
         Intent intent = new Intent(context, TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
-        intent.putExtra(JSON_KEY, jsonVal);
+
+//        intent.putExtra(JSON_KEY, jsonVal);
+
+        FormModel formModel = new FormModel();
+        formModel.setJsonStr(jsonVal);
+        intent.putExtra(JSON_KEY, formModel);
         context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
@@ -85,9 +93,11 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tru_form);
         try {
-            String jsonVal = Objects.requireNonNull(getIntent().getExtras()).getString(JSON_KEY);
+            FormModel formModel = getIntent().getParcelableExtra(JSON_KEY);
+            assert formModel != null;
+            String jsonVal = formModel.getJsonStr();
             if (TextUtils.isEmpty(jsonVal))
-                truFormView = SchemaBuilder.getInstance().buildSchemaView(getIntent().getExtras().getString(SCHEMA_KEY), this);
+                truFormView = SchemaBuilder.getInstance().buildSchemaView(Objects.requireNonNull(getIntent().getExtras()).getString(SCHEMA_KEY), this);
             else {
                 truFormView = SchemaBuilder.getInstance().buildSchemaViewWithConstValues(getIntent().getStringExtra(SCHEMA_KEY), jsonVal, this);
                 findViewById(R.id.submit_btn).setVisibility(View.GONE);
@@ -114,11 +124,10 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         if (Build.VERSION.SDK_INT >= 23)
             if (PermissionsUtils.checkPermission(TruFormActivity.this))
                 pickFromGallery();
+            else if (PermissionsUtils.requestPermission(TruFormActivity.this))
+                Toast.makeText(TruFormActivity.this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
             else
-                if(PermissionsUtils.requestPermission(TruFormActivity.this))
-                    Toast.makeText(TruFormActivity.this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-                else
-                    ActivityCompat.requestPermissions(TruFormActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                ActivityCompat.requestPermissions(TruFormActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         else
             pickFromGallery();
     }
