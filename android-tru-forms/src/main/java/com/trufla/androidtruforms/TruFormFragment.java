@@ -65,7 +65,10 @@ public class TruFormFragment extends Fragment implements FormContract {
     public static final String FRAGMENT_TAG = "TRU_FORM_FRAGMENT";
     public static int mySchemaType = 0;
 
-    public TruFormFragment() {}
+    private String jsonVal;
+
+    public TruFormFragment() {
+    }
 
     public static TruFormFragment newInstance(int schemaType, String schemaString) {
         TruFormFragment fragment = new TruFormFragment();
@@ -78,10 +81,11 @@ public class TruFormFragment extends Fragment implements FormContract {
 
     public static TruFormFragment newInstanceWithConstJson(String schemaString, String jsonValue) {
         TruFormFragment fragment = new TruFormFragment();
-        Bundle args = new Bundle();
-        args.putString(SCHEMA_KEY, schemaString);
-        args.putString(JSON_KEY, jsonValue);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString(SCHEMA_KEY, schemaString);
+//        args.putString(JSON_KEY, jsonValue);
+//        fragment.setArguments(args);
+        fragment.onPassData(schemaString, jsonValue);
         return fragment;
     }
 
@@ -89,7 +93,7 @@ public class TruFormFragment extends Fragment implements FormContract {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            schemaString = getArguments().getString(SCHEMA_KEY);
+//            schemaString = getArguments().getString(SCHEMA_KEY);
             mySchemaType = getArguments().getInt(SCHEMA_TYPE);
         }
     }
@@ -99,8 +103,8 @@ public class TruFormFragment extends Fragment implements FormContract {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tru_form, container, false);
         try {
-            assert getArguments() != null;
-            String jsonVal = getArguments().getString(JSON_KEY);
+//            assert getArguments() != null;
+//            jsonVal = getArguments().getString(JSON_KEY);
 
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
@@ -144,8 +148,7 @@ public class TruFormFragment extends Fragment implements FormContract {
         if (Build.VERSION.SDK_INT >= 23)
             if (PermissionsUtils.checkPermission(getActivity()))
                 pickFromGallery();
-            else
-            if(PermissionsUtils.requestPermission(getActivity()))
+            else if (PermissionsUtils.requestPermission(getActivity()))
                 Toast.makeText(getActivity(), "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
             else
                 ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
@@ -191,6 +194,13 @@ public class TruFormFragment extends Fragment implements FormContract {
                 break;
         }
     }
+
+    @Override
+    public void onPassData(String... data) {
+        schemaString = data[0];
+        jsonVal = data[1];
+    }
+
     @Override
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
         this.mDataFetchListener = listener;

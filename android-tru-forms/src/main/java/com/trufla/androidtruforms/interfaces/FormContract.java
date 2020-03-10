@@ -10,4 +10,7 @@ public interface FormContract {
     void openImagePicker(TruConsumer<ImageModel> pickedImageListener);
 
     void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url);
+
+    void onPassData(String... data);
+
 }

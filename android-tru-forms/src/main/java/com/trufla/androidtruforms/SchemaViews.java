@@ -2,6 +2,7 @@ package com.trufla.androidtruforms;
 
 import android.app.Activity;
 import android.content.Context;
+
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -37,13 +38,16 @@ public class SchemaViews {
         TruFormActivity.startActivityForFormResult(fragment, schemaString);
     }
 
-    public static void startActivityToRenderConstSchema(Activity activity, String schemaString, String constValue) {
-        TruFormActivity.startActivityToRenderConstSchema(activity, schemaString, constValue);
+    public void startActivityToRenderConstSchema(Activity activity, String schemaString, String constValue) {
+        TruFormActivity truFormActivity = new TruFormActivity();
+        truFormActivity.onPassData(schemaString, constValue);
+        truFormActivity.startActivityToRenderConstSchema(activity, schemaString, constValue);
     }
 
-    public static void startActivityToRenderConstSchema(Fragment fragment, String schemaString, String constValue) {
-        TruFormActivity.startActivityToRenderConstSchema(fragment, schemaString, constValue);
+    public void startActivityToRenderConstSchema(Fragment fragment, String schemaString, String constValue) {
+        TruFormActivity truFormActivity = new TruFormActivity();
+        truFormActivity.onPassData(schemaString, constValue);
+        truFormActivity.startActivityToRenderConstSchema(fragment, schemaString, constValue);
     }
-
 
 }
