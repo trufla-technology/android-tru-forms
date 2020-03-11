@@ -56,12 +56,14 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     public static void startActivityForFormResult(Activity context, String jsonStr) {
         Intent intent = new Intent(context, TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
+        sharedData = null;
         context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
     public static void startActivityForFormResult(Fragment hostFragment, String jsonStr) {
         Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
+        sharedData = null;
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
@@ -93,7 +95,12 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tru_form);
         try {
-            String jsonVal = sharedData.getData();
+
+            String jsonVal = "";
+            if (sharedData != null) {
+                jsonVal = sharedData.getData();
+            }
+
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(Objects.requireNonNull(getIntent().getExtras()).getString(SCHEMA_KEY), this);
             else {
