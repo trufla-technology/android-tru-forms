@@ -65,7 +65,10 @@ public class TruFormFragment extends Fragment implements FormContract {
     public static final String FRAGMENT_TAG = "TRU_FORM_FRAGMENT";
     public static int mySchemaType = 0;
 
+    private static SharedData sharedData;
+
     public TruFormFragment() {
+
     }
 
     public static TruFormFragment newInstance(int schemaType, String schemaString) {
@@ -84,10 +87,9 @@ public class TruFormFragment extends Fragment implements FormContract {
         args.putString(SCHEMA_KEY, schemaString);
 //        args.putString(JSON_KEY, jsonValue);
 
-        FormModel formModel = new FormModel();
-        formModel.setJsonStr(jsonValue);
+        sharedData = SharedData.getInstance();
+        sharedData.setData(jsonValue);
 
-        args.putParcelable(JSON_KEY, formModel);
         fragment.setArguments(args);
         return fragment;
     }
@@ -106,11 +108,7 @@ public class TruFormFragment extends Fragment implements FormContract {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tru_form, container, false);
         try {
-            assert getArguments() != null;
-            FormModel formModel = getArguments().getParcelable(JSON_KEY);
-
-            assert formModel != null;
-            String jsonVal = formModel.getJsonStr();
+            String jsonVal = sharedData.getData();
 
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());

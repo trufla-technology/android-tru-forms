@@ -51,6 +51,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     TruConsumer<ImageModel> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
+    private static SharedData sharedData;
 
     public static void startActivityForFormResult(Activity context, String jsonStr) {
         Intent intent = new Intent(context, TruFormActivity.class);
@@ -69,9 +70,9 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         intent.putExtra(SCHEMA_KEY, jsonStr);
 
 //        intent.putExtra(JSON_KEY, jsonVal);
-        FormModel formModel = new FormModel();
-        formModel.setJsonStr(jsonVal);
-        intent.putExtra(JSON_KEY, formModel);
+        sharedData = SharedData.getInstance();
+        sharedData.setData(jsonVal);
+//        intent.putExtra(JSON_KEY, formModel);
 
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
@@ -82,9 +83,8 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
 
 //        intent.putExtra(JSON_KEY, jsonVal);
 
-        FormModel formModel = new FormModel();
-        formModel.setJsonStr(jsonVal);
-        intent.putExtra(JSON_KEY, formModel);
+        sharedData = SharedData.getInstance();
+        sharedData.setData(jsonVal);
         context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
@@ -93,9 +93,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tru_form);
         try {
-            FormModel formModel = getIntent().getParcelableExtra(JSON_KEY);
-            assert formModel != null;
-            String jsonVal = formModel.getJsonStr();
+            String jsonVal = sharedData.getData();
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(Objects.requireNonNull(getIntent().getExtras()).getString(SCHEMA_KEY), this);
             else {
@@ -110,7 +108,6 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
             setResult(RESULT_CANCELED);
             finish();
         }
-
     }
 
     @Override
