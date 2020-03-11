@@ -76,6 +76,7 @@ public class TruFormFragment extends Fragment implements FormContract {
         Bundle args = new Bundle();
         args.putString(SCHEMA_KEY, schemaString);
         args.putInt(SCHEMA_TYPE, schemaType);
+        sharedData = null;
         fragment.setArguments(args);
         return fragment;
     }
@@ -108,7 +109,12 @@ public class TruFormFragment extends Fragment implements FormContract {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tru_form, container, false);
         try {
-            String jsonVal = sharedData.getData();
+
+            String jsonVal = "";
+
+            if (sharedData != null) {
+                jsonVal = sharedData.getData();
+            }
 
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
