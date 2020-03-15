@@ -27,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.ImageModel;
+import com.trufla.androidtruforms.truviews.SchemaBaseView;
 import com.trufla.androidtruforms.truviews.TruFormView;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
@@ -281,8 +282,14 @@ public class TruFormFragment extends Fragment implements FormContract {
         }
         //Toast.makeText(getContext(), "submitted", Toast.LENGTH_SHORT).show();
         String result = truFormView.getInputtedData();
+
         if (mListener != null) {
-            mListener.onFormSubmitted(result);
+
+            ArrayList<SchemaBaseView> views = truFormView.getChilds();
+            CollectDataAsync collectDataAsync = new CollectDataAsync(mListener, truFormView.getInstanceKey());
+            collectDataAsync.execute(views.toArray(new SchemaBaseView[0]));
+
+//            mListener.onFormSubmitted(result);
         }
     }
 
