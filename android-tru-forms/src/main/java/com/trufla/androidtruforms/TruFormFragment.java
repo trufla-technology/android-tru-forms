@@ -49,7 +49,7 @@ import okhttp3.Callback;
  * create an instance of this fragment.
  */
 
-public class TruFormFragment extends Fragment implements FormContract {
+public class TruFormFragment extends Fragment implements FormContract, CollectDataAsync.AsyncResponse {
     private static final int PICK_IMAGE_CODE = 1;
     private static final int CAPTURE_IMAGE_CODE = 2;
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -223,7 +223,8 @@ public class TruFormFragment extends Fragment implements FormContract {
     }
 
     private boolean isValidData() {
-        return truFormView.getInputtedData() != null;
+        return truFormView.isValid();
+//        return truFormView.getInputtedData() != null;
     }
 
     @Override
@@ -276,19 +277,32 @@ public class TruFormFragment extends Fragment implements FormContract {
     }
 
     public void onSubmitClicked() {
+        if (truFormView.checkView() != null) {
+            String output = truFormView.checkView();
+            String result = output.substring(output.indexOf(':') + 1);
+            if (mListener != null)
+                mListener.onFormSubmitted(result);
+            return;
+        }
         if (!isValidData()) {
             Toast.makeText(getContext(), getString(R.string.please_correct_errors), Toast.LENGTH_SHORT).show();
             return;
         }
-        //Toast.makeText(getContext(), "submitted", Toast.LENGTH_SHORT).show();
-//        String result = truFormView.getInputtedData();
 
-        if (mListener != null) {
-            ArrayList<SchemaBaseView> views = truFormView.getChilds();
-            CollectDataAsync collectDataAsync = new CollectDataAsync(mListener, truFormView.getInstanceKey());
-            collectDataAsync.execute(views.toArray(new SchemaBaseView[0]));
+        ArrayList<SchemaBaseView> views = truFormView.getChilds();
+        CollectDataAsync collectDataAsync = new CollectDataAsync(this, truFormView.getInstanceKey());
+        collectDataAsync.execute(views.toArray(new SchemaBaseView[0]));
+    }
 
-//            mListener.onFormSubmitted(result);
+
+    @Override
+    public void processFinish(String output) {
+        if (output == null) {
+            Toast.makeText(getContext(), getString(R.string.please_correct_errors), Toast.LENGTH_SHORT).show();
+        } else {
+            String result = output.substring(output.indexOf(':') + 1);
+            if (mListener != null)
+                mListener.onFormSubmitted(result);
         }
     }
 

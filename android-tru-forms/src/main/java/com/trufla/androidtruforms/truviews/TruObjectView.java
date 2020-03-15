@@ -38,6 +38,7 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
 
         if (!validate())
             return null;
+
         StringBuilder stringBuilder = new StringBuilder();
         for (SchemaBaseView viewBuilder : childs) {
             if (viewBuilder != null && viewBuilder.getInputtedData() != null && !viewBuilder.getInputtedData().equals(""))
@@ -50,6 +51,17 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         return String.format(Locale.getDefault(), "\"%s\":{%s}", instance.getKey(), stringBuilder.toString());
     }
 
+    public boolean isValid() {
+        if (!validate())
+            return false;
+        return true;
+    }
+
+    public String checkView() {
+        if (mView == null)
+            return String.format(Locale.getDefault(), "\"%s\":{}", instance.getKey());
+        return null;
+    }
 
     public String getInstanceKey() {
         return instance.getKey();

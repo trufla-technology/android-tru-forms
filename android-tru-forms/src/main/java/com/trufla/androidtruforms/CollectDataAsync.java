@@ -13,37 +13,37 @@ import java.util.Locale;
  */
 public class CollectDataAsync extends AsyncTask<SchemaBaseView, Void, String> {
 
-
-    private TruFormFragment.OnFormActionsListener mListener;
     private String instanceKey;
+    private AsyncResponse callBack;
 
-    CollectDataAsync(TruFormFragment.OnFormActionsListener mListener, String instanceKey) {
-        this.mListener = mListener;
+    CollectDataAsync(AsyncResponse callBack, String instanceKey) {
+        this.callBack = callBack;
         this.instanceKey = instanceKey;
     }
 
     @Override
     protected String doInBackground(SchemaBaseView... schemaBaseViews) {
-
         StringBuilder stringBuilder = new StringBuilder();
-
         for (SchemaBaseView viewBuilder : schemaBaseViews) {
             if (viewBuilder != null && viewBuilder.getInputtedData() != null && !viewBuilder.getInputtedData().equals(""))
                 stringBuilder.append(viewBuilder.getInputtedData()).append(",");
         }
-
         if (stringBuilder.length() > 0 && stringBuilder.charAt(stringBuilder.length() - 1) == ',')
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
         else
             return "";
-
         return String.format(Locale.getDefault(), "\"%s\":{%s}", instanceKey, stringBuilder.toString());
-
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        mListener.onFormSubmitted(s);
+        callBack.processFinish(s);
+    }
+
+
+    public interface AsyncResponse {
+        void processFinish(String output);
     }
 }
+
