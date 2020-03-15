@@ -281,10 +281,9 @@ public class TruFormFragment extends Fragment implements FormContract {
             return;
         }
         //Toast.makeText(getContext(), "submitted", Toast.LENGTH_SHORT).show();
-        String result = truFormView.getInputtedData();
+//        String result = truFormView.getInputtedData();
 
         if (mListener != null) {
-
             ArrayList<SchemaBaseView> views = truFormView.getChilds();
             CollectDataAsync collectDataAsync = new CollectDataAsync(mListener, truFormView.getInstanceKey());
             collectDataAsync.execute(views.toArray(new SchemaBaseView[0]));

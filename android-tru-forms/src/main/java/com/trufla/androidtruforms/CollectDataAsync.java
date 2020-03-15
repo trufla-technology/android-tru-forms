@@ -17,7 +17,7 @@ public class CollectDataAsync extends AsyncTask<SchemaBaseView, Void, String> {
     private TruFormFragment.OnFormActionsListener mListener;
     private String instanceKey;
 
-    public CollectDataAsync(TruFormFragment.OnFormActionsListener mListener, String instanceKey) {
+    CollectDataAsync(TruFormFragment.OnFormActionsListener mListener, String instanceKey) {
         this.mListener = mListener;
         this.instanceKey = instanceKey;
     }
