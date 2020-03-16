@@ -2,16 +2,12 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruObjectView;
 import com.trufla.androidtruforms.truviews.TruSectionView;
 import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * Created by ohefny on 6/27/18.

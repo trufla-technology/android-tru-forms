@@ -36,8 +36,8 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         if (mView == null)
             return String.format(Locale.getDefault(), "\"%s\":{}", instance.getKey());
 
-        if (!validate())
-            return null;
+//        if (!validate())
+//            return null;
 
         StringBuilder stringBuilder = new StringBuilder();
         for (SchemaBaseView viewBuilder : childs) {

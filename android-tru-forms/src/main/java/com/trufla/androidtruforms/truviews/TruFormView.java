@@ -48,13 +48,13 @@ public abstract class TruFormView extends TruObjectView {
         return ((ViewGroup) mView.findViewById(R.id.container));
     }
 
-    @Override
-    public String getInputtedData() {
-        String json = super.getInputtedData();
-        if(json==null)
-            return null;
-        return json.substring(json.indexOf(':') + 1);
-    }
+//    @Override
+//    public String getInputtedData() {
+//        String json = super.getInputtedData();
+//        if(json==null)
+//            return null;
+//        return json.substring(json.indexOf(':') + 1);
+//    }
 
     protected void setLayoutParams(View childView, SchemaBaseView truView) {
         if (truView instanceof TruSectionView)
