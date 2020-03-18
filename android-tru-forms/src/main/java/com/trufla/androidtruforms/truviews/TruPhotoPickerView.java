@@ -57,7 +57,7 @@ public class TruPhotoPickerView extends TruStringView {
     private TruConsumer<ImageModel> getImagePickedListener() {
         return (imageModel) ->
         {
-            if(imageModel.getImagePath().isEmpty())
+            if (imageModel.getImagePath().isEmpty())
                 setImageToView(imageModel.getImageBitmap());
             else
                 setImageToView(BitmapUtils.handleImageRotation(imageModel.getImagePath(), imageModel.getImageBitmap()));

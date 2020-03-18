@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +35,12 @@ import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
 import com.trufla.androidtruforms.utils.PermissionsUtils;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import okhttp3.Callback;
 
@@ -67,6 +72,12 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     public static int mySchemaType = 0;
 
     private static SharedData sharedData;
+
+
+    //create a single thread pool to our image compression class.
+    private ExecutorService mExecutorService = Executors.newFixedThreadPool(1);
+
+    private ImageCompressTask imageCompressTask;
 
     public TruFormFragment() {
 
@@ -179,7 +190,7 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                 startActivityForResult(takePictureIntent, CAPTURE_IMAGE_CODE);
-                dialog.hide();
+                dialog.dismiss();
             }
         });
 
@@ -188,7 +199,7 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, PICK_IMAGE_CODE);
-            dialog.hide();
+            dialog.dismiss();
         });
 
         dialog.show();
@@ -234,18 +245,12 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
             switch (requestCode) {
                 case PICK_IMAGE_CODE:
                     Uri pickedImage = data.getData();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), pickedImage);
-                        String imagePath = BitmapUtils.getRealPathFromURI(getActivity(), pickedImage);
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), pickedImage);
+                    String imagePath = BitmapUtils.getRealPathFromURI(getActivity(), pickedImage);
 
-                        ImageModel imageModel = new ImageModel();
-                        imageModel.setImagePath(imagePath);
-                        imageModel.setImageBitmap(bitmap);
-
-                        mPickedImageListener.accept(imageModel);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    //Create ImageCompressTask and execute with Executor.
+                    imageCompressTask = new ImageCompressTask(getContext(), imagePath, iImageCompressTaskListener);
+                    mExecutorService.execute(imageCompressTask);
                     break;
 
                 case CAPTURE_IMAGE_CODE:
@@ -257,6 +262,29 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
             }
         }
     }
+
+    //image compress task callback
+    private IImageCompressTaskListener iImageCompressTaskListener = new IImageCompressTaskListener() {
+
+        @Override
+        public void onComplete(List<File> compressed, String uriPath) {
+            File file = compressed.get(0);
+
+            Log.d("ImageCompressor", "New photo size ==> " + file.length()); //log new file size.
+
+            ImageModel imageModel = new ImageModel();
+            imageModel.setImagePath(uriPath);
+            imageModel.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+            mPickedImageListener.accept(imageModel);
+        }
+
+        @Override
+        public void onError(Throwable error) {
+            //it might happen on a device with extremely low storage.
+            //log it, log.WhatTheFuck?, or show a dialog asking the user to delete some files....etc, etc
+            Log.wtf("ImageCompressor", "Error occurred", error);
+        }
+    };
 
     @NonNull
     private Callback getHttpCallback(final String selector, final ArrayList<String> names) {
@@ -315,4 +343,17 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
 
         void onFormFailed();
     }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        //clean up!
+        mExecutorService.shutdown();
+        mExecutorService = null;
+        imageCompressTask = null;
+    }
 }
+
+
