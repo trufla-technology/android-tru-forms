@@ -27,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.ImageModel;
+import com.trufla.androidtruforms.truviews.SchemaBaseView;
 import com.trufla.androidtruforms.truviews.TruFormView;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
@@ -48,7 +49,7 @@ import okhttp3.Callback;
  * create an instance of this fragment.
  */
 
-public class TruFormFragment extends Fragment implements FormContract {
+public class TruFormFragment extends Fragment implements FormContract, CollectDataAsync.AsyncResponse {
     private static final int PICK_IMAGE_CODE = 1;
     private static final int CAPTURE_IMAGE_CODE = 2;
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -222,7 +223,8 @@ public class TruFormFragment extends Fragment implements FormContract {
     }
 
     private boolean isValidData() {
-        return truFormView.getInputtedData() != null;
+        return truFormView.isValid();
+//        return truFormView.getInputtedData() != null;
     }
 
     @Override
@@ -275,18 +277,40 @@ public class TruFormFragment extends Fragment implements FormContract {
     }
 
     public void onSubmitClicked() {
+        if (truFormView.checkView() != null) {
+            String output = truFormView.checkView();
+            String result = output.substring(output.indexOf(':') + 1);
+            if (mListener != null)
+                mListener.onFormSubmitted(result);
+            return;
+        }
         if (!isValidData()) {
             Toast.makeText(getContext(), getString(R.string.please_correct_errors), Toast.LENGTH_SHORT).show();
             return;
         }
-        //Toast.makeText(getContext(), "submitted", Toast.LENGTH_SHORT).show();
-        String result = truFormView.getInputtedData();
-        if (mListener != null) {
-            mListener.onFormSubmitted(result);
+
+        if (mListener != null)
+            mListener.showDialog();
+        ArrayList<SchemaBaseView> views = truFormView.getChilds();
+        CollectDataAsync collectDataAsync = new CollectDataAsync(this, truFormView.getInstanceKey());
+        collectDataAsync.execute(views.toArray(new SchemaBaseView[0]));
+    }
+
+
+    @Override
+    public void processFinish(String output) {
+        if (output == null) {
+            Toast.makeText(getContext(), getString(R.string.please_correct_errors), Toast.LENGTH_SHORT).show();
+        } else {
+            String result = output.substring(output.indexOf(':') + 1);
+            if (mListener != null)
+                mListener.onFormSubmitted(result);
         }
     }
 
     public interface OnFormActionsListener {
+        void showDialog();
+
         void onFormSubmitted(String jsonReperesentation);
 
         void onFormFailed();

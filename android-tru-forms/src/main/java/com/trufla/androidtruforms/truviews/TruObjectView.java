@@ -32,13 +32,13 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
     protected abstract ViewGroup getContainerView();
 
     @Override
-    public String getInputtedData()
-    {
+    public String getInputtedData() {
         if (mView == null)
             return String.format(Locale.getDefault(), "\"%s\":{}", instance.getKey());
 
-        if (!validate())
-            return null;
+//        if (!validate())
+//            return null;
+
         StringBuilder stringBuilder = new StringBuilder();
         for (SchemaBaseView viewBuilder : childs) {
             if (viewBuilder != null && viewBuilder.getInputtedData() != null && !viewBuilder.getInputtedData().equals(""))
@@ -49,6 +49,26 @@ public abstract class TruObjectView extends SchemaBaseView<ObjectInstance> imple
         else
             return "";
         return String.format(Locale.getDefault(), "\"%s\":{%s}", instance.getKey(), stringBuilder.toString());
+    }
+
+    public boolean isValid() {
+        if (!validate())
+            return false;
+        return true;
+    }
+
+    public String checkView() {
+        if (mView == null)
+            return String.format(Locale.getDefault(), "\"%s\":{}", instance.getKey());
+        return null;
+    }
+
+    public String getInstanceKey() {
+        return instance.getKey();
+    }
+
+    public ArrayList<SchemaBaseView> getChilds() {
+        return childs;
     }
 
     protected void addChildView(SchemaInstance child) {
