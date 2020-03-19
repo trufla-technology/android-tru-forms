@@ -172,8 +172,8 @@ public class BitmapUtils {
         int originalWidth = originalBitmap.getWidth();
         int originalHeight = originalBitmap.getHeight();
 
-        int desiredWidth = 2048;
-        int desiredHeight = 2048;
+        int desiredWidth = 1024;
+        int desiredHeight = 1024;
 
         //decode and resize the original bitmap from @param path.
 
