@@ -203,8 +203,11 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
                 }
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
+
+                    String packName = getContext().getPackageName();
+                    String authority = String.format("%s.%s", packName, "provider");
                     Uri photoURI = FileProvider.getUriForFile(getContext(),
-                            "com.trufla.androidtruforms.fileprovider",
+                            authority,
                             photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     startActivityForResult(takePictureIntent, CAPTURE_IMAGE_CODE);
