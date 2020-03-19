@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -21,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -33,6 +33,7 @@ import com.trufla.androidtruforms.utils.EnumDataFormatter;
 import com.trufla.androidtruforms.utils.PermissionsUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -59,6 +60,8 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     private static SharedData sharedData;
 
     BottomSheetDialog dialog;
+
+    String currentCameraPhotoPath;
 
     //create a single thread pool to our image compression class.
     private ExecutorService mExecutorService = Executors.newFixedThreadPool(1);
@@ -157,10 +160,28 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
 
         assert ivCameraSelect != null;
         ivCameraSelect.setOnClickListener(view -> {
+
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Ensure that there's a camera activity to handle the intent
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, CAPTURE_IMAGE_CODE);
-                dialog.dismiss();
+                // Create the File where the photo should go
+                File photoFile = null;
+                try {
+                    photoFile = BitmapUtils.createImageTempFile(this);
+                    currentCameraPhotoPath = photoFile.getAbsolutePath();
+                } catch (IOException ex) {
+                    // Error occurred while creating the File
+                }
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this,
+                            "com.trufla.androidtruforms.fileprovider",
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, CAPTURE_IMAGE_CODE);
+
+                    dialog.dismiss();
+                }
             }
         });
 
@@ -174,6 +195,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
 
         dialog.show();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -215,20 +237,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
             switch (requestCode) {
                 case PICK_IMAGE_CODE:
                     Uri pickedImage = data.getData();
-//                    Bitmap bitmap = null;
-//                    try {
-//                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), pickedImage);
-//
-//                        String imagePath = BitmapUtils.getRealPathFromURI(TruFormActivity.this, pickedImage);
-//
-//                        ImageModel imageModel = new ImageModel();
-//                        imageModel.setImagePath(imagePath);
-//                        imageModel.setImageBitmap(bitmap);
-//                        mPickedImageListener.accept(imageModel);
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
+
                     String imagePath = BitmapUtils.getRealPathFromURI(TruFormActivity.this, pickedImage);
 
 //                    Create ImageCompressTask and execute with Executor.
@@ -238,11 +247,8 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
                     break;
 
                 case CAPTURE_IMAGE_CODE:
-                    ImageModel imageModels = new ImageModel();
-                    imageModels.setImagePath("");
-                    imageModels.setImageBitmap((Bitmap) data.getExtras().get("data"));
-
-                    mPickedImageListener.accept(imageModels);
+                    imageCompressTask = new ImageCompressTask(this, currentCameraPhotoPath, iImageCompressTaskListener);
+                    mExecutorService.execute(imageCompressTask);
             }
         }
     }

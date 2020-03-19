@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 
@@ -167,7 +168,7 @@ public class BitmapUtils {
             root.mkdirs();
 
         //decode and resize the original bitmap from @param path.
-        Bitmap bitmap = decodeImageFromFiles(path, /* your desired width*/2048, /*your desired height*/ 1080);
+        Bitmap bitmap = decodeImageFromFiles(path, /* your desired width*/1024, /*your desired height*/ 1024);
 
         //create placeholder for the compressed image file
         File compressed = new File(root, SDF.format(new Date()) + ".jpg" /*Your desired format*/);
@@ -210,5 +211,19 @@ public class BitmapUtils {
         BitmapFactory.Options outOptions = new BitmapFactory.Options();
         outOptions.inSampleSize = scale;
         return BitmapFactory.decodeFile(path, outOptions);
+    }
+
+    public static File createImageTempFile(Context context) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a fiwle: path for use with ACTION_VIEW intents
+        return image;
     }
 }
