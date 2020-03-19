@@ -167,8 +167,17 @@ public class BitmapUtils {
         if (!root.exists())
             root.mkdirs();
 
+        Bitmap originalBitmap = BitmapFactory.decodeFile(path);
+
+        int originalWidth = originalBitmap.getWidth();
+        int originalHeight = originalBitmap.getHeight();
+
+        int desiredWidth = 2048;
+        int desiredHeight = 2048;
+
         //decode and resize the original bitmap from @param path.
-        Bitmap bitmap = decodeImageFromFiles(path, /* your desired width*/1024, /*your desired height*/ 1024);
+
+        Bitmap bitmap = resizedBitmap(path, originalWidth, originalHeight, desiredWidth, desiredHeight);
 
         //create placeholder for the compressed image file
         File compressed = new File(root, SDF.format(new Date()) + ".jpg" /*Your desired format*/);
@@ -182,11 +191,9 @@ public class BitmapUtils {
             Where Quality ranges from 1 - 100.
          */
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
-
         /*
         Right now, we have our bitmap inside byteArrayOutputStream Object, all we need next is to write it to the compressed file we created earlier,
         java.io.FileOutputStream can help us do just That!
-
          */
         FileOutputStream fileOutputStream = new FileOutputStream(compressed);
         fileOutputStream.write(byteArrayOutputStream.toByteArray());
@@ -196,6 +203,33 @@ public class BitmapUtils {
 
         //File written, return to the caller. Done!
         return compressed;
+    }
+
+    private static Bitmap resizedBitmap(String path, int originalWidth, int originalHeight, int desiredWidth, int desiredHeight) {
+        Bitmap bitmap;
+        int newWidth = -1;
+        int newHeight = -1;
+        float multFactor = -1.0F;
+
+        if (!(originalWidth < desiredWidth && originalHeight < desiredHeight)) {
+            if (originalHeight > originalWidth) {
+                newHeight = desiredHeight;
+                multFactor = (float) originalWidth / (float) originalHeight;
+                newWidth = (int) (newHeight * multFactor);
+
+            } else if (originalWidth > originalHeight) {
+                newWidth = desiredWidth;
+                multFactor = (float) originalHeight / (float) originalWidth;
+                newHeight = (int) (newWidth * multFactor);
+            } else {
+                newHeight = desiredHeight;
+                newWidth = desiredWidth;
+            }
+            bitmap = decodeImageFromFiles(path, newWidth, newHeight);
+        } else {
+            bitmap = decodeImageFromFiles(path, originalWidth, originalHeight);
+        }
+        return bitmap;
     }
 
     public static Bitmap decodeImageFromFiles(String path, int width, int height) {
