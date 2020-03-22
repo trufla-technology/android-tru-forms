@@ -1,42 +1,58 @@
 {
-  "title": "Add Vehicle",
-  "description": "Add Vehicle",
+  "title": "Other Claim",
   "type": "object",
   "properties": {
-    "effective_date": {
-      "type": "string",
-      "format": "date"
+    "claim_information": {
+      "type": "object",
+      "properties": {
+        "claim_description": {
+          "type": "string"
+        },
+        "date_of_loss": {
+          "type": "string",
+          "format": "date"
+        },
+        "your_damage_photos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "photo": {
+                "type": "string",
+                "format": "photo"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "claim_description",
+        "date_of_loss"
+      ]
     },
-    "year": {
-      "type": "string",
-      "pattern": "[1-2][0-9]{3}"
-    },
-    "make": {
-      "type": "string"
-    },
-    "model": {
-      "type": "string"
-    },
-    "vin_number": {
-      "type": "string"
-    },
-    "coverage_requested": {
-      "type": "string"
-    },
-    "bill_of_sale": {
-      "type": "string",
-      "format": "photo"
-    },
-    "additional_info": {
-      "type": "string"
+    "witness_information": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "home_phone_number": {
+            "type": "string",
+            "format": "tel"
+          },
+          "cell_phone_number": {
+            "type": "string",
+            "format": "tel"
+          }
+        }
+      }
     }
   },
-  "required": [
-    "effective_date",
-    "year",
-    "make",
-    "model",
-    "vin_number",
-    "coverage_requested"
-  ]
+  "required": []
 }

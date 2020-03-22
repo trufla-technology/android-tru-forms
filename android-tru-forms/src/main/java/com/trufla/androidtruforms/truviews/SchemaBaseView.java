@@ -120,14 +120,17 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
-    public boolean validate() {
-        if (!isValidAgainstRequired()) {
+    public boolean validate()
+    {
+        if (!isValidAgainstRequired())
+        {
             if (this instanceof TruEnumView || this instanceof TruStringView)
                 setViewError(getRequiredErrorMessage());
             else
                 setError(getRequiredErrorMessage());
             return false;
         }
+
         if (!isValidAgainstOtherRules()) {
             if (this instanceof TruEnumView || this instanceof TruStringView)
                 setViewError(getOtherRulesErrorMessage());
@@ -185,6 +188,5 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     }
 
     protected void setNonEditableValues(Object constItem) {
-
     }
 }

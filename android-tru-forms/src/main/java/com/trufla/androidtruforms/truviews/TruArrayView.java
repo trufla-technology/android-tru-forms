@@ -70,7 +70,6 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     @Override
     protected void setViewError(String errorMsg) {
-
     }
 
     @NonNull
@@ -107,6 +106,17 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean validate()
+    {
+        boolean isValidValue = true;
+        for (SchemaBaseView viewBuilder : items) {
+            if (!viewBuilder.validate())
+                isValidValue = false;
+        }
+        return isValidValue;
     }
 
     private View getNewItemView(SchemaBaseView itemViewBuilder) {
