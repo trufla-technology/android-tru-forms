@@ -105,6 +105,11 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
     }
 
     @Override
+    public void showDialog() {
+
+    }
+
+    @Override
     public void onFormSubmitted(String jsonReperesentation) {
         Log.d("Json values", jsonReperesentation);
         //((TextView) findViewById(R.id.submitted_data)).setText(str);

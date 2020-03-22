@@ -290,8 +290,8 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
             return;
         }
 
-//        if (mListener != null)
-//            mListener.showDialog();
+        if (mListener != null)
+            mListener.showDialog();
         ArrayList<SchemaBaseView> views = truFormView.getChilds();
         CollectDataAsync collectDataAsync = new CollectDataAsync(this, truFormView.getInstanceKey());
         collectDataAsync.execute(views.toArray(new SchemaBaseView[0]));
@@ -310,7 +310,7 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     }
 
     public interface OnFormActionsListener {
-//        void showDialog();
+        void showDialog();
 
         void onFormSubmitted(String jsonReperesentation);
 
