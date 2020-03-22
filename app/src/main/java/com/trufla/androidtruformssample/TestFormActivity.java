@@ -22,7 +22,7 @@ import java.util.Scanner;
 public class TestFormActivity extends AppCompatActivity implements TruFormFragment.OnFormActionsListener {
 
     public static final String JSON_STR = "JSON_STR";
-    private static int schemaType = 2;
+    private static int schemaType = 1;
 
     //FRAGMENT_FORM type to display view as submit new request or claim
     //ACTIVITY_FORM //  //  //     //   //  History

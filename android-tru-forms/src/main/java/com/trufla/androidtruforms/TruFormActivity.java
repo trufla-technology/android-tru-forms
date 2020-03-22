@@ -193,7 +193,8 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     }
 
     private boolean isValidData() {
-        return truFormView.getInputtedData() != null;
+        return truFormView.isValid();
+        //return truFormView.getInputtedData() != null;
     }
 
     @Override
