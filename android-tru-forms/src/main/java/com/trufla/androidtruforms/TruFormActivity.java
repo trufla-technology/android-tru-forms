@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -30,9 +32,13 @@ import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
 import com.trufla.androidtruforms.utils.PermissionsUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import okhttp3.Callback;
 
@@ -52,6 +58,15 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
     private static SharedData sharedData;
+
+    BottomSheetDialog dialog;
+
+    String currentCameraPhotoPath;
+
+    //create a single thread pool to our image compression class.
+    private ExecutorService mExecutorService = Executors.newFixedThreadPool(1);
+
+    private ImageCompressTask imageCompressTask;
 
     public static void startActivityForFormResult(Activity context, String jsonStr) {
         Intent intent = new Intent(context, TruFormActivity.class);
@@ -137,7 +152,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     }
 
     private void pickFromGallery() {
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog = new BottomSheetDialog(this);
         dialog.setContentView(R.layout.bottom_dialog);
 
         ImageView ivCameraSelect = dialog.findViewById(R.id.iv_camera);
@@ -145,10 +160,31 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
 
         assert ivCameraSelect != null;
         ivCameraSelect.setOnClickListener(view -> {
+
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Ensure that there's a camera activity to handle the intent
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, CAPTURE_IMAGE_CODE);
-                dialog.hide();
+                // Create the File where the photo should go
+                File photoFile = null;
+                try {
+                    photoFile = BitmapUtils.createImageTempFile(this);
+                    currentCameraPhotoPath = photoFile.getAbsolutePath();
+                } catch (IOException ex) {
+                    // Error occurred while creating the File
+                }
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+
+                    String packName = this.getPackageName();
+                    String authority = String.format("%s.%s", packName, "provider");
+                    Uri photoURI = FileProvider.getUriForFile(this,
+                            authority,
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, CAPTURE_IMAGE_CODE);
+
+                    dialog.dismiss();
+                }
             }
         });
 
@@ -157,11 +193,12 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, PICK_IMAGE_CODE);
-            dialog.hide();
+            dialog.dismiss();
         });
 
         dialog.show();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -204,29 +241,45 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
             switch (requestCode) {
                 case PICK_IMAGE_CODE:
                     Uri pickedImage = data.getData();
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), pickedImage);
-                        String imagePath = BitmapUtils.getRealPathFromURI(TruFormActivity.this, pickedImage);
 
-                        ImageModel imageModel = new ImageModel();
-                        imageModel.setImagePath(imagePath);
-                        imageModel.setImageBitmap(bitmap);
+                    String imagePath = BitmapUtils.getRealPathFromURI(TruFormActivity.this, pickedImage);
 
-                        mPickedImageListener.accept(imageModel);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    Create ImageCompressTask and execute with Executor.
+                    imageCompressTask = new ImageCompressTask(this, imagePath, iImageCompressTaskListener);
+                    mExecutorService.execute(imageCompressTask);
+
                     break;
 
                 case CAPTURE_IMAGE_CODE:
-                    ImageModel imageModel = new ImageModel();
-                    imageModel.setImagePath("");
-                    imageModel.setImageBitmap((Bitmap) data.getExtras().get("data"));
-
-                    mPickedImageListener.accept(imageModel);
+                    imageCompressTask = new ImageCompressTask(this, currentCameraPhotoPath, iImageCompressTaskListener);
+                    mExecutorService.execute(imageCompressTask);
             }
         }
     }
+
+    //image compress task callback
+    private IImageCompressTaskListener iImageCompressTaskListener = new IImageCompressTaskListener() {
+
+
+        @Override
+        public void onComplete(List<File> compressed, String uriPath) {
+            File file = compressed.get(0);
+
+            Log.d("ImageCompressor", "New photo size ==> " + file.length()); //log new file size.
+
+            ImageModel imageModel = new ImageModel();
+            imageModel.setImagePath(uriPath);
+            imageModel.setImageBitmap(BitmapFactory.decodeFile(file.getAbsolutePath()));
+            mPickedImageListener.accept(imageModel);
+        }
+
+        @Override
+        public void onError(Throwable error) {
+            //it might happen on a device with extremely low storage.
+            //log it, log.WhatTheFuck?, or show a dialog asking the user to delete some files....etc, etc
+            Log.wtf("ImageCompressor", "Error occurred", error);
+        }
+    };
 
     @NonNull
     private Callback getHttpCallback(final String selector, final ArrayList<String> names) {
@@ -257,5 +310,14 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         intent.putExtra(SchemaBuilder.RESULT_DATA_KEY, result);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //clean up!
+        mExecutorService.shutdown();
+        mExecutorService = null;
+        imageCompressTask = null;
     }
 }

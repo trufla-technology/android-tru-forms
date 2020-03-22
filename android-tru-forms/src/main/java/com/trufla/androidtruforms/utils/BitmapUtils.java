@@ -1,5 +1,6 @@
 package com.trufla.androidtruforms.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -7,13 +8,19 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 
 import androidx.annotation.Nullable;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class BitmapUtils {
@@ -63,8 +70,7 @@ public class BitmapUtils {
         return "";
     }
 
-    public static String convertBitMapToBase64To(Bitmap bitmap)
-    {
+    public static String convertBitMapToBase64To(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -100,8 +106,7 @@ public class BitmapUtils {
         return path;
     }
 
-    public static Bitmap handleImageRotation(String filePath, Bitmap mBitmap)
-    {
+    public static Bitmap handleImageRotation(String filePath, Bitmap mBitmap) {
         File imgFile = new File(filePath);
         int angle = 0;
 
@@ -137,5 +142,122 @@ public class BitmapUtils {
             }
         }
         return null;
+    }
+
+
+    //SDF to generate a unique name for our compress file.
+    @SuppressLint("ConstantLocale")
+    private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyymmddhhmmss", Locale.getDefault());
+
+    public static File getCompressed(Context context, String path) throws IOException {
+
+        if (context == null)
+            throw new NullPointerException("Context must not be null.");
+        //getting device external cache directory, might not be available on some devices,
+        // so our code fall back to internal storage cache directory, which is always available but in smaller quantity
+        File cacheDir = context.getExternalCacheDir();
+        if (cacheDir == null)
+            //fall back
+            cacheDir = context.getCacheDir();
+
+        String rootDir = cacheDir.getAbsolutePath() + "/ImageCompressor";
+        File root = new File(rootDir);
+
+        //Create ImageCompressor folder if it doesnt already exists.
+        if (!root.exists())
+            root.mkdirs();
+
+        Bitmap originalBitmap = BitmapFactory.decodeFile(path);
+
+        int originalWidth = originalBitmap.getWidth();
+        int originalHeight = originalBitmap.getHeight();
+
+        int desiredWidth = 1024;
+        int desiredHeight = 1024;
+
+        //decode and resize the original bitmap from @param path.
+
+        Bitmap bitmap = resizedBitmap(path, originalWidth, originalHeight, desiredWidth, desiredHeight);
+
+        //create placeholder for the compressed image file
+        File compressed = new File(root, SDF.format(new Date()) + ".jpg" /*Your desired format*/);
+
+        //convert the decoded bitmap to stream
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        /*compress bitmap into byteArrayOutputStream
+            Bitmap.compress(Format, Quality, OutputStream)
+
+            Where Quality ranges from 1 - 100.
+         */
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        /*
+        Right now, we have our bitmap inside byteArrayOutputStream Object, all we need next is to write it to the compressed file we created earlier,
+        java.io.FileOutputStream can help us do just That!
+         */
+        FileOutputStream fileOutputStream = new FileOutputStream(compressed);
+        fileOutputStream.write(byteArrayOutputStream.toByteArray());
+        fileOutputStream.flush();
+
+        fileOutputStream.close();
+
+        //File written, return to the caller. Done!
+        return compressed;
+    }
+
+    private static Bitmap resizedBitmap(String path, int originalWidth, int originalHeight, int desiredWidth, int desiredHeight) {
+        Bitmap bitmap;
+        int newWidth = -1;
+        int newHeight = -1;
+        float multFactor = -1.0F;
+
+        if (!(originalWidth < desiredWidth && originalHeight < desiredHeight)) {
+            if (originalHeight > originalWidth) {
+                newHeight = desiredHeight;
+                multFactor = (float) originalWidth / (float) originalHeight;
+                newWidth = (int) (newHeight * multFactor);
+
+            } else if (originalWidth > originalHeight) {
+                newWidth = desiredWidth;
+                multFactor = (float) originalHeight / (float) originalWidth;
+                newHeight = (int) (newWidth * multFactor);
+            } else {
+                newHeight = desiredHeight;
+                newWidth = desiredWidth;
+            }
+            bitmap = decodeImageFromFiles(path, newWidth, newHeight);
+        } else {
+            bitmap = decodeImageFromFiles(path, originalWidth, originalHeight);
+        }
+        return bitmap;
+    }
+
+    public static Bitmap decodeImageFromFiles(String path, int width, int height) {
+        BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
+        scaleOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, scaleOptions);
+        int scale = 1;
+        while (scaleOptions.outWidth / scale / 2 >= width
+                && scaleOptions.outHeight / scale / 2 >= height) {
+            scale *= 2;
+        }
+        // decode with the sample size
+        BitmapFactory.Options outOptions = new BitmapFactory.Options();
+        outOptions.inSampleSize = scale;
+        return BitmapFactory.decodeFile(path, outOptions);
+    }
+
+    public static File createImageTempFile(Context context) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        // Save a fiwle: path for use with ACTION_VIEW intents
+        return image;
     }
 }
