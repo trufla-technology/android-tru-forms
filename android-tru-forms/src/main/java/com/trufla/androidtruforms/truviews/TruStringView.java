@@ -162,7 +162,8 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         try {
             Pattern patternObj = Pattern.compile(originPattern);
             Matcher matcher = patternObj.matcher(extractData());
-            if (matcher.matches())
+
+            if(extractData().isEmpty() || matcher.matches())
                 return true;
 
         } catch (Exception ex) {
