@@ -70,7 +70,7 @@ public class BitmapUtils {
         return "";
     }
 
-    public static String convertBitMapToBase64To(Bitmap bitmap)
+    private static String convertBitMapToBase64(Bitmap bitmap)
     {
         if(bitmap != null)
         {
@@ -79,8 +79,21 @@ public class BitmapUtils {
             byte[] byteArray = byteArrayOutputStream.toByteArray();
             String encodedImage = Base64.encodeToString(byteArray, Base64.NO_WRAP);
             return "data:image/jpeg;base64," + encodedImage.replaceAll("\n", "");
-        }else
-            return "";
+        }
+        return "";
+    }
+
+    public static String editAndConvertBitMapToBase64(Bitmap bitmap, String imagePath)
+    {
+        if(bitmap != null)
+        {
+            Bitmap rotatedBitmap = handleImageRotation(imagePath, bitmap);
+            if(rotatedBitmap == null)
+                rotatedBitmap = bitmap;
+
+            return convertBitMapToBase64(rotatedBitmap);
+        }
+        return "";
     }
 
     public static Bitmap decodeBase64ToBitmap(String imgBase64) {
