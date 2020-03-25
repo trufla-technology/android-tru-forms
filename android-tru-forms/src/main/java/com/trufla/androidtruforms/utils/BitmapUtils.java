@@ -70,12 +70,17 @@ public class BitmapUtils {
         return "";
     }
 
-    public static String convertBitMapToBase64To(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        String encodedImage = Base64.encodeToString(byteArray, Base64.NO_WRAP);
-        return "data:image/jpeg;base64," + encodedImage.replaceAll("\n", "");
+    public static String convertBitMapToBase64To(Bitmap bitmap)
+    {
+        if(bitmap != null)
+        {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream.toByteArray();
+            String encodedImage = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+            return "data:image/jpeg;base64," + encodedImage.replaceAll("\n", "");
+        }else
+            return "";
     }
 
     public static Bitmap decodeBase64ToBitmap(String imgBase64) {
@@ -110,7 +115,7 @@ public class BitmapUtils {
         File imgFile = new File(filePath);
         int angle = 0;
 
-        if (imgFile.exists()) {
+        if (imgFile.exists() && mBitmap != null) {
             try {
                 ExifInterface exif = new ExifInterface(filePath);
                 int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
@@ -226,9 +231,9 @@ public class BitmapUtils {
                 newWidth = desiredWidth;
             }
             bitmap = decodeImageFromFiles(path, newWidth, newHeight);
-        } else {
+        } else
             bitmap = decodeImageFromFiles(path, originalWidth, originalHeight);
-        }
+
         return bitmap;
     }
 

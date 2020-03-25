@@ -62,7 +62,8 @@ public class TruPhotoPickerView extends TruStringView {
             else
                 setImageToView(BitmapUtils.handleImageRotation(imageModel.getImagePath(), imageModel.getImageBitmap()));
 
-            AsyncTask.execute(() -> base64Image = BitmapUtils.convertBitMapToBase64To(imageModel.getImageBitmap()));
+            AsyncTask.execute(() -> base64Image = BitmapUtils
+                    .convertBitMapToBase64To(BitmapUtils.handleImageRotation(imageModel.getImagePath(), imageModel.getImageBitmap())));
         };
     }
 
