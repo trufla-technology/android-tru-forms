@@ -25,6 +25,9 @@ import java.util.Locale;
 
 public class BitmapUtils {
 
+    private static final int desiredWidth = 1024;
+    private static final int desiredHeight = 1024;
+
     @Nullable
     public static String encodeBase64Bitmap(int width, int height, Bitmap bitmap) {
         if (bitmap != null) {
@@ -70,10 +73,8 @@ public class BitmapUtils {
         return "";
     }
 
-    private static String convertBitMapToBase64(Bitmap bitmap)
-    {
-        if(bitmap != null)
-        {
+    private static String convertBitMapToBase64(Bitmap bitmap) {
+        if (bitmap != null) {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
             byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -83,12 +84,10 @@ public class BitmapUtils {
         return "";
     }
 
-    public static String editAndConvertBitMapToBase64(Bitmap bitmap, String imagePath)
-    {
-        if(bitmap != null)
-        {
+    public static String editAndConvertBitMapToBase64(Bitmap bitmap, String imagePath) {
+        if (bitmap != null) {
             Bitmap rotatedBitmap = handleImageRotation(imagePath, bitmap);
-            if(rotatedBitmap == null)
+            if (rotatedBitmap == null)
                 rotatedBitmap = bitmap;
 
             return convertBitMapToBase64(rotatedBitmap);
@@ -185,17 +184,10 @@ public class BitmapUtils {
         if (!root.exists())
             root.mkdirs();
 
-        Bitmap originalBitmap = BitmapFactory.decodeFile(path);
 
-        int originalWidth = originalBitmap.getWidth();
-        int originalHeight = originalBitmap.getHeight();
+        Bitmap scaledBitmap = decodeImageFromFiles(path, /* your desired width*/desiredWidth, /*your desired height*/ desiredHeight);
 
-        int desiredWidth = 1024;
-        int desiredHeight = 1024;
-
-        //decode and resize the original bitmap from @param path.
-
-        Bitmap bitmap = resizedBitmap(path, originalWidth, originalHeight, desiredWidth, desiredHeight);
+        Bitmap resizedBitmap = resizedBitmap(scaledBitmap, desiredWidth, desiredHeight);
 
         //create placeholder for the compressed image file
         File compressed = new File(root, SDF.format(new Date()) + ".jpg" /*Your desired format*/);
@@ -208,7 +200,7 @@ public class BitmapUtils {
 
             Where Quality ranges from 1 - 100.
          */
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
         /*
         Right now, we have our bitmap inside byteArrayOutputStream Object, all we need next is to write it to the compressed file we created earlier,
         java.io.FileOutputStream can help us do just That!
@@ -223,34 +215,35 @@ public class BitmapUtils {
         return compressed;
     }
 
-    private static Bitmap resizedBitmap(String path, int originalWidth, int originalHeight, int desiredWidth, int desiredHeight) {
+    private static Bitmap resizedBitmap(Bitmap originalScaledBitmap, int desiredWidth, int desiredHeight) {
         Bitmap bitmap;
         int newWidth = -1;
         int newHeight = -1;
         float multFactor = -1.0F;
 
-        if (!(originalWidth < desiredWidth && originalHeight < desiredHeight)) {
-            if (originalHeight > originalWidth) {
+        if (!(originalScaledBitmap.getWidth() < desiredWidth && originalScaledBitmap.getHeight() < desiredHeight)) {
+            if (originalScaledBitmap.getHeight() > originalScaledBitmap.getWidth()) {
                 newHeight = desiredHeight;
-                multFactor = (float) originalWidth / (float) originalHeight;
+                multFactor = (float) originalScaledBitmap.getWidth() / (float) originalScaledBitmap.getHeight();
                 newWidth = (int) (newHeight * multFactor);
 
-            } else if (originalWidth > originalHeight) {
+            } else if (originalScaledBitmap.getWidth() > originalScaledBitmap.getHeight()) {
                 newWidth = desiredWidth;
-                multFactor = (float) originalHeight / (float) originalWidth;
+                multFactor = (float) originalScaledBitmap.getHeight() / (float) originalScaledBitmap.getWidth();
                 newHeight = (int) (newWidth * multFactor);
             } else {
                 newHeight = desiredHeight;
                 newWidth = desiredWidth;
             }
-            bitmap = decodeImageFromFiles(path, newWidth, newHeight);
+
+            bitmap = Bitmap.createScaledBitmap(originalScaledBitmap, newWidth, newHeight, false);
         } else
-            bitmap = decodeImageFromFiles(path, originalWidth, originalHeight);
+            bitmap = Bitmap.createScaledBitmap(originalScaledBitmap, originalScaledBitmap.getWidth(), originalScaledBitmap.getHeight(), false);
 
         return bitmap;
     }
 
-    public static Bitmap decodeImageFromFiles(String path, int width, int height) {
+    private static Bitmap decodeImageFromFiles(String path, int width, int height) {
         BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
         scaleOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, scaleOptions);
