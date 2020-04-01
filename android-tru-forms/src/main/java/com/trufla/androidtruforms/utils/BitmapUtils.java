@@ -25,7 +25,7 @@ import java.util.Locale;
 
 public class BitmapUtils {
 
-    private static final int desiredWidth = 1024;
+    private static final int desiredWidth = 1440;
     private static final int desiredHeight = 1024;
 
     @Nullable
