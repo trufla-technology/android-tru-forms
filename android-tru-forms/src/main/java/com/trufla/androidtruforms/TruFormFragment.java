@@ -55,16 +55,18 @@ import okhttp3.Callback;
  * create an instance of this fragment.
  */
 
-public class TruFormFragment extends Fragment implements FormContract, CollectDataAsync.AsyncResponse {
+public class TruFormFragment extends Fragment implements FormContract, CollectDataAsync.AsyncResponse
+{
     private static final int PICK_IMAGE_CODE = 1;
     private static final int CAPTURE_IMAGE_CODE = 2;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    private OnFormActionsListener mListener;
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
     private static final String JSON_KEY = "JSON_VALUE";
     private static final String SCHEMA_TYPE = "schema_type";
+
     private TruFormView truFormView;
+    private OnFormActionsListener mListener;
     TruConsumer<ImageModel> mPickedImageListener;
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
@@ -82,7 +84,6 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     private ImageCompressTask imageCompressTask;
 
     public TruFormFragment() {
-
     }
 
     public static TruFormFragment newInstance(int schemaType, String schemaString) {
@@ -356,11 +357,10 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
         }
     }
 
-    public interface OnFormActionsListener {
+    public interface OnFormActionsListener
+    {
         void showDialog();
-
         void onFormSubmitted(String jsonReperesentation);
-
         void onFormFailed();
     }
 
