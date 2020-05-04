@@ -1,58 +1,20 @@
 {
-  "title": "Other Claim",
+  "title": "Manage My Coverage - Home",
+  "description": "Manage My Coverage",
   "type": "object",
   "properties": {
-    "claim_information": {
-      "type": "object",
-      "properties": {
-        "claim_description": {
-          "type": "string"
-        },
-        "date_of_loss": {
-          "type": "string",
-          "format": "date"
-        },
-        "your_damage_photos": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "photo": {
-                "type": "string",
-                "format": "photo"
-              }
-            }
-          }
-        }
-      },
-      "required": [
-        "claim_description",
-        "date_of_loss"
-      ]
+    "effective_date": {
+      "type": "string",
+      "format": "date"
     },
-    "witness_information": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "home_phone_number": {
-            "type": "string",
-            "format": "tel"
-          },
-          "cell_phone_number": {
-            "type": "string",
-            "format": "tel"
-          }
-        }
-      }
+    "coverage_request": {
+      "title": "Please tell us what changes you require to your coverage",
+      "type": "string",
+      "format": "textarea"
     }
   },
-  "required": []
+  "required": [
+    "effective_date",
+    "coverage_request"
+  ]
 }

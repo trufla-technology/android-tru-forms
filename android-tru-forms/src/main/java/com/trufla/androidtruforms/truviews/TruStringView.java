@@ -2,6 +2,7 @@ package com.trufla.androidtruforms.truviews;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -53,12 +54,10 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 }
 
                 @Override
@@ -114,9 +113,14 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     }
 
     @NonNull
-    protected String extractData() {
-        return Objects.requireNonNull((textInputLayout)
+    protected String extractData()
+    {
+        String editTextValue = Objects.requireNonNull((textInputLayout)
                 .getEditText()).getText().toString().trim();
+        return editTextValue.replaceAll("\n","&lt;br&gt;");
+
+//        return Objects.requireNonNull((textInputLayout)
+//                .getEditText()).getText().toString().trim();
     }
 
 
@@ -204,7 +208,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof String) {
             Objects.requireNonNull(((TextInputLayout) mView.findViewById(R.id.input_view_container))
-                    .getEditText()).setText(constItem.toString());
+                    .getEditText()).setText(Html.fromHtml(Html.fromHtml(constItem.toString()).toString()));
         }
         if (textInputLayout != null)
             textInputLayout.setEnabled(false);
