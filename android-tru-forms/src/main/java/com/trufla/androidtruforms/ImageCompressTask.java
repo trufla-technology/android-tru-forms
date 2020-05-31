@@ -46,27 +46,22 @@ public class ImageCompressTask implements Runnable {
     public void run() {
         try {
             //Loop through all the given paths and collect the compressed file from Util.getCompressed(Context, String)
-            for (String path : originalPaths) {
-                File file = BitmapUtils.getCompressed(mContext, path);
-                //add it!
+            for (String path : originalPaths)
+            {
+                File file = BitmapUtils.getCompressed(mContext, path, 1440, 1024, ".jpg");
                 result.add(file);
             }
             //use Handler to post the result back to the main Thread
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (mIImageCompressTaskListener != null)
-                        mIImageCompressTaskListener.onComplete(result, uriPath);
-                }
+            mHandler.post(() -> {
+                if (mIImageCompressTaskListener != null)
+                    mIImageCompressTaskListener.onComplete(result, uriPath);
             });
+
         } catch (final IOException ex) {
             //There was an error, report the error back through the callback
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (mIImageCompressTaskListener != null)
-                        mIImageCompressTaskListener.onError(ex);
-                }
+            mHandler.post(() -> {
+                if (mIImageCompressTaskListener != null)
+                    mIImageCompressTaskListener.onError(ex);
             });
         }
     }
