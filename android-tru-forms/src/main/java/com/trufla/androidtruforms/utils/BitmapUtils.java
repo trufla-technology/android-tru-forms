@@ -25,9 +25,6 @@ import java.util.Locale;
 
 public class BitmapUtils {
 
-    private static final int desiredWidth = 1440;
-    private static final int desiredHeight = 1024;
-
     @Nullable
     public static String encodeBase64Bitmap(int width, int height, Bitmap bitmap) {
         if (bitmap != null) {
@@ -161,12 +158,12 @@ public class BitmapUtils {
         return null;
     }
 
-
     //SDF to generate a unique name for our compress file.
     @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyymmddhhmmss", Locale.getDefault());
 
-    public static File getCompressed(Context context, String path) throws IOException {
+    public static File getCompressed(Context context, String path, int desiredWidth, int desiredHeight, String imageExtension)
+            throws IOException {
 
         if (context == null)
             throw new NullPointerException("Context must not be null.");
@@ -174,7 +171,6 @@ public class BitmapUtils {
         // so our code fall back to internal storage cache directory, which is always available but in smaller quantity
         File cacheDir = context.getExternalCacheDir();
         if (cacheDir == null)
-            //fall back
             cacheDir = context.getCacheDir();
 
         String rootDir = cacheDir.getAbsolutePath() + "/ImageCompressor";
@@ -184,13 +180,11 @@ public class BitmapUtils {
         if (!root.exists())
             root.mkdirs();
 
-
-        Bitmap scaledBitmap = decodeImageFromFiles(path, /* your desired width*/desiredWidth, /*your desired height*/ desiredHeight);
-
+        Bitmap scaledBitmap = decodeImageFromFiles(path, desiredWidth, desiredHeight);
         Bitmap resizedBitmap = resizedBitmap(scaledBitmap, desiredWidth, desiredHeight);
 
         //create placeholder for the compressed image file
-        File compressed = new File(root, SDF.format(new Date()) + ".jpg" /*Your desired format*/);
+        File compressed = new File(root, SDF.format(new Date()) + imageExtension);
 
         //convert the decoded bitmap to stream
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
