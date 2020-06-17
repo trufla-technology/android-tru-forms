@@ -12,7 +12,8 @@ import okhttp3.Callback;
 import okhttp3.Request;
 
 
-public class EnumDataFetcher {
+public class EnumDataFetcher
+{
     TruConsumer<ArrayList<Pair<Object, String>>> mListener;
     String mSelector;
     ArrayList<String> mNames;
@@ -50,13 +51,13 @@ public class EnumDataFetcher {
             case "/vehicles":
             case "/properties":
                 if(fullURL.toString().contains("?includes="))
-                    fullURL.append("location.policy&location.policy.policy_expiration_date=gteq::").append(currentDate).append("&location.policy.cycle_business_purpose=!eq::XLN");
+                    fullURL.append("location.policy&location.policy.transaction_expire_date=gteq::").append(currentDate);
                 else
-                    fullURL.append("?includes=location.policy&location.policy.policy_expiration_date=gteq::").append(currentDate).append("&location.policy.cycle_business_purpose=!eq::XLN");
+                    fullURL.append("?includes=location.policy&location.policy.transaction_expire_date=gteq::").append(currentDate);
                 break;
 
             case "/policies":
-                fullURL.append("?policy_expiration_date=gteq::").append(currentDate).append("&cycle_business_purpose=!eq::XLN");
+                fullURL.append("?transaction_expire_date=gteq::").append(currentDate);
                 break;
         }
 
