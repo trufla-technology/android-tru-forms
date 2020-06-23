@@ -73,6 +73,7 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     private String schemaString;
     public static final String FRAGMENT_TAG = "TRU_FORM_FRAGMENT";
     public static int mySchemaType = 0;
+    private boolean isHistory = false;
 
     private static SharedData sharedData;
     private String currentCameraPhotoPath;
@@ -126,7 +127,6 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
         try {
 
             String jsonVal = "";
-
             if (sharedData != null) {
                 jsonVal = sharedData.getData();
             }
@@ -134,6 +134,7 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
             else {
+                isHistory = true;
                 truFormView = SchemaBuilder.getInstance().buildSchemaViewWithConstValues(schemaString, jsonVal, getContext());
                 rootView.findViewById(R.id.submit_btn).setVisibility(View.GONE);
             }
@@ -244,7 +245,7 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     @Override
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
         this.mDataFetchListener = listener;
-        EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);
+        EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names, isHistory);
         fetcher.requestData(url, getHttpCallback(selector, names));
         showProgressDialog();
     }

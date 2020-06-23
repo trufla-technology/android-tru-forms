@@ -58,6 +58,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     TruConsumer<ArrayList<Pair<Object, String>>> mDataFetchListener;
     ProgressDialog progressDialog;
     private static SharedData sharedData;
+    private boolean isHistory = false;
 
     BottomSheetDialog dialog;
 
@@ -119,6 +120,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(Objects.requireNonNull(getIntent().getExtras()).getString(SCHEMA_KEY), this);
             else {
+                isHistory = true;
                 truFormView = SchemaBuilder.getInstance().buildSchemaViewWithConstValues(getIntent().getStringExtra(SCHEMA_KEY), jsonVal, this);
                 findViewById(R.id.submit_btn).setVisibility(View.GONE);
             }
@@ -215,7 +217,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     @Override
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
         this.mDataFetchListener = listener;
-        EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names);
+        EnumDataFetcher fetcher = new EnumDataFetcher(mDataFetchListener, selector, names, isHistory);
         int userId = 1365;  //This is just a temp value because i don't use this activity
         fetcher.requestData(url, getHttpCallback(selector, names));
         showProgressDialog();
@@ -237,17 +239,17 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
+        if (resultCode == Activity.RESULT_OK)
+        {
+            switch (requestCode)
+            {
                 case PICK_IMAGE_CODE:
                     Uri pickedImage = data.getData();
-
                     String imagePath = BitmapUtils.getRealPathFromURI(TruFormActivity.this, pickedImage);
 
-//                    Create ImageCompressTask and execute with Executor.
+                    //Create ImageCompressTask and execute with Executor.
                     imageCompressTask = new ImageCompressTask(this, imagePath, iImageCompressTaskListener);
                     mExecutorService.execute(imageCompressTask);
-
                     break;
 
                 case CAPTURE_IMAGE_CODE:
