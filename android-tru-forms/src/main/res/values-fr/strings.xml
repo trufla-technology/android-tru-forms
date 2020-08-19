@@ -6,8 +6,8 @@
     <!--<string name="add_photo_label">Add photo of %s</string>-->
     <string name="add_photo_label">Ajouter une photo</string>
     <string name="title_activity_tru_navigation">Activité de TruNavigation</string>
-    <string name="page_no_of_pages">%s/%s</string>
-    <string name="array_item_no_title">%s Non %d .</string>
+    <string name="page_no_of_pages" formatted="true">%s/%s</string>
+    <string name="array_item_no_title" formatted="true">%s Non %d .</string>
     <string name="next_step_btm_nav_text">L"'"étape Suivante</string>
     <string name="initial_page_number">0/0</string>
     <string name="submit_btm_nav_text">Soumettre</string>
