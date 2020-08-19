@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Trufla Projects-android-tru-forms.iml" filepath="$PROJECT_DIR$/Trufla Projects-android-tru-forms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-tru-forms.iml" filepath="$PROJECT_DIR$/.idea/modules/android-tru-forms.iml" group="android-tru-forms" />
       <module fileurl="file://$PROJECT_DIR$/android-tru-forms/android-tru-forms-android-tru-forms.iml" filepath="$PROJECT_DIR$/android-tru-forms/android-tru-forms-android-tru-forms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-tru-forms-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-tru-forms-app.iml" group="android-tru-forms/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-tru-forms/ggg-android-tru-forms-android-tru-forms.iml" filepath="$PROJECT_DIR$/.idea/modules/android-tru-forms/ggg-android-tru-forms-android-tru-forms.iml" group="android-tru-forms/android-tru-forms" />
     </modules>
   </component>
 </project>
