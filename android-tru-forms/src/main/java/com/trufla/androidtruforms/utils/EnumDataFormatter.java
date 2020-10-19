@@ -16,28 +16,36 @@ import java.util.Map;
 import static com.trufla.androidtruforms.utils.TruUtils.removeLastColon;
 
 public class EnumDataFormatter {
-    public static ArrayList<Pair<Object, String>> getPairList(String string, String selector, ArrayList<String> names) {
+    public static ArrayList<Pair<Object, String>> getPairList(String string, String selector, ArrayList<String> names)
+    {
         ArrayList<Pair<Object, String>> list = new ArrayList<>();
         JsonElement jsonElement;
         JsonArray jsonArray;
-        try {
-            jsonElement = new JsonParser().parse(string);
-            jsonArray = jsonElement.isJsonArray() ? jsonElement.getAsJsonArray() : null;
-            if (jsonArray == null && jsonElement.isJsonObject() && jsonElement.getAsJsonObject().has("data")) {
-                jsonArray = jsonElement.getAsJsonObject().get("data").getAsJsonArray();
-            } else {
-                jsonArray = findArrayField(jsonElement);
-            }
-            for (JsonElement element : jsonArray) {
-                list.add(getPairFromObject(element.getAsJsonObject(), selector, names));
-            }
-            //todo if selector has a . in it these mean it's inside the nested object
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        if(string != null)
+            if(!string.equals(""))
+            {
+                try {
+                    jsonElement = new JsonParser().parse(string);
+                    jsonArray = jsonElement.isJsonArray() ? jsonElement.getAsJsonArray() : null;
+
+                    if (jsonArray == null && jsonElement.isJsonObject() && jsonElement.getAsJsonObject().has("data"))
+                        jsonArray = jsonElement.getAsJsonObject().get("data").getAsJsonArray();
+
+                    else
+                        jsonArray = findArrayField(jsonElement);
+
+                    if(jsonArray != null)
+                        if(jsonArray.size() != 0)
+                            for (JsonElement element : jsonArray)
+                                list.add(getPairFromObject(element.getAsJsonObject(), selector, names));
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+
         return list;
-
     }
 
     private static JsonArray findArrayField(JsonElement jsonElement) {
