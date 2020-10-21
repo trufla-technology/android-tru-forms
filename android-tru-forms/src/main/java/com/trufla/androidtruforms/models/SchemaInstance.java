@@ -1,6 +1,8 @@
 package com.trufla.androidtruforms.models;
 
 import android.content.Context;
+
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
@@ -11,6 +13,7 @@ import com.trufla.androidtruforms.truviews.SchemaBaseView;
  * Created by ohefny on 6/26/18.
  */
 
+@Keep
 public abstract class SchemaInstance implements Comparable<SchemaInstance>, Cloneable {
     //the parsed key of the instance .. used in the returned data
     protected String key;

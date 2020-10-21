@@ -2,12 +2,15 @@ package com.trufla.androidtruforms.models;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.Keep;
+
 /**
  * Created by Marina Wageed on 09,March,2020
  * Trufla Technology,
  * Cairo, Egypt.
  */
 
+@Keep
 public class ImageModel
 {
     private String imagePath;

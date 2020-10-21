@@ -2,6 +2,8 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruEnumDataView;
 import com.trufla.androidtruforms.truviews.TruEnumView;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
  * Created by ohefny on 7/3/18.
  */
 
+@Keep
 public class EnumInstance<T> extends SchemaInstance
 {
     @SerializedName("enum")

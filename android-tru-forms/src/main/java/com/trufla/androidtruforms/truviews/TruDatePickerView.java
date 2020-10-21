@@ -65,14 +65,13 @@ public class TruDatePickerView extends TruStringView {
     }
 
     @Override
-    protected void buildSubview() {
+    protected void buildSubview()
+    {
         super.buildSubview();
+
         inputLayout = mView.findViewById(R.id.input_label);
-
         mView.findViewById(R.id.input_data).setOnClickListener(this::onDateViewClicked);
-
         mView.setOnClickListener(this::onDateViewClicked);
-
     }
 
     private void onDateViewClicked(View view) {

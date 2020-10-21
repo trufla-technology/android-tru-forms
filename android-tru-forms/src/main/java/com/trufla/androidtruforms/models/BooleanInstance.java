@@ -2,12 +2,15 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
+
 import com.trufla.androidtruforms.truviews.TruBooleanView;
 
 /**
  * Created by ohefny on 6/26/18.
  */
 
+@Keep
 public class BooleanInstance extends SchemaInstance {
     public BooleanInstance(){
 

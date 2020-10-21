@@ -2,6 +2,8 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruTimePickerView;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -15,6 +17,7 @@ import com.trufla.androidtruforms.truviews.TruStringView;
  * Created by ohefny on 6/26/18.
  */
 
+@Keep
 public class StringInstance extends SchemaInstance {
     //Date,Image,textarea
     @SerializedName("format")

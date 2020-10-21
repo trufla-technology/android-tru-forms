@@ -1,9 +1,12 @@
 package com.trufla.androidtruforms.models;
 
+import androidx.annotation.Keep;
+
 /**
  * Created by ohefny on 6/26/18.
  */
 
+@Keep
 public interface SchemaKeywords {
     String TYPE_KEY = "type";
     String ENUM_KEY = "enum";

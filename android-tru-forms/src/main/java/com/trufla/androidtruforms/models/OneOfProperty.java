@@ -1,9 +1,12 @@
 package com.trufla.androidtruforms.models;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+@Keep
 public class OneOfProperty {
     @SerializedName("enum")
     private ArrayList<String> enums;
