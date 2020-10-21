@@ -32,6 +32,10 @@ public class TruUtils {
         return charSequence == null || charSequence.equals("");
     }
 
+    public static String checkIfStringIsEmpty(String myString) {
+        return (myString == null) ? "" : myString;
+    }
+
     public static String getText(EditText et) {
         return et.getText().toString().trim();
     }

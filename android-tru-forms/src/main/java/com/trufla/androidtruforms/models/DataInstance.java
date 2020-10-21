@@ -1,9 +1,11 @@
 package com.trufla.androidtruforms.models;
 
+import androidx.annotation.Keep;
 import com.google.gson.annotations.SerializedName;
-
+import com.trufla.androidtruforms.utils.TruUtils;
 import java.util.ArrayList;
 
+@Keep
 public class DataInstance {
     @SerializedName("href")
     private String url;
@@ -31,7 +33,7 @@ public class DataInstance {
     }
 
     public String getIdentifierColumn() {
-        return identifierColumn;
+        return TruUtils.checkIfStringIsEmpty(identifierColumn);
     }
 
     public ArrayList<String> getNames() {

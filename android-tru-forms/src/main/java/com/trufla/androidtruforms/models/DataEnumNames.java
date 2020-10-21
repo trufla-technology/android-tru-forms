@@ -1,7 +1,10 @@
 package com.trufla.androidtruforms.models;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
+@Keep
 public class DataEnumNames {
     private final ArrayList<String> names;
 

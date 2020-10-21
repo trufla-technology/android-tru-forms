@@ -98,7 +98,8 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     protected @LayoutRes
     abstract int getLayoutId();
 
-    protected FormContract getFormContract(View v) {
+    protected FormContract getFormContract(View v)
+    {
         Activity hostActivity;
         if (mContext instanceof FormContract)
             return (FormContract) mContext;
@@ -108,7 +109,8 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         return getFragmentFormContract((AppCompatActivity) hostActivity);
     }
 
-    private FormContract getFragmentFormContract(AppCompatActivity hostActivity) {
+    private FormContract getFragmentFormContract(AppCompatActivity hostActivity)
+    {
         FormContract contract = (FormContract) ((AppCompatActivity) mContext).getSupportFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
         if (contract != null)
             return contract;

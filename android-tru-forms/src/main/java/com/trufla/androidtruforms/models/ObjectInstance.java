@@ -2,6 +2,8 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruObjectView;
 import com.trufla.androidtruforms.truviews.TruSectionView;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
  * Created by ohefny on 6/27/18.
  */
 
+@Keep
 public class ObjectInstance extends SchemaInstance {
     @SerializedName("maxProperties")
     protected int maxProperties;

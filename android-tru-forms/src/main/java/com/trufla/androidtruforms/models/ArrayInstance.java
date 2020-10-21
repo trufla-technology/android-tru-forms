@@ -2,6 +2,8 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruArrayView;
 
@@ -11,6 +13,7 @@ import java.util.ArrayList;
  * Created by ohefny on 6/26/18.
  */
 
+@Keep
 public class ArrayInstance extends SchemaInstance {
     @SerializedName("items")
     protected SchemaInstance items;

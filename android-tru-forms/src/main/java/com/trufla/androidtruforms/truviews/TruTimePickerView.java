@@ -20,15 +20,18 @@ import java.util.Calendar;
 public class TruTimePickerView extends TruStringView {
     private Calendar cal = Calendar.getInstance();
 
+    private TextInputLayout inputLayout;
+
     public TruTimePickerView(Context context, StringInstance instance) {
         super(context, instance);
     }
 
     @Override
-    protected void setInstanceData() {
-        ((TextInputLayout) (mView.findViewById(R.id.input_label))).setHint(instance.getPresentationTitle());
-        ((TextInputLayout) (mView.findViewById(R.id.input_label))).setHelperTextEnabled(true);
-        ((TextInputLayout) (mView.findViewById(R.id.input_label))).setHelperText(getDateHint());
+    protected void setInstanceData()
+    {
+        inputLayout.setHint(instance.getPresentationTitle());
+        inputLayout.setHelperTextEnabled(true);
+        inputLayout.setHelperText(getDateHint());
 //        ((TextView) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
     }
 
@@ -54,13 +57,30 @@ public class TruTimePickerView extends TruStringView {
     }
 
     @Override
-    protected void buildSubview() {
+    protected void setViewError(String errorMsg) {
+        if (inputLayout != null) {
+            inputLayout.setErrorEnabled(true);
+            inputLayout.setError(errorMsg);
+        }
+    }
+
+    @Override
+    protected void buildSubview()
+    {
         super.buildSubview();
+
+        inputLayout = mView.findViewById(R.id.input_label);
         mView.findViewById(R.id.input_data).setOnClickListener(this::onTimeViewClicked);
         mView.setOnClickListener(this::onTimeViewClicked);
     }
 
-    private void onTimeViewClicked(View view) {
+    private void onTimeViewClicked(View view)
+    {
+        if (inputLayout != null) {
+            inputLayout.setErrorEnabled(false);
+            inputLayout.setError(null);
+        }
+
         showTimeDialog();
     }
 
@@ -72,7 +92,6 @@ public class TruTimePickerView extends TruStringView {
         }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false);
         dialogTime.show();
     }
-
 
     protected void onDateChanged(long milliseconds) {
         ((EditText) mView.findViewById(R.id.input_data)).setText(TruUtils.convertToData(milliseconds, getFormat()));

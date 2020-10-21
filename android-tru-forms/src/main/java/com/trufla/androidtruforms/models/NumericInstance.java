@@ -2,12 +2,15 @@ package com.trufla.androidtruforms.models;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
+
 import com.trufla.androidtruforms.truviews.TruNumericView;
 
 /**
  * Created by ohefny on 6/26/18.
  */
 
+@Keep
 public class NumericInstance extends SchemaInstance {
     protected double maximum;
     protected double minimum;
