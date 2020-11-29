@@ -1,183 +1,613 @@
 {
-  "title":"Auto Claim - Vehicle Accident",
-  "type":"object",
-  "properties":{
-    "driver_information":{
-      "type":"object",
-      "properties":{
-        "description":{
-          "type":"string"
+  "title": [
+    {
+      "language": "en",
+      "value": "Auto Claim - Vehicle Accident"
+    },
+    {
+      "language": "fr",
+      "value": "Réclamation automobile - Accident automobile"
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "vehicle": {
+      "type": "number",
+      "title": [
+        {
+          "language": "en",
+          "value": "Select Vehicle"
         },
-        "date_time_of_accident":{
-          "title":"Date and Time of Accident",
-          "type":"object",
-          "properties":{
-            "date":{
-              "title":"Date of Accident",
-              "type":"string",
-              "format":"date"
+        {
+          "language": "fr",
+          "value": "Sélectionnez Véhicule"
+        }
+      ],
+      "_data": {
+        "href": "/vehicles",
+        "enum": "id",
+        "enumNames": [
+          "vehicle_make",
+          "vehicle_model"
+        ]
+      }
+    },
+    "driver_information": {
+      "type": "object",
+      "title": [
+        {
+          "language": "en",
+          "value": "Driver information"
+        },
+        {
+          "language": "fr",
+          "value": "Informations du conducteur"
+        }
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "Description"
             },
-            "time":{
-              "title":"Time of Accident",
-              "type":"string",
-              "format":"time"
+            {
+              "language": "fr",
+              "value": "Description"
+            }
+          ],
+          "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+        },
+        "date_time_of_accident": {
+          "title": [
+            {
+              "language": "en",
+              "value": "Date and Time of Accident"
+            },
+            {
+              "language": "fr",
+              "value": "Date et heure de l’accident"
+            }
+          ],
+          "type": "object",
+          "properties": {
+            "date": {
+              "title": [
+                {
+                  "language": "en",
+                  "value": "Date of Accident"
+                },
+                {
+                  "language": "fr",
+                  "value": "Date de l’accident"
+                }
+              ],
+              "type": "string",
+              "format": "date"
+            },
+            "time": {
+              "title": [
+                {
+                  "language": "en",
+                  "value": "Time of Accident"
+                },
+                {
+                  "language": "fr",
+                  "value": "Heure de l’accident"
+                }
+              ],
+              "type": "string",
+              "format": "time"
             }
           },
-          "required":[
+          "required": [
             "date",
             "time"
           ]
         },
-        "location_of_accident":{
-          "type":"string",
-          "format":"map_lat_long"
+        "location_of_accident": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "Location of Accident"
+            },
+            {
+              "language": "fr",
+              "value": "Lieu de l’accident"
+            }
+          ],
+          "format": "map_lat_long",
+          "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
         },
-        "description_of_accident":{
-          "type":"string",
-          "format":"textarea"
+        "description_of_accident": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "Description of accident"
+            },
+            {
+              "language": "fr",
+              "value": "Description de l’accident"
+            }
+          ],
+          "format": "textarea",
+          "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
         },
-        "were_you_driving":{
-          "type":"string",
-          "enum":[
+        "were_you_driving": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "Were you driving"
+            },
+            {
+              "language": "fr",
+              "value": "Étiez-vous au volant"
+            }
+          ],
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "enumNames": [
             "Yes",
             "No"
           ]
         },
-        "who_was_driving":{
-          "type":"string"
+        "who_was_driving": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "who was driving"
+            },
+            {
+              "language": "fr",
+              "value": ""
+            }
+          ],
+          "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
         },
-        "your_damage_photos":{
-          "type":"array",
-          "items":{
-            "type":"object",
-            "properties":{
-              "photo":{
-                "type":"string",
-                "format":"photo"
+        "your_damage_photos": {
+          "type": "array",
+          "title": [
+            {
+              "language": "en",
+              "value": "Your damage photos"
+            },
+            {
+              "language": "fr",
+              "value": "Vos photos endommagées"
+            }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "photo": {
+                "type": "string",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "photo"
+                  },
+                  {
+                    "language": "fr",
+                    "value": "photo"
+                  }
+                ],
+                "format": "photo",
+                "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
               }
             }
           }
         }
       },
-      "required":[
+      "required": [
         "description_of_accident",
         "were_you_driving",
         "date_time_of_accident"
       ],
-      "oneOf":[
+      "oneOf": [
         {
-          "properties":{
-            "were_you_driving":{
-              "enum":[
+          "properties": {
+            "were_you_driving": {
+              "enum": [
                 "Yes"
               ]
             }
           }
         },
         {
-          "properties":{
-            "were_you_driving":{
-              "enum":[
+          "properties": {
+            "were_you_driving": {
+              "enum": [
                 "No"
               ]
             }
           },
-          "required":[
+          "required": [
             "who_was_driving"
           ]
         }
       ]
     },
-    "other_driver_information":{
-      "type":"object",
-      "properties":{
-        "other_driver_information":{
-          "type":"array",
-          "items":{
-            "type":"object",
-            "properties":{
-              "document_photos":{
-                "description":"Photos of other driver's documentation",
-                "type":"object",
-                "properties":{
-                  "pink_card":{
-                    "type":"string",
-                    "format":"photo"
+    "other_driver_information": {
+      "type": "object",
+      "title": [
+        {
+          "language": "en",
+          "value": "other_driver_information"
+        },
+        {
+          "language": "fr",
+          "value": "Autre voiture de conducteur"
+        }
+      ],
+      "properties": {
+        "other_driver_information": {
+          "type": "array",
+          "title": [
+            {
+              "language": "en",
+              "value": "Other driver information"
+            },
+            {
+              "language": "fr",
+              "value": "Autre voiture de conducteur"
+            }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "document_photos": {
+                "description": [
+                  {
+                    "language": "en",
+                    "value": "Photos of other driver's documentation"
                   },
-                  "drivers_license":{
-                    "type":"string",
-                    "format":"photo"
+                  {
+                    "language": "fr",
+                    "value": "Photos de la documentation des autres conducteurs"
+                  }
+                ],
+                "type": "object",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "description"
                   },
-                  "license_plate":{
-                    "type":"string",
-                    "format":"photo"
+                  {
+                    "language": "fr",
+                    "value": "description"
+                  }
+                ],
+                "properties": {
+                  "pink_card": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "pink card"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "pink card"
+                      }
+                    ],
+                    "format": "photo",
+                    "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
                   },
-                  "registration":{
-                    "type":"string",
-                    "format":"photo"
+                  "drivers_license": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "drivers license"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Numéro de permis de conduire"
+                      }
+                    ],
+                    "format": "photo",
+                    "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
+                  },
+                  "license_plate": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "license plate"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Plaque d'immatriculation"
+                      }
+                    ],
+                    "format": "photo",
+                    "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
+                  },
+                  "registration": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "registration"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "enregistrement"
+                      }
+                    ],
+                    "format": "photo",
+                    "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
                   }
                 }
               },
-              "document_details":{
-                "description":"Other driver's information if no photos taken",
-                "type":"object",
-                "properties":{
-                  "first_name":{
-                    "type":"string"
+              "document_details": {
+                "description": [
+                  {
+                    "language": "en",
+                    "value": "Other driver's information if no photos taken"
                   },
-                  "last_name":{
-                    "type":"string"
+                  {
+                    "language": "fr",
+                    "value": "Autres renseignements sur le conducteur si aucune photo n’a été prise"
+                  }
+                ],
+                "type": "object",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "Documents details"
                   },
-                  "address":{
-                    "type":"string"
-                  },
-                  "city":{
-                    "type":"string"
-                  },
-                  "province":{
-                    "type":"string"
-                  },
-                  "postal_code":{
-                    "type":"string"
-                  },
-                  "home_phone_number":{
-                    "type":"string",
-                    "format":"tel"
-                  },
-                  "cell_phone_number":{
-                    "type":"string",
-                    "format":"tel"
-                  },
-                  "email":{
-                    "type":"string",
-                    "format":"email"
-                  },
-                  "drivers_license_number":{
-                    "type":"string"
-                  },
-                  "license_plate":{
-                    "type":"string"
-                  },
-                  "other_drivers_car":{
-                    "title":"Other Drivers Car",
-                    "type":"object",
-                    "properties":{
-                      "year":{
-                        "type":"string"
+                  {
+                    "language": "fr",
+                    "value": "Documents"
+                  }
+                ],
+                "properties": {
+                  "first_name": {
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "First name"
                       },
-                      "make":{
-                        "type":"string"
+                      {
+                        "language": "fr",
+                        "value": "Prénom"
+                      }
+                    ],
+                    "type": "string",
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "Last name"
                       },
-                      "model":{
-                        "type":"string"
+                      {
+                        "language": "fr",
+                        "value": "Nom de famille"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                  },
+                  "address": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "address"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Adresse"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                  },
+                  "city": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "City"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Ville"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                  },
+                  "province": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "province"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Province"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                  },
+                  "postal_code": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "postal code"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Code Postal"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                  },
+                  "home_phone_number": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "Home Phone Number"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "numéro de téléphone résidentiel"
+                      }
+                    ],
+                    "format": "tel"
+                  },
+                  "cell_phone_number": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "cell phone number"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Numéro de téléphone portable"
+                      }
+                    ],
+                    "format": "tel"
+                  },
+                  "email": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "email"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Courriel"
+                      }
+                    ],
+                    "format": "email"
+                  },
+                  "drivers_license_number": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "drivers license number"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Numéro de permis de conduire"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                  },
+                  "license_plate": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "license plate"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Plaque d'immatriculation"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                  },
+                  "other_drivers_car": {
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "Other Drivers Car"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Autre voiture de conducteur"
+                      }
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "year": {
+                        "type": "string",
+                        "title": [
+                          {
+                            "language": "en",
+                            "value": "year"
+                          },
+                          {
+                            "language": "fr",
+                            "value": "Année"
+                          }
+                        ],
+                        "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                      },
+                      "make": {
+                        "type": "string",
+                        "title": [
+                          {
+                            "language": "en",
+                            "value": "Make"
+                          },
+                          {
+                            "language": "fr",
+                            "value": "Marque de voiture"
+                          }
+                        ],
+                        "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
+                      },
+                      "model": {
+                        "type": "string",
+                        "title": [
+                          {
+                            "language": "en",
+                            "value": "Model"
+                          },
+                          {
+                            "language": "fr",
+                            "value": "Modèle de voiture"
+                          }
+                        ],
+                        "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
                       }
                     }
                   },
-                  "policy_number":{
-                    "type":"string"
+                  "policy_number": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "policy number"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Numéro de politique"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
                   },
-                  "insurance_company":{
-                    "type":"string"
+                  "insurance_company": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "insurance company"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "compagnie d'assurance"
+                      }
+                    ],
+                    "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
                   }
                 }
               }
@@ -186,33 +616,97 @@
         }
       }
     },
-    "witness_information":{
-      "type":"object",
-      "properties":{
-        "witnesses":{
-          "type":"array",
-          "items":{
-            "type":"object",
-            "properties":{
-              "name":{
-                "type":"string"
+    "witness_information": {
+      "type": "object",
+      "title": [
+        {
+          "language": "en",
+          "value": "witness information"
+        },
+        {
+          "language": "fr",
+          "value": "les témoins"
+        }
+      ],
+      "properties": {
+        "witnesses": {
+          "type": "array",
+          "title": [
+            {
+              "language": "en",
+              "value": "witnesses"
+            },
+            {
+              "language": "fr",
+              "value": "les témoins"
+            }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "name"
+                  },
+                  {
+                    "language": "fr",
+                    "value": "Nom"
+                  }
+                ],
+                "pattern": "^[\r\n0-9a-zA-Z /_:,.?@;-]*$"
               },
-              "email":{
-                "type":"string",
-                "format":"email"
+              "email": {
+                "type": "string",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "Email"
+                  },
+                  {
+                    "language": "fr",
+                    "value": "Courriel"
+                  }
+                ],
+                "format": "email"
               },
-              "home_phone_number":{
-                "type":"string",
-                "format":"tel"
+              "home_phone_number": {
+                "type": "string",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "home phone number"
+                  },
+                  {
+                    "language": "fr",
+                    "value": "numéro de téléphone résidentiel"
+                  }
+                ],
+                "format": "tel"
               },
-              "cell_phone_number":{
-                "type":"string",
-                "format":"tel"
+              "cell_phone_number": {
+                "type": "string",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "cell phone number"
+                  },
+                  {
+                    "language": "fr",
+                    "value": "Numéro de téléphone portable"
+                  }
+                ],
+                "format": "tel"
               }
             }
           }
         }
       }
     }
-  }
+  },
+  "required": [
+    "vehicle"
+  ]
 }

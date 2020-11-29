@@ -46,7 +46,8 @@ import okhttp3.Callback;
  * Created by ohefny on 8/13/18.
  */
 
-public class TruFormActivity extends AppCompatActivity implements FormContract {
+public class TruFormActivity extends AppCompatActivity implements FormContract
+{
     private static final int PICK_IMAGE_CODE = 1;
     private static final int CAPTURE_IMAGE_CODE = 2;
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -61,7 +62,6 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
     private boolean isHistory = false;
 
     BottomSheetDialog dialog;
-
     String currentCameraPhotoPath;
 
     //create a single thread pool to our image compression class.
@@ -76,10 +76,14 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         context.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
-    public static void startActivityForFormResult(Fragment hostFragment, String jsonStr) {
+    public static void startActivityForFormResult(Fragment hostFragment, String jsonStr)
+    {
         Intent intent = new Intent(hostFragment.getActivity(), TruFormActivity.class);
         intent.putExtra(SCHEMA_KEY, jsonStr);
         sharedData = null;
+//        sharedData = SharedData.getInstance();
+//        sharedData.setLanguage("fr");
+
         hostFragment.startActivityForResult(intent, SchemaBuilder.REQUEST_CODE);
     }
 
@@ -113,9 +117,11 @@ public class TruFormActivity extends AppCompatActivity implements FormContract {
         try {
 
             String jsonVal = "";
-            if (sharedData != null) {
+            if (sharedData != null)
                 jsonVal = sharedData.getData();
-            }
+
+            sharedData = SharedData.getInstance();
+            sharedData.setLanguage("fr");
 
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(Objects.requireNonNull(getIntent().getExtras()).getString(SCHEMA_KEY), this);

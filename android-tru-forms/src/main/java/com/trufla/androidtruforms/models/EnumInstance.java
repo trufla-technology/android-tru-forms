@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.Keep;
 
 import com.google.gson.annotations.SerializedName;
+import com.trufla.androidtruforms.SharedData;
 import com.trufla.androidtruforms.truviews.TruEnumDataView;
 import com.trufla.androidtruforms.truviews.TruEnumView;
 
@@ -21,10 +22,18 @@ public class EnumInstance<T> extends SchemaInstance
     protected ArrayList<T> enumVals; //instance of String or Number or Boolean
 
     @SerializedName("enumNames")
-    protected ArrayList<String> enumNames; //instance of String or Number or Boolean
+    protected ArrayList<ArrayList<TitleInstance>> enumNamesList; //instance of String or Number or Boolean
 
     @SerializedName("_data")
     protected DataInstance dataInstance;
+
+    protected ArrayList<String> myEnumNa;
+
+    private static SharedData sharedData;
+
+//    @SerializedName("enumNames")
+//    protected ArrayList<String> enumNames; //instance of String or Number or Boolean
+
 
     public EnumInstance(){
     }
@@ -38,18 +47,20 @@ public class EnumInstance<T> extends SchemaInstance
     {
         super(copyInstance);
         this.enumVals= new ArrayList<>(copyInstance.enumVals);
-        this.enumNames=new ArrayList<>(copyInstance.enumNames);
+        this.myEnumNa =new ArrayList<>(copyInstance.myEnumNa);
         this.dataInstance=new DataInstance(copyInstance.getDataInstance());
     }
 
-    public boolean enumExists() {
+    public boolean enumExists()
+    {
+        myEnumNa = getEnumList(enumNamesList);
         return enumVals != null && !enumVals.isEmpty();
     }
 
     @Override
     public TruEnumView getViewBuilder(Context context)
     {
-        if (dataInstance == null)   
+        if (dataInstance == null)
             return new TruEnumView(context, this);
         else
             return new TruEnumDataView(context, this);
@@ -58,8 +69,8 @@ public class EnumInstance<T> extends SchemaInstance
     public ArrayList<String> getEnumDisplayedNames()
     {
         ArrayList<String> displayedNames = new ArrayList<>();
-        if (enumNames != null && !enumNames.isEmpty())
-            return enumNames;
+        if (myEnumNa != null && !myEnumNa.isEmpty())
+            return myEnumNa;
 
         if(enumVals.size() > 0)
         {
@@ -77,6 +88,28 @@ public class EnumInstance<T> extends SchemaInstance
         return displayedNames;
     }
 
+    public ArrayList<String> getEnumList(ArrayList<ArrayList<TitleInstance>> myEnumsList)
+    {
+        sharedData = SharedData.getInstance();
+        String myLanguage = sharedData.getDefaultLanguage();
+
+        ArrayList<String> newEnumList = new ArrayList<>();
+
+        if(myEnumsList != null)
+        {
+            for(int listIndex = 0; listIndex< myEnumsList.size(); listIndex++)
+            {
+                for (TitleInstance titleInstance: myEnumsList.get(listIndex))
+                {
+                    if(titleInstance.getLanguage().equals(myLanguage))
+                        newEnumList.add(titleInstance.getTitleValue());
+                }
+            }
+        }
+
+        return newEnumList;
+    }
+
     public DataInstance getDataInstance() {
         return dataInstance;
     }
@@ -89,11 +122,11 @@ public class EnumInstance<T> extends SchemaInstance
         return enumVals;
     }
 
-    public void setEnumNames(ArrayList<String> enumNames) {
-        this.enumNames = enumNames;
+    public void setMyEnumNa(ArrayList<String> myEnumNa) {
+        this.myEnumNa = myEnumNa;
     }
 
-    public ArrayList<String> getEnumNames() {
-        return enumNames;
+    public ArrayList<String> getMyEnumNa() {
+        return myEnumNa;
     }
 }

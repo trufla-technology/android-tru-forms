@@ -87,7 +87,7 @@ public class TruEnumDataView extends TruEnumView {
                 names.add(pair.second);
             }
             instance.setEnumVals(ids);
-            instance.setEnumNames(names);
+            instance.setMyEnumNa(names);
             if (!hasConstValue()) {
                 setButtonClickListener();
                 showChooserDialogAction();
@@ -107,7 +107,7 @@ public class TruEnumDataView extends TruEnumView {
         else
             valIdx = instance.getEnumVals().indexOf(Double.parseDouble(instance.getConstItem().toString()));
         if (valIdx >= 0)
-            return instance.getEnumNames().get(valIdx);
+            return instance.getMyEnumNa().get(valIdx);
         else
             return instance.getConstItem(); //to pervent any unpredictable crashes
     }
