@@ -1,6 +1,5 @@
 package com.trufla.androidtruforms.utils;
 
-import android.util.Pair;
 import android.util.SparseArray;
 
 import com.google.gson.JsonArray;
@@ -10,6 +9,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import com.trufla.androidtruforms.SharedData;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ValueToSchemaMapper {
-
+public class ValueToSchemaMapper
+{
     public static String map(String schema, String schemaValue) throws IOException {
         String schemaWithValueAsConst = "";
         JsonParser parser = new JsonParser();
@@ -37,15 +37,39 @@ public class ValueToSchemaMapper {
                     JsonElement jsonElement = ((JsonArray) pair.getValue()).get(i);
                     if (jsonElement instanceof JsonObject)
                         flatList.put(pair.getKey() + "[" + i + "]", jsonElement.toString());
-                    else {
+
+                    else if(jsonElement instanceof JsonArray)
+                    {
+                        SharedData sharedData = SharedData.getInstance();
+                        String myLanguage = sharedData.getDefaultLanguage();
+
+                        JsonArray parentArray = jsonElement.getAsJsonArray();
+                        for (int x= 0; x<parentArray.size(); x++)
+                        {
+                            JsonObject myObj = parentArray.get(x).getAsJsonObject();
+
+                            String lang = myObj.get("language").getAsString();
+                            String value = myObj.get("value").getAsString();
+
+                            if(lang.equals(myLanguage))
+                                flatList.put(pair.getKey() + "[" + i + "]", value);
+                        }
+
+                    } else
                         flatList.put(pair.getKey() + "[" + i + "]", jsonVal2Obj(jsonElement.getAsJsonPrimitive()));
 
-                    }
+//                    if (jsonElement instanceof JsonObject)
+//                        flatList.put(pair.getKey() + "[" + i + "]", jsonElement.toString());
+//                    else {
+//                        flatList.put(pair.getKey() + "[" + i + "]", jsonVal2Obj(jsonElement.getAsJsonPrimitive()));
+//
+//                    }
                 }
+
                 flatList.put(pair.getKey(), pair.getValue());
-            } else if (pair.getValue() instanceof JsonPrimitive) {
+
+            } else if (pair.getValue() instanceof JsonPrimitive)
                 flatList.put(pair.getKey(), jsonVal2Obj(pair.getValue().getAsJsonPrimitive()));
-            }
         }
         return flatList;
     }

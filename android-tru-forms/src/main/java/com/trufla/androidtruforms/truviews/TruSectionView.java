@@ -15,8 +15,6 @@ import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.ValueToSchemaMapper;
 
-import org.json.JSONObject;
-
 /**
  * Created by ohefny on 6/26/18.
  */
@@ -32,7 +30,7 @@ public class TruSectionView extends TruObjectView {
     @Override
     protected void buildSubview() {
         super.buildSubview();
-        if (TruUtils.isEmpty(instance.getTitle())) {
+        if (TruUtils.isEmpty(instance.getTittleValue())) {
             mView.findViewById(R.id.section_header).setVisibility(View.GONE);
         } else {
             handleExpandBehavior();

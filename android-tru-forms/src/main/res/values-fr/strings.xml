@@ -26,5 +26,7 @@
     <string name="add_more">Ajouter Plus</string>
     <string name="gallery">Galerie</string>
     <string name="camera">Caméra</string>
+    <string name="submit">Soumettre</string>
+
 
 </resources>

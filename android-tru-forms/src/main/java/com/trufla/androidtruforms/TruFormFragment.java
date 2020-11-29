@@ -78,7 +78,6 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     private static SharedData sharedData;
     private String currentCameraPhotoPath;
 
-
     //create a single thread pool to our image compression class.
     private ExecutorService mExecutorService = Executors.newFixedThreadPool(1);
 
@@ -87,12 +86,16 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     public TruFormFragment() {
     }
 
-    public static TruFormFragment newInstance(int schemaType, String schemaString) {
+    public static TruFormFragment newInstance(int schemaType, String schemaString)
+    {
         TruFormFragment fragment = new TruFormFragment();
         Bundle args = new Bundle();
         args.putString(SCHEMA_KEY, schemaString);
         args.putInt(SCHEMA_TYPE, schemaType);
         sharedData = null;
+//        sharedData = SharedData.getInstance();
+//        sharedData.setLanguage("fr");
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -127,9 +130,12 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
         try {
 
             String jsonVal = "";
-            if (sharedData != null) {
+            if (sharedData != null)
                 jsonVal = sharedData.getData();
-            }
+
+            //Will Change those lines when upload the new schema
+            sharedData = SharedData.getInstance();
+            sharedData.setLanguage("fr");
 
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());

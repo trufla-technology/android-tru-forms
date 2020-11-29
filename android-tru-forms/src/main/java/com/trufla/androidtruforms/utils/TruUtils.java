@@ -36,6 +36,10 @@ public class TruUtils {
         return (myString == null) ? "" : myString;
     }
 
+    public static String setDefaultUserLanguage(String myString) {
+        return (myString == null || myString.isEmpty()) ? "en" : myString;
+    }
+
     public static String getText(EditText et) {
         return et.getText().toString().trim();
     }
