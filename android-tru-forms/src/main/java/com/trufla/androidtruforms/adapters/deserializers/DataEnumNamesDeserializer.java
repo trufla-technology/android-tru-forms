@@ -8,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
-import com.trufla.androidtruforms.SharedData;
 import com.trufla.androidtruforms.models.DataEnumNames;
 
 import java.lang.reflect.Type;
@@ -35,8 +34,8 @@ public class DataEnumNamesDeserializer implements JsonDeserializer<DataEnumNames
 
     public ArrayList<String> getEnumList(JsonElement json)
     {
-        SharedData sharedData = SharedData.getInstance();
-        String myLanguage = sharedData.getDefaultLanguage();
+//        SharedData sharedData = SharedData.getInstance();
+//        String myLanguage = sharedData.getDefaultLanguage();
 
         ArrayList<String> newEnumList = new ArrayList<>();
         JsonArray parentArray = json.getAsJsonArray();
@@ -51,7 +50,7 @@ public class DataEnumNamesDeserializer implements JsonDeserializer<DataEnumNames
                 String lang = myObj.get("language").getAsString();
                 String value = myObj.get("value").getAsString();
 
-                if(lang.equals(myLanguage))
+                if(lang.equals("en"))
                     newEnumList.add(value);
             }
         }
