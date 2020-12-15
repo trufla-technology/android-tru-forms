@@ -69,6 +69,7 @@ public class EnumDataFormatter {
                 else
                     finalName.append(getNameFromCurrentObject(asJsonObject, name));
                 finalName.append(',');
+                finalName.append(' ');
             } catch (Exception e) {
                 finalName.append("N/A");
             }

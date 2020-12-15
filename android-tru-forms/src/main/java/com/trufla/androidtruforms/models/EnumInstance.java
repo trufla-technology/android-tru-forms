@@ -69,6 +69,7 @@ public class EnumInstance<T> extends SchemaInstance
     public ArrayList<String> getEnumDisplayedNames()
     {
         ArrayList<String> displayedNames = new ArrayList<>();
+        myEnumNa = getEnumList(enumNamesList);
         if (myEnumNa != null && !myEnumNa.isEmpty())
             return myEnumNa;
 
