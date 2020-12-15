@@ -90,7 +90,8 @@ public class TruEnumDataView extends TruEnumView {
             instance.setMyEnumNa(names);
             if (!hasConstValue()) {
                 setButtonClickListener();
-                showChooserDialogAction();
+                showAPiDataDialog(names);
+                //showChooserDialogAction();
             } else
                 setNonEditableValues(getItemNameForItemValue());
         };
@@ -110,6 +111,23 @@ public class TruEnumDataView extends TruEnumView {
             return instance.getMyEnumNa().get(valIdx);
         else
             return instance.getConstItem(); //to pervent any unpredictable crashes
+    }
+
+    public void showAPiDataDialog(ArrayList<String> namesList) {
+        String[] displayedNames = new String[]{};
+        if (namesList.size() > 0)
+            displayedNames = ((List<String>) namesList).toArray(new String[0]);
+
+        new MaterialAlertDialogBuilder(mContext)
+                .setTitle(instance.getPresentationTitle())
+                .setSingleChoiceItems(displayedNames, 0, null)
+                .setPositiveButton(context.getString(R.string.ok), (dialog, whichButton) -> {
+                    selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                    if (valueChangedListener != null)
+                        valueChangedListener.onEnumValueChanged(instance.getKey(), instance.getEnumVals().get(selectedPosition));
+                    setInstanceData();
+
+                }).show();
     }
 
     public void showChooserDialogAction() {
