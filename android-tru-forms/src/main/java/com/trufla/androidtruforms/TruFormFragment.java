@@ -134,8 +134,8 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
                 jsonVal = sharedData.getData();
 
             //Will Change those lines when upload the new schema
-            sharedData = SharedData.getInstance();
-            sharedData.setLanguage("fr");
+//            sharedData = SharedData.getInstance();
+//            sharedData.setLanguage("fr");
 
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(schemaString, getContext());
