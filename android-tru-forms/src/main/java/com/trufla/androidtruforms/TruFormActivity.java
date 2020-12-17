@@ -120,8 +120,8 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
             if (sharedData != null)
                 jsonVal = sharedData.getData();
 
-            sharedData = SharedData.getInstance();
-            sharedData.setLanguage("fr");
+//            sharedData = SharedData.getInstance();
+//            sharedData.setLanguage("fr");
 
             if (TextUtils.isEmpty(jsonVal))
                 truFormView = SchemaBuilder.getInstance().buildSchemaView(Objects.requireNonNull(getIntent().getExtras()).getString(SCHEMA_KEY), this);
