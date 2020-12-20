@@ -22,6 +22,7 @@ public class TruEnumDataView extends TruEnumView {
     private int selectedPosition = -1;
     private MaterialButton pickBtn;
     private Context context;
+    private static ArrayList<String> listNames = new ArrayList<>();
 
     public TruEnumDataView(Context context, EnumInstance instance) {
         super(context, instance);
@@ -41,11 +42,16 @@ public class TruEnumDataView extends TruEnumView {
     }
 
     @Override
-    protected void setInstanceData() {
+    protected void setInstanceData()
+    {
         ((MaterialButton) mView.findViewById(R.id.pick_item_btn)).setText(instance.getPresentationTitle());
         if (selectedPosition >= 0 && instance.enumExists()) {
             String choosedItemTitle = "";
-            if (instance.getEnumDisplayedNames().size() > 0)
+
+            if(!listNames.isEmpty())
+                choosedItemTitle = String.valueOf(listNames.get(selectedPosition));
+
+            else if (instance.getEnumDisplayedNames().size() > 0)
                 choosedItemTitle = String.valueOf(instance.getEnumDisplayedNames().get(selectedPosition));
 
             ((MaterialButton) mView.findViewById(R.id.pick_item_btn)).setText(choosedItemTitle);
@@ -64,7 +70,8 @@ public class TruEnumDataView extends TruEnumView {
         if (!instance.enumExists())
             pickBtn.setOnClickListener(getLoadItemsAction());
         else
-            pickBtn.setOnClickListener((v) -> showChooserDialogAction());
+            pickBtn.setOnClickListener((v) -> showAPiDataDialog(listNames));
+//            pickBtn.setOnClickListener((v) -> showChooserDialogAction());
     }
 
     private View.OnClickListener getLoadItemsAction() {
@@ -86,6 +93,10 @@ public class TruEnumDataView extends TruEnumView {
                 ids.add(pair.first);
                 names.add(pair.second);
             }
+
+            if(listNames.isEmpty())
+                listNames.addAll(names);
+
             instance.setEnumVals(ids);
             instance.setMyEnumNa(names);
             if (!hasConstValue()) {
