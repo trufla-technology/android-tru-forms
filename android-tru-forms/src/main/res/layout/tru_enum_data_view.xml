@@ -17,7 +17,7 @@
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         android:paddingBottom="8dp"
-        android:text="None Selected"
+        android:text="@string/non_selected"
         android:textAllCaps="false" />
 
 </LinearLayout>
