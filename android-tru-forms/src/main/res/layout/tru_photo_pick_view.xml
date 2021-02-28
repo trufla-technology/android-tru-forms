@@ -43,7 +43,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Add Photo"
+                android:text="@string/add_photo_label"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
