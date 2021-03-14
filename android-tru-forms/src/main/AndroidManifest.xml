@@ -7,6 +7,9 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".TruFormActivity" />
+        <activity android:name=".PhotoViewerActivity" />
+        <activity android:name=".PDFViewerActivity" />
+
         <activity
             android:name=".TruNavigationActivity"
             android:label="@string/title_activity_tru_navigation"

@@ -58,8 +58,15 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     private void addNewItem(View newItemView, SchemaBaseView viewBuilder) {
         ((ViewGroup) mView).addView(newItemView);
-        items.add(viewBuilder);
-        headerViews.add(newItemView.findViewById(R.id.input_data));
+           if (items.size() < instance.getMaxItems()-1) {
+               items.add(viewBuilder);
+               mView.findViewById(R.id.add_item_img).setVisibility(View.VISIBLE);
+               headerViews.add(newItemView.findViewById(R.id.input_data));
+
+           } else {
+               mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
+           }
+
     }
 
     @Override
@@ -134,10 +141,18 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
         if (itemView != null) {
             int idx = ((ViewGroup) mView).indexOfChild(itemView);
             ((ViewGroup) mView).removeView(itemView);
-            items.remove(idx - 1);
-            headerViews.remove(idx - 1);
-            renameTitleViews(idx - 1);
-        }
+            if(idx < items.size()) {
+                items.remove(idx -1);
+                headerViews.remove(idx -1);
+                renameTitleViews(idx -1);
+            }
+
+                if (items.size() < instance.getMaxItems()-1) {
+                    mView.findViewById(R.id.add_item_img).setVisibility(View.VISIBLE);
+                } else
+                    mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
+            }
+
     }
 
     private void renameTitleViews(int beginIdx) {
@@ -163,14 +178,16 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
             for (int i = 0; i < constItemsList.size(); i++) {
                 if (i == 0) {
-                    mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
                     primaryItem.addAfterBuildConstItem(constItemsList.get(i));
+                    mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
                 } else {
                     View addedView = onAddNewView();
-                    addedView.findViewById(R.id.remove_item_img).setVisibility(View.GONE);
                     items.get(i).addAfterBuildConstItem(constItemsList.get(i));
+                    addedView.findViewById(R.id.remove_item_img).setVisibility(View.GONE);
                 }
             }
+
+            mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
 
         }
         mView.setEnabled(false);

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -59,6 +60,8 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
 {
     private static final int PICK_IMAGE_CODE = 1;
     private static final int CAPTURE_IMAGE_CODE = 2;
+    private static final int PICK_FILE_CODE = 3;
+
     private static final int PERMISSION_REQUEST_CODE = 1;
 
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
@@ -188,12 +191,14 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
             pickFromGallery();
     }
 
+    BottomSheetDialog dialog;
     private void pickFromGallery() {
-        BottomSheetDialog dialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
+         dialog = new BottomSheetDialog(Objects.requireNonNull(getContext()));
         dialog.setContentView(R.layout.bottom_dialog);
 
         ImageView ivCameraSelect = dialog.findViewById(R.id.iv_camera);
         ImageView ivGallerySelect = dialog.findViewById(R.id.iv_gallery);
+        ImageView ivDocumentSelect = dialog.findViewById(R.id.iv_document);
 
         assert ivCameraSelect != null;
         ivCameraSelect.setOnClickListener(view -> {
@@ -232,6 +237,17 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
             startActivityForResult(photoPickerIntent, PICK_IMAGE_CODE);
             dialog.dismiss();
         });
+
+        assert ivDocumentSelect != null;
+        ivDocumentSelect.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setType("application/pdf");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.putExtra("return-data", true);
+            startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FILE_CODE);
+
+        });
+
 
         dialog.show();
     }
@@ -272,6 +288,8 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
+            if(dialog.isShowing())
+                dialog.dismiss();
             switch (requestCode) {
                 case PICK_IMAGE_CODE:
                     Uri pickedImage = data.getData();
@@ -281,9 +299,17 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
 
                 case CAPTURE_IMAGE_CODE:
                     callCompressImageTask(currentCameraPhotoPath);
+                    break;
+
+                case PICK_FILE_CODE:
+                    Uri pickedFile = data.getData();
+                    callcompressFileTask(pickedFile);
+                    break;
+
             }
         }
     }
+
 
     private void callCompressImageTask(String imagePath) {
         imageCompressTask = new ImageCompressTask(getContext(), imagePath, iImageCompressTaskListener);
@@ -308,8 +334,35 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
         @Override
         public void onError(Throwable error) {
             //it might happen on a device with extremely low storage.
-            //log it, log.WhatTheFuck?, or show a dialog asking the user to delete some files....etc, etc
             Log.wtf("ImageCompressor", "Error occurred", error);
+        }
+    };
+
+
+    FileCompressTask fileCompressTask ;
+    private void callcompressFileTask(Uri uri) {
+
+        fileCompressTask = new FileCompressTask(getContext(), uri, mfileCompressTaskListener);
+        mExecutorService.execute(fileCompressTask);
+
+    }
+
+
+    private FileCompressTaskListener mfileCompressTaskListener = new FileCompressTaskListener() {
+        @Override
+        public void onComplete(String base64, Uri uriPath) {
+
+            ImageModel imageModel = new ImageModel();
+            imageModel.setImageBitmap(null);
+            imageModel.setImagePath(uriPath.toString());
+            imageModel.setBase64(base64);
+            mPickedImageListener.accept(imageModel);
+
+        }
+
+        @Override
+        public void onError(Throwable error) {
+            Log.wtf("PDFCompressor", "Error occurred", error);
         }
     };
 
