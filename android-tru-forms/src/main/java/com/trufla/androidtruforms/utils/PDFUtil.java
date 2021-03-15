@@ -22,7 +22,7 @@ import java.sql.Time;
 
 public class PDFUtil {
     //PdfiumAndroid (https://github.com/barteksc/PdfiumAndroid)
-   public static Bitmap generateImageFromPdf(Uri pdfUri, Context context) {
+  /* public static Bitmap generateImageFromPdf(Uri pdfUri, Context context) {
         int pageNumber = 0;
         Bitmap bmp = null;
         PdfiumCore pdfiumCore = new PdfiumCore(context);
@@ -42,7 +42,7 @@ public class PDFUtil {
         }
 
         return bmp ;
-    }
+    }*/
 
     private static Storage storage;
 

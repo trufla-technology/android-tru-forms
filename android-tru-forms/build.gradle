@@ -53,7 +53,7 @@ dependencies {
         exclude group: "bouncycastle"
     }
     // thumb of pdf
-    implementation 'com.github.barteksc:pdfium-android:1.9.0'
+  //  implementation 'com.github.barteksc:pdfium-android:1.9.0'
 
     //PDF View
     implementation  "com.github.barteksc:android-pdf-viewer:2.8.2"
