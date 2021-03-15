@@ -10,11 +10,18 @@
         android:layout_height="match_parent"
         android:layout_weight="0.9">
 
-        <com.pdfview.PDFView
+   <!--     <com.pdfview.PDFView
+            android:id="@+id/doc_pdf_viewer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />-->
+
+        <com.github.barteksc.pdfviewer.PDFView
             android:id="@+id/doc_pdf_viewer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp" />
+
 
         <ProgressBar
             android:id="@+id/document_progress"
