@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.9">
+
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/photo_view"
         android:layout_width="match_parent"
@@ -20,14 +21,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="120dp"
             android:visibility="gone"/>
 
     </FrameLayout>
 
     <Button
         android:layout_width="120dp"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:text="@string/close"
         android:background="@drawable/rounded_button"
         android:layout_gravity="center_horizontal"
