@@ -78,8 +78,8 @@ public class TruPhotoPickerView extends TruStringView {
 
             }else {
                 //pdf thumb
-                Bitmap bmp = BitmapUtils.getBitmapFromDrawable(mContext,R.drawable.ic_pdf_file_icon);
-            //    Bitmap bmp = PDFUtil.generateImageFromPdf(Uri.parse(imageModel.getImagePath()),mContext);
+            //    Bitmap bmp = BitmapUtils.getBitmapFromDrawable(mContext,R.drawable.ic_pdf_file_icon);
+                Bitmap bmp = PDFUtil.generateImageFromPdf(Uri.parse(imageModel.getImagePath()),mContext);
                 setImageToView(bmp);
                 base64Image = imageModel.getBase64() ;
 
@@ -122,9 +122,9 @@ public class TruPhotoPickerView extends TruStringView {
             try {
                 if(constItem.toString().startsWith(FileCompressTask.PDF_CONST)){
                    String[] str = constItem.toString().split(",");
-                  // Uri uri = Uri.parse(PDFUtil.savePDF(str[1],mContext))  ;
-                  // Bitmap bmp = PDFUtil.generateImageFromPdf(uri,mContext);
-                   Bitmap bmp = BitmapUtils.getBitmapFromDrawable(mContext,R.drawable.ic_pdf_file_icon);
+                    Uri uri = Uri.parse(PDFUtil.savePDF(str[1],mContext))  ;
+                    Bitmap bmp = PDFUtil.generateImageFromPdf(uri,mContext);
+                  // Bitmap bmp = BitmapUtils.getBitmapFromDrawable(mContext,R.drawable.ic_pdf_file_icon);
                     setImageToView(bmp);
                     mView.setEnabled(true);
                     mView.findViewById(R.id.photo_container).setOnClickListener(view -> startPDFViewer(str[1],mContext));
