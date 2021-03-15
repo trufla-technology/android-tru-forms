@@ -11,10 +11,10 @@ import android.widget.Toast;
 
 
 import com.google.gson.internal.$Gson$Preconditions;
-/*
+
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfiumCore;
-*/
+
 import com.snatik.storage.Storage;
 
 import java.io.File;
@@ -25,7 +25,7 @@ import java.sql.Time;
 
 public class PDFUtil {
     //PdfiumAndroid (https://github.com/barteksc/PdfiumAndroid)
-  /* public static Bitmap generateImageFromPdf(Uri pdfUri, Context context) {
+   public static Bitmap generateImageFromPdf(Uri pdfUri, Context context) {
         int pageNumber = 0;
         Bitmap bmp = null;
         PdfiumCore pdfiumCore = new PdfiumCore(context);
@@ -45,7 +45,7 @@ public class PDFUtil {
         }
 
         return bmp ;
-    }*/
+    }
 
     private static Storage storage;
 
