@@ -45,7 +45,11 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     private View onAddNewView() {
         SchemaBaseView viewBuilder = getNewInstanceViewBuilder();
         View addedView = getNewItemView(viewBuilder);
-        addNewItem(addedView, viewBuilder);
+        if (items.size() < instance.getMaxItems()) {
+            addNewItem(addedView, viewBuilder);
+        } else {
+        mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
+     }
         return addedView;
     }
 
@@ -58,14 +62,9 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     private void addNewItem(View newItemView, SchemaBaseView viewBuilder) {
         ((ViewGroup) mView).addView(newItemView);
-           if (items.size() < instance.getMaxItems()-1) {
-               items.add(viewBuilder);
-               mView.findViewById(R.id.add_item_img).setVisibility(View.VISIBLE);
-               headerViews.add(newItemView.findViewById(R.id.input_data));
-
-           } else {
-               mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
-           }
+         items.add(viewBuilder);
+         mView.findViewById(R.id.add_item_img).setVisibility(View.VISIBLE);
+         headerViews.add(newItemView.findViewById(R.id.input_data));
 
     }
 
@@ -81,6 +80,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
 
     @NonNull
     private String getTitle(int number) {
+
         return mView.getResources().getString(R.string.array_item_no_title, instance.getPresentationTitle(), number);
     }
 
@@ -147,7 +147,7 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
                 renameTitleViews(idx -1);
             }
 
-                if (items.size() < instance.getMaxItems()-1) {
+                if (items.size() < instance.getMaxItems()) {
                     mView.findViewById(R.id.add_item_img).setVisibility(View.VISIBLE);
                 } else
                     mView.findViewById(R.id.add_item_img).setVisibility(View.GONE);
