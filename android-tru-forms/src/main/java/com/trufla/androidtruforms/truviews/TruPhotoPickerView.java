@@ -122,7 +122,7 @@ public class TruPhotoPickerView extends TruStringView {
             try {
                 if(constItem.toString().startsWith(FileCompressTask.PDF_CONST)){
                    String[] str = constItem.toString().split(",");
-                   Uri uri = Uri.parse(PDFUtil.savePDF(str[1],mContext))  ;
+                  // Uri uri = Uri.parse(PDFUtil.savePDF(str[1],mContext))  ;
                   // Bitmap bmp = PDFUtil.generateImageFromPdf(uri,mContext);
                    Bitmap bmp = BitmapUtils.getBitmapFromDrawable(mContext,R.drawable.ic_pdf_file_icon);
                     setImageToView(bmp);
