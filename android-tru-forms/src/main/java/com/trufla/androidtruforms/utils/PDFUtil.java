@@ -18,7 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.Time;
 
-import com.pdfview.PDFView;
+//import com.pdfview.PDFView;
 
 public class PDFUtil {
     //PdfiumAndroid (https://github.com/barteksc/PdfiumAndroid)
@@ -44,33 +44,7 @@ public class PDFUtil {
         return bmp ;
     }
 
-    public final static String FOLDER = Environment.getExternalStorageDirectory() + "/PDF";
-    private void saveImage(Bitmap bmp) {
-        FileOutputStream out = null;
-        try {
-            File folder = new File(FOLDER);
-            if(!folder.exists())
-                folder.mkdirs();
-            File file = new File(folder, "PDF.png");
-            out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-        } catch (Exception e) {
-            //todo with exception
-        } finally {
-            try {
-                if (out != null)
-                    out.close();
-            } catch (Exception e) {
-                //todo with exception
-            }
-        }
-    }
-
-
     private static Storage storage;
-    private static PDFView pdfView;
-
-
 
     public static String savePDF(String docBase64,Context context)
     {

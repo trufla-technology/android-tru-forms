@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 29
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -53,15 +53,16 @@ dependencies {
         exclude group: "bouncycastle"
     }
     // thumb of pdf
-    implementation 'com.github.barteksc:pdfium-android:1.4.0'
+    implementation 'com.github.barteksc:pdfium-android:1.9.0'
+
+    //PDF View
+    implementation  "com.github.barteksc:android-pdf-viewer:2.8.2"
 
     //access storage
     implementation 'com.snatik:storage:2.1.0@aar'
-    //PDF view
-    implementation "com.pdfview:pdfview-android:1.0.0"
 
     //zoom imageview
-    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
 
     testImplementation 'junit:junit:4.12'
