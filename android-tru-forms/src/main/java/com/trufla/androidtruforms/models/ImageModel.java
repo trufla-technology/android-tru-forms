@@ -15,6 +15,7 @@ public class ImageModel
 {
     private String imagePath;
     private Bitmap imageBitmap;
+    private String base64;
 
     public String getImagePath() {
         return imagePath;
@@ -30,5 +31,13 @@ public class ImageModel
 
     public void setImageBitmap(Bitmap imageBitmap) {
         this.imageBitmap = imageBitmap;
+    }
+
+    public String getBase64() {
+        return base64;
+    }
+
+    public void setBase64(String base64) {
+        this.base64 = base64;
     }
 }

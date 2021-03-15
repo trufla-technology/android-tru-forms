@@ -4,7 +4,7 @@
     <string name="select_date">Select Date</string>
     <string name="date_pick_label">Pick Date</string>
     <!--<string name="add_photo_label">Add photo of %s</string>-->
-    <string name="add_photo_label">Add photo</string>
+    <string name="add_photo_label">Add</string>
     <string name="title_activity_tru_navigation">TruNavigationActivity</string>
     <string name="page_no_of_pages">%s/%s</string>
     <string name="array_item_no_title">%s No %d .</string>
@@ -27,5 +27,7 @@
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="submit">Submit</string>
+    <string name="pdf_document">pdf</string>
+    <string name="close">Close</string>
 
 </resources>

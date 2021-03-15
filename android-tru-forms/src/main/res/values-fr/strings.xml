@@ -4,7 +4,7 @@
     <string name="select_date">Sélectionner une Date</string>
     <string name="date_pick_label">Choisir Date</string>
     <!--<string name="add_photo_label">Add photo of %s</string>-->
-    <string name="add_photo_label">Ajouter une photo</string>
+    <string name="add_photo_label">Ajouter</string>
     <string name="title_activity_tru_navigation">Activité de TruNavigation</string>
     <string name="page_no_of_pages" formatted="true">%s/%s</string>
     <string name="array_item_no_title" formatted="true">%s Non %d .</string>
@@ -27,6 +27,8 @@
     <string name="gallery">Galerie</string>
     <string name="camera">Caméra</string>
     <string name="submit">Soumettre</string>
+    <string name="pdf_document">pdf</string>
+    <string name="close">Fermer</string>
 
 
 </resources>

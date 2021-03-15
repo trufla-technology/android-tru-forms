@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -32,8 +33,10 @@ import com.trufla.androidtruforms.utils.BitmapUtils;
 import com.trufla.androidtruforms.utils.EnumDataFormatter;
 import com.trufla.androidtruforms.utils.PermissionsUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +53,8 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
 {
     private static final int PICK_IMAGE_CODE = 1;
     private static final int CAPTURE_IMAGE_CODE = 2;
+    private static final int PICK_FILE_CODE = 3;
+
     private static final int PERMISSION_REQUEST_CODE = 1;
 
     private static final String SCHEMA_KEY = "SCHEMA_KEY";
@@ -163,8 +168,10 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
         dialog = new BottomSheetDialog(this);
         dialog.setContentView(R.layout.bottom_dialog);
 
+
         ImageView ivCameraSelect = dialog.findViewById(R.id.iv_camera);
         ImageView ivGallerySelect = dialog.findViewById(R.id.iv_gallery);
+        ImageView ivDocumentSelect = dialog.findViewById(R.id.iv_document);
 
         assert ivCameraSelect != null;
         ivCameraSelect.setOnClickListener(view -> {
@@ -204,6 +211,16 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
             dialog.dismiss();
         });
 
+        assert ivDocumentSelect != null;
+        ivDocumentSelect.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setType("pdf/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.putExtra("return-data", true);
+            startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FILE_CODE);
+
+        });
+
         dialog.show();
     }
 
@@ -219,6 +236,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
                 break;
         }
     }
+
 
     @Override
     public void onRequestData(TruConsumer<ArrayList<Pair<Object, String>>> listener, String selector, ArrayList<String> names, String url) {
@@ -261,8 +279,47 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
                 case CAPTURE_IMAGE_CODE:
                     imageCompressTask = new ImageCompressTask(this, currentCameraPhotoPath, iImageCompressTaskListener);
                     mExecutorService.execute(imageCompressTask);
+
+                case PICK_FILE_CODE:
+                    Uri pickedFile = data.getData();
+                    ConvertToString(pickedFile);
+                    //Tecket_Attach.setText(pickedFile.getLastPathSegment());
             }
+
         }
+
+    }
+
+    public String ConvertToString(Uri uri){
+      String  uriString = uri.toString();
+        String document="";
+        Log.d("data", "onActivityResult: uri"+uriString);
+        try {
+            InputStream in = getContentResolver().openInputStream(uri);
+            byte[] bytes = getBytes(in);
+            Log.d("data", "onActivityResult: bytes size="+bytes.length);
+            Log.d("data", "onActivityResult: Base64string="+ Base64.encodeToString(bytes,Base64.DEFAULT));
+             document= Base64.encodeToString(bytes,Base64.DEFAULT);
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            Log.d("error", "onActivityResult: " + e.toString());
+        }
+
+        return document ;
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 
     //image compress task callback
@@ -328,4 +385,7 @@ public class TruFormActivity extends AppCompatActivity implements FormContract
         mExecutorService = null;
         imageCompressTask = null;
     }
+
+
+
 }

@@ -148,6 +148,9 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         else if (STRING_TYPE.equals("email"))
             return checkPattern(EMAIL_PATTERN);
 
+        else if(!TruUtils.isEmpty(instance.getPattern()) && ! STRING_TYPE.equals("email"))
+            return true ;
+
         return checkPattern(instance.getPattern());
 
 //        try {
