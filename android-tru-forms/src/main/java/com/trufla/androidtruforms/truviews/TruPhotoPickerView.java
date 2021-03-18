@@ -67,7 +67,7 @@ public class TruPhotoPickerView extends TruStringView {
         return (imageModel) ->
         {
 
-            if(imageModel.getImageBitmap() != null) {
+            if(!imageModel.getBase64().contains("pdf")) {
                 // photo thumb
                 if (imageModel.getImagePath().isEmpty())
                     setImageToView(imageModel.getImageBitmap());
@@ -79,8 +79,7 @@ public class TruPhotoPickerView extends TruStringView {
             }else {
                 //pdf thumb
             //    Bitmap bmp = BitmapUtils.getBitmapFromDrawable(mContext,R.drawable.ic_pdf_file_icon);
-                Bitmap bmp = PDFUtil.generateImageFromPdf(Uri.parse(imageModel.getImagePath()),mContext);
-                setImageToView(bmp);
+                setImageToView(imageModel.getImageBitmap());
                 base64Image = imageModel.getBase64() ;
 
             }

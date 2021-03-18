@@ -2,6 +2,7 @@ package com.trufla.androidtruforms;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +27,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
+import com.trufla.androidtruforms.utils.PDFUtil;
 
 public class FileCompressTask implements Runnable{
 
@@ -52,6 +54,7 @@ public class FileCompressTask implements Runnable{
     }
 
     String bae64 = "" ;
+    Bitmap bmp ;
     @Override
     public void run() {
 
@@ -72,6 +75,7 @@ public class FileCompressTask implements Runnable{
             InputStream in = mContext.getContentResolver().openInputStream(uriPath);
              byte[] bytes = getBytes(in);
              bae64 = PDF_CONST + Base64.encodeToString(bytes,Base64.DEFAULT).replaceAll("\n", "") ;
+             bmp = PDFUtil.generateImageFromPdf(uriPath,mContext);
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -82,7 +86,7 @@ public class FileCompressTask implements Runnable{
         //use Handler to post the result back to the main Thread
         mHandler.post(() -> {
             if (mFileCompressTaskListener != null)
-                mFileCompressTaskListener.onComplete(bae64, uriPath);
+                mFileCompressTaskListener.onComplete(bae64, uriPath,bmp);
         });
 
     }

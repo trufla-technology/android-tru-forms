@@ -341,23 +341,22 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
 
     FileCompressTask fileCompressTask ;
     private void callcompressFileTask(Uri uri) {
-
+        showProgressDialog();
         fileCompressTask = new FileCompressTask(getContext(), uri, mfileCompressTaskListener);
         mExecutorService.execute(fileCompressTask);
-
     }
 
 
     private FileCompressTaskListener mfileCompressTaskListener = new FileCompressTaskListener() {
         @Override
-        public void onComplete(String base64, Uri uriPath) {
+        public void onComplete(String base64, Uri uriPath , Bitmap bmp) {
 
             ImageModel imageModel = new ImageModel();
-            imageModel.setImageBitmap(null);
+            imageModel.setImageBitmap(bmp);
             imageModel.setImagePath(uriPath.toString());
             imageModel.setBase64(base64);
             mPickedImageListener.accept(imageModel);
-
+            progressDialog.dismiss();
         }
 
         @Override
