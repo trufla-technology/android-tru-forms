@@ -11,6 +11,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.lowagie.text.DocumentException;
+import com.snatik.storage.Storage;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -29,19 +30,19 @@ import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
 import com.trufla.androidtruforms.utils.PDFUtil;
 
-public class FileCompressTask implements Runnable{
+public class FileCompressTask implements Runnable {
 
     private Context mContext;
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private File result ;
+    private File result;
     private FileCompressTaskListener mFileCompressTaskListener;
 
     private Uri uriPath;
-    private  Uri compPath ;
-    public static final String PDF_CONST = "data:application/pdf;base64," ;
-                                   // "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*
-                                          //  "data:image/jpeg;base64,"
-
+    private Uri compPath;
+    public static final String PDF_CONST = "data:application/pdf;base64,";
+    // "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*
+    //  "data:image/jpeg;base64,"
+    Storage storage ;
     public FileCompressTask(Context context, Uri path, FileCompressTaskListener fileCompressTaskListener) {
 
         mContext = context;
@@ -50,44 +51,31 @@ public class FileCompressTask implements Runnable{
 
         uriPath = path;
 
-        compPath = path ;
     }
 
-    String bae64 = "" ;
-    Bitmap bmp ;
+    String bae64 = "";
+    Bitmap bmp;
+
     @Override
     public void run() {
 
-
-      /* get file size and compress
-      Cursor returnCursor = mContext.getContentResolver().query(uriPath, null, null, null, null);
-        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-        returnCursor.moveToFirst();
-        if(sizeIndex > 300){
-            PdfReader reader = new PdfReader(uriPath);
-            PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(compPath+"_compressed"),PdfWriter.VERSION_1_5);
-            stamper.setFullCompression();
-            stamper.close();
-            }*/
-
         try {
             InputStream in = mContext.getContentResolver().openInputStream(uriPath);
-             byte[] bytes = getBytes(in);
-             bae64 = PDF_CONST + Base64.encodeToString(bytes,Base64.DEFAULT).replaceAll("\n", "") ;
-             bmp = PDFUtil.generateImageFromPdf(uriPath,mContext);
+            byte[] bytes = getBytes(in);
+            bae64 = PDF_CONST + Base64.encodeToString(bytes, Base64.DEFAULT).replaceAll("\n", "");
+            bmp = PDFUtil.generateImageFromPdf(uriPath, mContext);
 
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
         }
 
+            //use Handler to post the result back to the main Thread
+            mHandler.post(() -> {
+                if (mFileCompressTaskListener != null)
+                    mFileCompressTaskListener.onComplete(  bae64, uriPath, bmp);
+            });
 
-        //use Handler to post the result back to the main Thread
-        mHandler.post(() -> {
-            if (mFileCompressTaskListener != null)
-                mFileCompressTaskListener.onComplete(bae64, uriPath,bmp);
-        });
 
     }
 
@@ -104,3 +92,4 @@ public class FileCompressTask implements Runnable{
         return byteBuffer.toByteArray();
     }
 }
+
