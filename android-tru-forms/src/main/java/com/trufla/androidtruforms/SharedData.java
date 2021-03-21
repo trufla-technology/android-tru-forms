@@ -15,6 +15,8 @@ public class SharedData
     // Global variable
     private String data;
     private String defaultLanguage;
+    private String base64_pdf ;
+    private String base64_image ;
 
     // Restrict the constructor from being instantiated
     private SharedData() {
@@ -46,4 +48,19 @@ public class SharedData
         return TruUtils.setDefaultUserLanguage(this.defaultLanguage);
     }
 
+    public String getBase64_pdf() {
+        return base64_pdf;
+    }
+
+    public void setBase64_pdf(String base64_pdf) {
+        this.base64_pdf = base64_pdf;
+    }
+
+    public String getBase64_image() {
+        return base64_image;
+    }
+
+    public void setBase64_image(String base64_image) {
+        this.base64_image = base64_image;
+    }
 }

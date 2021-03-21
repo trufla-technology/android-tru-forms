@@ -96,8 +96,8 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
         args.putString(SCHEMA_KEY, schemaString);
         args.putInt(SCHEMA_TYPE, schemaType);
         sharedData = null;
-//        sharedData = SharedData.getInstance();
-//        sharedData.setLanguage("fr");
+//      sharedData = SharedData.getInstance();
+//      sharedData.setLanguage("fr");
 
         fragment.setArguments(args);
         return fragment;
@@ -108,7 +108,7 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
         Bundle args = new Bundle();
 
         args.putString(SCHEMA_KEY, schemaString);
-//        args.putString(JSON_KEY, jsonValue);
+//      args.putString(JSON_KEY, jsonValue);
 
         sharedData = SharedData.getInstance();
         sharedData.setData(jsonValue);
@@ -350,7 +350,6 @@ public class TruFormFragment extends Fragment implements FormContract, CollectDa
     private FileCompressTaskListener mfileCompressTaskListener = new FileCompressTaskListener() {
         @Override
         public void onComplete(String base64, Uri uriPath , Bitmap bmp) {
-
             ImageModel imageModel = new ImageModel();
             imageModel.setImageBitmap(bmp);
             imageModel.setImagePath(uriPath.toString());

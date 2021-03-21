@@ -1,10 +1,12 @@
 package com.trufla.androidtruforms.utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,19 +14,41 @@ import android.widget.Toast;
 
 import com.google.gson.internal.$Gson$Preconditions;
 
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfStamper;
+import com.lowagie.text.pdf.PdfWriter;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfiumCore;
 
 import com.snatik.storage.Storage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Time;
 
 //import com.pdfview.PDFView;
 
 public class PDFUtil {
-    //PdfiumAndroid (https://github.com/barteksc/PdfiumAndroid)
+
+    public static boolean compressPDF( String source, String output_path) {
+
+            try {
+                PdfReader reader = new PdfReader(source);
+                PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream(output_path), PdfWriter.VERSION_1_5);
+                pdfStamper.setFullCompression();
+                pdfStamper.close();
+                return true;
+            } catch (IOException | DocumentException e) {
+                e.printStackTrace();
+                return false;
+            }
+
+    }
+
+
    public static Bitmap generateImageFromPdf(Uri pdfUri, Context context) {
         int pageNumber = 0;
         Bitmap bmp = null;
@@ -37,7 +61,6 @@ public class PDFUtil {
             int height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNumber);
             bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             pdfiumCore.renderPageBitmap(pdfDocument, bmp, pageNumber, 0, 0, width, height);
-            //saveImage(bmp);
             pdfiumCore.closeDocument(pdfDocument); // important!
         } catch(Exception e) {
             //todo with exception

@@ -21,6 +21,7 @@ import com.trufla.androidtruforms.FileCompressTask;
 import com.trufla.androidtruforms.PDFViewerActivity;
 import com.trufla.androidtruforms.PhotoViewerActivity;
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.SharedData;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.ImageModel;
@@ -78,9 +79,15 @@ public class TruPhotoPickerView extends TruStringView {
 
             }else {
                 //pdf thumb
-            //    Bitmap bmp = BitmapUtils.getBitmapFromDrawable(mContext,R.drawable.ic_pdf_file_icon);
-                setImageToView(imageModel.getImageBitmap());
-                base64Image = imageModel.getBase64() ;
+                Bitmap bmp = imageModel.getImageBitmap() ;
+                if(bmp != null) {
+                    setImageToView(imageModel.getImageBitmap());
+                }else {
+                    Bitmap icon = BitmapUtils.getBitmapFromDrawable(mContext, R.drawable.ic_pdf_file_icon);
+                    setImageToView(icon);
+                }
+
+                    base64Image = imageModel.getBase64() ;
 
             }
         };
@@ -141,20 +148,21 @@ public class TruPhotoPickerView extends TruStringView {
         mView.findViewById(R.id.photo_remove_icon).setVisibility(View.GONE);
     }
 
-    public static final String BASE64_PHOTO ="base64_photo" ;
+    SharedData sharedData ;
 
     private void startPhotoViewer(String base64, Context context) {
 
         Intent intent = new Intent(context, PhotoViewerActivity.class);
-        intent.putExtra(BASE64_PHOTO , base64);
+        sharedData = SharedData.getInstance();
+        sharedData.setBase64_image(base64);
         context.startActivity(intent);
     }
 
-    public static final String BASE64_FILE ="base64_file" ;
     private void startPDFViewer(String base64 , Context context) {
 
         Intent intent = new Intent(context, PDFViewerActivity.class);
-        intent.putExtra(BASE64_FILE , base64);
+        sharedData = SharedData.getInstance();
+        sharedData.setBase64_pdf(base64);
         context.startActivity(intent);
 
     }

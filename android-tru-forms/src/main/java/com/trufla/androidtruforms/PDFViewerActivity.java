@@ -29,8 +29,7 @@ public class PDFViewerActivity extends Activity {
 
         setContentView(R.layout.pdfviewer);
         pdfView =  findViewById(R.id.doc_pdf_viewer);
-        Intent intent = getIntent();
-        String base64 = intent.getStringExtra(TruPhotoPickerView.BASE64_FILE);
+        String base64 = SharedData.getInstance().getBase64_pdf();
         storage = new Storage(this);
         loadPDF(base64,this);
 
