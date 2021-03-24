@@ -68,7 +68,7 @@ public class TruPhotoPickerView extends TruStringView {
         return (imageModel) ->
         {
 
-            if(!imageModel.getBase64().contains("pdf")) {
+            if(imageModel.getBase64()== null || !imageModel.getBase64().contains("pdf")) {
                 // photo thumb
                 if (imageModel.getImagePath().isEmpty())
                     setImageToView(imageModel.getImageBitmap());
@@ -133,13 +133,17 @@ public class TruPhotoPickerView extends TruStringView {
                   // Bitmap bmp = BitmapUtils.getBitmapFromDrawable(mContext,R.drawable.ic_pdf_file_icon);
                     setImageToView(bmp);
                     mView.setEnabled(true);
-                    mView.findViewById(R.id.photo_container).setOnClickListener(view -> startPDFViewer(str[1],mContext));
+                    sharedData = SharedData.getInstance();
+                    sharedData.setBase64_pdf(str[1]);
+                    mView.findViewById(R.id.photo_container).setOnClickListener(view -> startPDFViewer(mContext));
 
                 }else {
                     Bitmap img = BitmapUtils.decodeBase64ToBitmap(constItem.toString());
                     setImageToView(img);
                     mView.setEnabled(true);
-                    mView.findViewById(R.id.photo_container).setOnClickListener(view -> startPhotoViewer(constItem.toString(),mContext));
+                    sharedData = SharedData.getInstance();
+                    sharedData.setBase64_image(constItem.toString());
+                    mView.findViewById(R.id.photo_container).setOnClickListener(view -> startPhotoViewer(mContext));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -150,19 +154,15 @@ public class TruPhotoPickerView extends TruStringView {
 
     SharedData sharedData ;
 
-    private void startPhotoViewer(String base64, Context context) {
+    private void startPhotoViewer( Context context) {
 
         Intent intent = new Intent(context, PhotoViewerActivity.class);
-        sharedData = SharedData.getInstance();
-        sharedData.setBase64_image(base64);
         context.startActivity(intent);
     }
 
-    private void startPDFViewer(String base64 , Context context) {
+    private void startPDFViewer( Context context) {
 
         Intent intent = new Intent(context, PDFViewerActivity.class);
-        sharedData = SharedData.getInstance();
-        sharedData.setBase64_pdf(base64);
         context.startActivity(intent);
 
     }
