@@ -24,7 +24,6 @@ public class PhotoViewerActivity extends Activity {
         Bitmap bitmap = BitmapUtils.decodeBase64ToBitmap(base64);
         photoView.setImageBitmap(bitmap);
 
-
     }
 
     public void onClosePhotoViewer(View view){

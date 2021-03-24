@@ -3,6 +3,7 @@ package com.trufla.androidtruforms;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -10,8 +11,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.github.barteksc.pdfviewer.PDFView;
 //import com.pdfview.PDFView;
+import com.github.barteksc.pdfviewer.PDFView;
 import com.snatik.storage.Storage;
 import com.trufla.androidtruforms.truviews.TruPhotoPickerView;
 import com.trufla.androidtruforms.utils.PDFUtil;
@@ -31,15 +32,14 @@ public class PDFViewerActivity extends Activity {
         pdfView =  findViewById(R.id.doc_pdf_viewer);
         String base64 = SharedData.getInstance().getBase64_pdf();
         storage = new Storage(this);
-        loadPDF(base64,this);
+        loadPDF(base64);
 
     }
 
-    public  void loadPDF(String docBase64, Context context)
+    public  void loadPDF(String docBase64)
     {
         byte[] docArray = Base64.decode(docBase64, Base64.DEFAULT);
-        pdfView.fromBytes(docArray).load();
-       /* String path = storage.getInternalCacheDirectory().concat("/").concat(String.valueOf(System.currentTimeMillis())).concat(".pdf");
+        String path = storage.getInternalCacheDirectory().concat("/").concat(String.valueOf(System.currentTimeMillis())).concat(".pdf");
         storage.createFile(path, docArray);
 
         if(storage.isDirectoryExists(path))
@@ -48,14 +48,13 @@ public class PDFViewerActivity extends Activity {
             showProgressBar(false);
 
             if(file != null)
-                pdfView.fromFile(file);
+                pdfView.fromFile(file).load();
 
             // pdfView.fromFile(file).show();
-        }else
-        {
+        }else {
             showProgressBar(false);
-            Toast.makeText(context, "File Corrupted", Toast.LENGTH_LONG).show();
-        }*/
+            Toast.makeText(this, "File Corrupted", Toast.LENGTH_LONG).show();
+        }
 
     }
 

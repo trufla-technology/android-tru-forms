@@ -80,8 +80,9 @@ public class PDFUtil {
         try {
             storage.createFile(path, docArray);
         }catch(Exception e){
-
             e.printStackTrace();
+            return null ;
+
         }
 
        return "file://" + path ;
