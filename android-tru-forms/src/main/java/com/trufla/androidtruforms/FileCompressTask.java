@@ -23,11 +23,7 @@ public class FileCompressTask implements Runnable {
     private FileCompressTaskListener mFileCompressTaskListener;
 
     private Uri uriPath;
-    private Uri compPath;
     public static final String PDF_CONST = "data:application/pdf;base64,";
-    // "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*
-    //  "data:image/jpeg;base64,"
-    Storage storage ;
     public FileCompressTask(Context context, Uri path, FileCompressTaskListener fileCompressTaskListener) {
 
         mContext = context;
