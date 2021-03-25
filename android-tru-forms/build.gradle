@@ -63,9 +63,6 @@ dependencies {
     //PDF View
     implementation  "com.github.barteksc:android-pdf-viewer:2.8.2"
 
-    //PDF view
-   // implementation "com.pdfview:pdfview-android:1.0.0"
-
     //access storage
     implementation 'com.snatik:storage:2.1.0@aar'
 

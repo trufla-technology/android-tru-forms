@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_margin="16dp"
-            android:background="@color/colorAccent"
+            android:background="@color/colorPrimary"
             android:text="@string/submit"
             android:textColor="@android:color/white" />
     </LinearLayout>

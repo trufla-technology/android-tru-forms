@@ -6,5 +6,6 @@
     <color name="colorHelp">#00A8C8</color>
     <color name="colorPrimaryLighter">#19fe9900</color>
     <color name="grey">#F4F4F8</color>
+    <color name="colorAccent">#A6E2EF</color>
 
 </resources>

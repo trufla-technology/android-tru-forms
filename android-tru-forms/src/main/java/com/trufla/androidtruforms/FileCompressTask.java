@@ -10,7 +10,7 @@ import android.provider.OpenableColumns;
 import android.util.Base64;
 import android.util.Log;
 
-import com.lowagie.text.DocumentException;
+//import com.lowagie.text.DocumentException;
 import com.snatik.storage.Storage;
 import com.trufla.androidtruforms.utils.BitmapUtils;
 
