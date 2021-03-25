@@ -1,33 +1,18 @@
 package com.trufla.androidtruforms;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.OpenableColumns;
 import android.util.Base64;
-import android.util.Log;
 
-import com.lowagie.text.DocumentException;
 import com.snatik.storage.Storage;
-import com.trufla.androidtruforms.utils.BitmapUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfStamper;
-import com.lowagie.text.pdf.PdfWriter;
 import com.trufla.androidtruforms.utils.PDFUtil;
 
 public class FileCompressTask implements Runnable {
