@@ -30,6 +30,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     private String STRING_TYPE = "";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
     private static final String DRIVER_LICENCE_NUMBER = "^[a-zA-Z0-9]*$" ;
+    private static final String POSTAL_CODE = "^([a-zA-Z][0-9]){3}$";
     private TextInputLayout textInputLayout;
     private TextInputEditText editText;
 
@@ -152,8 +153,15 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         else if (STRING_TYPE.equalsIgnoreCase("driver_license_number"))
                 return checkPattern(DRIVER_LICENCE_NUMBER);
 
+        else if(STRING_TYPE.equalsIgnoreCase("postal_code"))
+            return checkPattern(POSTAL_CODE);
 
-        else if(!TruUtils.isEmpty(instance.getPattern()) && ! STRING_TYPE.equals("email") && ! STRING_TYPE.equals("driver_license_number"))
+
+        else if(   !TruUtils.isEmpty(instance.getPattern())
+                && ! STRING_TYPE.equals("email")
+                && ! STRING_TYPE.equals("driver_license_number")
+                && ! STRING_TYPE.equals("postal_code")
+              )
             return true ;
 
         return checkPattern(instance.getPattern());
@@ -195,8 +203,40 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 //        return mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern());
     }
 
+    @Override
+    public boolean validate() {
+        if (!isFilled() && instance.isRequiredField()) {
+            setRequiredError();
+            return false;
+        }
+        if (TruUtils.isEmpty(instance.getPattern()) || !isFilled())
+            return super.validate();
+        try {
+            Pattern patternObj = Pattern.compile(instance.getPattern());
+            Matcher matcher = patternObj.matcher(extractData());
+            if (matcher.matches())
+                return true;
 
-/*    @Override
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+        setValidationError();
+        return false;
+    }
+
+    private void setRequiredError() {
+        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.required_field));
+        mView.findViewById(R.id.input_view_container).requestFocus();
+    }
+
+    protected void setValidationError() {
+        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern()));
+        mView.findViewById(R.id.input_view_container).requestFocus();
+    }
+
+
+
+    /*    @Override
     protected void setError(String errorMsg) {
         if (mView.findViewById(R.id.input_view_container) != null) {
             ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(errorMsg);
