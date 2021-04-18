@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Base64;
 
-import com.snatik.storage.Storage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
