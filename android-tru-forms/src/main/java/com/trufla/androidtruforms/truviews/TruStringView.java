@@ -29,6 +29,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     private String STRING_TYPE = "";
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+    private static final String DRIVER_LICENCE_NUMBER = "^[a-zA-Z0-9]*$" ;
     private TextInputLayout textInputLayout;
     private TextInputEditText editText;
 
@@ -148,7 +149,11 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
         else if (STRING_TYPE.equals("email"))
             return checkPattern(EMAIL_PATTERN);
 
-        else if(!TruUtils.isEmpty(instance.getPattern()) && ! STRING_TYPE.equals("email"))
+        else if (STRING_TYPE.equalsIgnoreCase("driver_license_number"))
+                return checkPattern(DRIVER_LICENCE_NUMBER);
+
+
+        else if(!TruUtils.isEmpty(instance.getPattern()) && ! STRING_TYPE.equals("email") && ! STRING_TYPE.equals("driver_license_number"))
             return true ;
 
         return checkPattern(instance.getPattern());
