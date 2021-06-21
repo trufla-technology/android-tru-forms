@@ -17,6 +17,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-tru-forms-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-tru-forms-app.iml" group="android-tru-forms/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-tru-forms/ggg-android-tru-forms-android-tru-forms.iml" filepath="$PROJECT_DIR$/.idea/modules/android-tru-forms/ggg-android-tru-forms-android-tru-forms.iml" group="android-tru-forms/android-tru-forms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tru-forms-android-tru-forms.iml" filepath="$PROJECT_DIR$/.idea/modules/tru-forms-android-tru-forms.iml" group="android-tru-forms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-tru-forms/tru-forms-android-tru-forms-android-tru-forms.iml" filepath="$PROJECT_DIR$/.idea/modules/android-tru-forms/tru-forms-android-tru-forms-android-tru-forms.iml" group="android-tru-forms/android-tru-forms" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/tru-forms-android-tru-forms-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/tru-forms-android-tru-forms-app.iml" group="android-tru-forms/app" />
     </modules>
   </component>
 </project>
