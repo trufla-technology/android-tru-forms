@@ -93,12 +93,12 @@ public class TruDatePickerView extends TruStringView {
     private long three_years_millsec = 94670856000L ;
     private long hundred_years_millsec = 3155695200000L;
     protected void showDateDialog() {
-        //
+        //&& TruFormFragment.mySchemaType != 1
         DatePickerDialog dialog = new DatePickerDialog(mContext, getOnDateSetListener(), cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         dialog.setTitle(R.string.select_date);
-        if (TruFormFragment.mySchemaType != 4 && TruFormFragment.mySchemaType != 1){
-        dialog.getDatePicker().setMinDate(System.currentTimeMillis() - hundred_years_millsec);
-        dialog.getDatePicker().setMaxDate(System.currentTimeMillis() - three_years_millsec);
+        if (TruFormFragment.mySchemaType == 4 ){
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis() - hundred_years_millsec);
+            dialog.getDatePicker().setMaxDate(System.currentTimeMillis() - three_years_millsec);
 
         }
         dialog.show();
