@@ -225,13 +225,35 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     }
 
     private void setRequiredError() {
-        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.required_field));
-        mView.findViewById(R.id.input_view_container).requestFocus();
+        if (mView.findViewById(R.id.input_view_container) != null) {
+            TextInputLayout textInputLayout = ((TextInputLayout) mView.findViewById(R.id.input_view_container));
+            if (textInputLayout != null)
+                textInputLayout.setError(mView.getResources().getString(R.string.required_field));
+            mView.findViewById(R.id.input_view_container).requestFocus();
+        }
+
+        if (mView.findViewById(R.id.input_label) != null){
+            TextInputLayout textInputLayout = ((TextInputLayout) mView.findViewById(R.id.input_label));
+            if (textInputLayout != null)
+                textInputLayout.setError(mView.getResources().getString(R.string.required_field));
+            mView.findViewById(R.id.input_label).requestFocus();
+        }
     }
 
     protected void setValidationError() {
-        ((TextInputLayout) mView.findViewById(R.id.input_view_container)).setError(mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern()));
-        mView.findViewById(R.id.input_view_container).requestFocus();
+        if (mView.findViewById(R.id.input_view_container) != null){
+            TextInputLayout textInputLayout = ((TextInputLayout) mView.findViewById(R.id.input_view_container));
+            if (textInputLayout != null)
+                textInputLayout.setError(mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern()));
+            mView.findViewById(R.id.input_view_container).requestFocus();
+        }
+
+        if (mView.findViewById(R.id.input_label) != null){
+            TextInputLayout textInputLayout = ((TextInputLayout) mView.findViewById(R.id.input_label));
+            if (textInputLayout != null)
+                textInputLayout.setError(mView.getResources().getString(R.string.pattern_validation_error,instance.getPattern()));
+            mView.findViewById(R.id.input_label).requestFocus();
+        }
     }
 
 
