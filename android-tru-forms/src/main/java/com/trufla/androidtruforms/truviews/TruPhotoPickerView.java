@@ -125,6 +125,7 @@ public class TruPhotoPickerView extends TruStringView {
     @Override
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof String && !TextUtils.isEmpty(constItem.toString())) {
+            mView.findViewById(R.id.title).setVisibility(View.GONE);
             try {
                 if(constItem.toString().startsWith(FileCompressTask.PDF_CONST)){
                    String[] str = constItem.toString().split(",");
