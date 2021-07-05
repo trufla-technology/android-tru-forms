@@ -9,14 +9,11 @@
         android:id="@+id/pick_item_btn"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="match_parent"
         android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
         android:gravity="start|center_vertical"
         android:paddingStart="8dp"
-        android:paddingTop="8dp"
         android:paddingEnd="8dp"
-        android:paddingBottom="8dp"
         android:text="@string/non_selected"
         android:textAllCaps="false" />
 
