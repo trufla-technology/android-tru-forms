@@ -34,7 +34,7 @@ public class SchemaBuilder {
     public final static int REQUEST_CODE = 333;
     public final static String RESULT_DATA_KEY = "SCHEMA_DATA_KEY";
     public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss";
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
     public static final String DEFAULT_DATE_TIME_FORMAT = DEFAULT_DATE_FORMAT + " hh:mm:ss";
     private final SchemaViews schemaViews = new SchemaViews();
     private String timeFormat;

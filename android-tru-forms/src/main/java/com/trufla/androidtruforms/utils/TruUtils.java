@@ -13,6 +13,7 @@ import android.widget.EditText;
 import org.apache.commons.text.WordUtils;
 
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -67,6 +68,23 @@ public class TruUtils {
         Date date = new Date(timeInMillis);
         Format format = new SimpleDateFormat(dateFormat, Locale.getDefault());
         return format.format(date);
+    }
+
+    public static String convertDateFormat(String date, String dateFormat) {
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat output = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        String convertedDate = null;
+
+        try {
+            Date dateValue = input.parse(date);
+            if (dateValue != null) {
+                convertedDate =  output.format(dateValue);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return convertedDate;
     }
 
     public static Activity getHostActivity(View view) {

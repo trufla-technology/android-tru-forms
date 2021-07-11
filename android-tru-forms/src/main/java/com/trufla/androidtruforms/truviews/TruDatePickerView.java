@@ -37,7 +37,7 @@ public class TruDatePickerView extends TruStringView {
 
     @NonNull
     protected String getDateHint() {
-        return "YYYY/MM/DD";
+        return "dd/mm/yyyy";
     }
 
     @Override
@@ -145,7 +145,7 @@ public class TruDatePickerView extends TruStringView {
     @Override
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof String)
-            ((TextInputEditText) mView.findViewById(R.id.input_data)).setText(constItem.toString());
+            ((TextInputEditText) mView.findViewById(R.id.input_data)).setText(TruUtils.convertDateFormat(constItem.toString(),getFormat()));
 
         mView.findViewById(R.id.input_data).setEnabled(false);
         mView.setEnabled(false);
