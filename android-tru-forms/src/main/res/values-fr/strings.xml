@@ -15,6 +15,7 @@
     <string name="in_valid_email">Format d"'"email invalide</string>
     <string name="required_field">Ce champ est requis</string>
     <string name="general_invalid_input">Entrée invalide</string>
+    <string name="enter_valid_email">Veuillez fournir un address courriel valide, s\'il vous plaît</string>
     <string name="loading">Chargement&#8230;</string>
     <string name="cant_load_data">Impossible de charger vos données</string>
     <string name="please_correct_errors">Veuillez corriger les erreurs</string>

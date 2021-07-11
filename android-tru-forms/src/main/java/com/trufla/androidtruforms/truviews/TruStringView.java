@@ -199,7 +199,10 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @Override
     protected String getOtherRulesErrorMessage() {
-        return mView.getResources().getString(R.string.general_invalid_input);
+        if (STRING_TYPE.equals("email"))
+            return mView.getResources().getString(R.string.enter_valid_email);
+        else
+            return mView.getResources().getString(R.string.general_invalid_input);
 //        return mView.getResources().getString(R.string.pattern_validation_error, instance.getPattern());
     }
 
