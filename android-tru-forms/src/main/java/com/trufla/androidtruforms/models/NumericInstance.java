@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.Keep;
 
+import com.google.gson.annotations.SerializedName;
 import com.trufla.androidtruforms.truviews.TruNumericView;
 
 /**
@@ -17,6 +18,9 @@ public class NumericInstance extends SchemaInstance {
     protected double exclusiveMaximum;
     protected double exclusiveMinimum;
     protected String pattern;
+    @SerializedName("placeholder")
+    protected String placeholder;
+
     public NumericInstance(){
 
     }
@@ -75,4 +79,7 @@ public class NumericInstance extends SchemaInstance {
     public String getPattern() {
         return pattern;
     }
+
+    public String getPlaceholder() { return placeholder; }
+
 }

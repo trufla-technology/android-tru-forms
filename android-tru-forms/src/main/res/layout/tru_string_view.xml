@@ -3,14 +3,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/input_title"
+        android:text="title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        android:textColor="@color/title_text_color"/>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_view_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:visibility="visible"
+        app:hintAnimationEnabled="false"
+        app:hintEnabled="false"
+        android:layout_margin="10dp">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_data"
@@ -19,5 +37,6 @@
             android:inputType="textMultiLine"
             tools:hint="this is hint"
             tools:text="" />
+
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
