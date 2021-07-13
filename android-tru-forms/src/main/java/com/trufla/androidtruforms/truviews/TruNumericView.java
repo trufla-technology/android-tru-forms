@@ -42,7 +42,6 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
 
     @Override
     protected void setInstanceData() {
-        ((TextInputLayout) (mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
         input_title.setText(instance.getPresentationTitle());
         if(instance.getPlaceholder() != null)
             editText.setHint(instance.getPlaceholder());

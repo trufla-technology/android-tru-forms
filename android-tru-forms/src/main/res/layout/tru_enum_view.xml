@@ -2,38 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/spinner_title"-->
-    <!--        android:layout_width="fill_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="10dip"-->
-    <!--        android:textColor="@color/colorAccent"-->
-    <!--        tools:text="Category:"-->
-    <!--        android:layout_marginBottom="5dp"/>-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/input_title"
+        android:text="title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        android:textColor="@color/title_text_color"/>
 
-    <!--    <androidx.appcompat.widget.AppCompatSpinner-->
-    <!--        android:id="@+id/spinner"-->
-    <!--        style="@style/Widget.AppCompat.Spinner.Underlined"-->
-    <!--        android:paddingTop="8dp"-->
-    <!--        android:paddingBottom="8dp"-->
-    <!--        android:layout_width="fill_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Hello">
+        app:hintAnimationEnabled="false"
+        android:layout_margin="10dp">
 
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cursorVisible="false"
-            android:inputType="none" />
+            android:inputType="none"
+            android:shadowColor="@color/title_text_color"
+            android:popupBackground="@android:drawable/dialog_holo_light_frame"
+            android:popupElevation="10dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
