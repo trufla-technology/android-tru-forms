@@ -42,7 +42,6 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     protected void buildSubview() {
         inputLayout = mView.findViewById(R.id.input_layout);
         autoCompleteTextView = mView.findViewById(R.id.editText);
-        autoCompleteTextView.setDropDownBackgroundDrawable();
         input_title = mView.findViewById(R.id.input_title);
 
     }
