@@ -1,3 +1,8 @@
 <resources>
     <style name="AppTheme" parent="Theme.MaterialComponents.Light" />
+    <style name="OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/title_text_color</item>
+        <item name="strokeWidth">2sp</item>
+    </style>
+
 </resources>

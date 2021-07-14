@@ -5,6 +5,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.material.button.MaterialButton;
@@ -23,6 +25,7 @@ public class TruEnumDataView extends TruEnumView {
     private MaterialButton pickBtn;
     private Context context;
     private static ArrayList<String> listNames = new ArrayList<>();
+    TextView input_title ;
 
     public TruEnumDataView(Context context, EnumInstance instance) {
         super(context, instance);
@@ -44,7 +47,7 @@ public class TruEnumDataView extends TruEnumView {
     @Override
     protected void setInstanceData()
     {
-        ((MaterialButton) mView.findViewById(R.id.pick_item_btn)).setText(instance.getPresentationTitle());
+       input_title.setText(instance.getPresentationTitle());
         if (selectedPosition >= 0 && instance.enumExists()) {
             String choosedItemTitle = "";
 
@@ -61,6 +64,7 @@ public class TruEnumDataView extends TruEnumView {
     @Override
     protected void onViewCreated() {
         pickBtn = mView.findViewById(R.id.pick_item_btn);
+        input_title = mView.findViewById(R.id.input_title);
         setInstanceData();
         setButtonClickListener();
         super.onViewCreated();
@@ -163,9 +167,9 @@ public class TruEnumDataView extends TruEnumView {
         if (pickBtn.isEnabled())
             pickBtn.performClick();
         String constStr = String.valueOf(constItem);
-        if (TextUtils.isEmpty(constStr))
-            pickBtn.setText(context.getString(R.string.non_selected));
-        else
+  //      if (TextUtils.isEmpty(constStr))
+ //           pickBtn.setText(context.getString(R.string.non_selected));
+  //      else
             pickBtn.setText(constStr.toString());
         pickBtn.setEnabled(false);
     }

@@ -3,18 +3,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/input_title"
+        android:text="title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        android:textColor="@color/title_text_color"/>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/pick_item_btn"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="@style/OutlinedButton"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_height="65dp"
         android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
         android:gravity="start|center_vertical"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="@string/non_selected"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="10dp"
+        app:strokeColor="@android:color/darker_gray"
+        app:strokeWidth="1sp"
+        android:textColor="@color/title_text_color" />
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -22,6 +23,7 @@ public class TruDatePickerView extends TruStringView {
     Calendar cal = Calendar.getInstance();
 
     private TextInputLayout inputLayout;
+    TextView input_title ;
 
     public TruDatePickerView(Context context, StringInstance instance) {
         super(context, instance);
@@ -29,10 +31,9 @@ public class TruDatePickerView extends TruStringView {
 
     @Override
     protected void setInstanceData() {
-        inputLayout.setHint(instance.getPresentationTitle());
+        input_title.setText(instance.getPresentationTitle());
         inputLayout.setHelperTextEnabled(true);
-        inputLayout.setHelperText(getDateHint());
-//        ((TextInputEditText) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
+        inputLayout.setHelperText("");
     }
 
     @NonNull
@@ -70,6 +71,7 @@ public class TruDatePickerView extends TruStringView {
     {
         super.buildSubview();
 
+        input_title = mView.findViewById(R.id.input_title);
         inputLayout = mView.findViewById(R.id.input_label);
         mView.findViewById(R.id.input_data).setOnClickListener(this::onDateViewClicked);
         mView.setOnClickListener(this::onDateViewClicked);

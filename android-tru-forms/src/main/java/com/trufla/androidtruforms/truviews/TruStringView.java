@@ -6,6 +6,7 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -33,6 +34,7 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     private static final String POSTAL_CODE = "^([a-zA-Z][0-9]){3}$";
     private TextInputLayout textInputLayout;
     private TextInputEditText editText;
+    TextView input_title ;
 
 
     public TruStringView(Context context, StringInstance instance) {
@@ -48,9 +50,11 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
     protected void buildSubview() {
         textInputLayout = mView.findViewById(R.id.input_view_container);
         editText = mView.findViewById(R.id.input_data);
+        input_title = mView.findViewById(R.id.input_title);
 
         if (instance.getFormat() != null && instance.getFormat().equals(SchemaKeywords.StringFormats.PHONE))
             editText.setInputType(InputType.TYPE_CLASS_PHONE);
+
 
         if (editText != null) {
             editText.addTextChangedListener(new TextWatcher() {
@@ -75,7 +79,12 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @Override
     protected void setInstanceData() {
-        textInputLayout.setHint(instance.getPresentationTitle());
+        if(instance != null) {
+            if (instance.getPresentationTitle() != null && input_title != null)
+                input_title.setText(instance.getPresentationTitle());
+            if (instance.getPlaceholder() != null)
+                editText.setHint(instance.getPlaceholder());
+        }
     }
 
     @Override
@@ -148,13 +157,13 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
             return true;
 
         else if (STRING_TYPE.equals("email"))
-            return checkPattern(EMAIL_PATTERN);
+               return checkPattern(EMAIL_PATTERN);
 
         else if (STRING_TYPE.equalsIgnoreCase("driver_license_number"))
                 return checkPattern(DRIVER_LICENCE_NUMBER);
 
         else if(STRING_TYPE.equalsIgnoreCase("postal_code"))
-            return checkPattern(POSTAL_CODE);
+               return checkPattern(POSTAL_CODE);
 
 
         else if(   !TruUtils.isEmpty(instance.getPattern())

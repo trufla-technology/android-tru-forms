@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
@@ -31,6 +32,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
 
     private AppCompatAutoCompleteTextView autoCompleteTextView;
     private TextInputLayout inputLayout;
+    TextView input_title ;
 
     public TruEnumView(Context context, EnumInstance instance) {
         super(context, instance);
@@ -40,6 +42,8 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     protected void buildSubview() {
         inputLayout = mView.findViewById(R.id.input_layout);
         autoCompleteTextView = mView.findViewById(R.id.editText);
+        input_title = mView.findViewById(R.id.input_title);
+
     }
 
     protected void setupAdapter(EnumInstance instance) {
@@ -102,7 +106,7 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     @Override
     protected void setInstanceData() {
         setupAdapter(instance);
-        inputLayout.setHint(instance.getPresentationTitle());
+        input_title.setText(instance.getPresentationTitle());
     }
 
     @Override

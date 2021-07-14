@@ -3,8 +3,10 @@ package com.trufla.androidtruforms.truviews;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.models.NumericInstance;
@@ -24,15 +26,37 @@ public class TruNumericView extends SchemaBaseView<NumericInstance> {
         super(context, instance);
     }
 
+    private TextInputLayout textInputLayout;
+    private TextInputEditText editText;
+    TextView input_title ;
+
+
+    @Override
+    protected void buildSubview() {
+        super.buildSubview();
+        textInputLayout = mView.findViewById(R.id.input_view_container);
+        editText = mView.findViewById(R.id.input_data);
+        input_title = mView.findViewById(R.id.input_title);
+
+    }
+
     @Override
     protected void setInstanceData() {
-        ((TextInputLayout) (mView.findViewById(R.id.input_view_container))).setHint(instance.getPresentationTitle());
+        input_title.setText(instance.getPresentationTitle());
+        if(instance.getPlaceholder() != null)
+            editText.setHint(instance.getPlaceholder());
+
     }
 
     @Override
     protected void setViewError(String errorMsg) {
+        if (textInputLayout != null) {
+            textInputLayout.setErrorEnabled(true);
+            textInputLayout.setError(errorMsg);
+        }
 
     }
+
 
     @Override
     public String getInputtedData() {
