@@ -19,7 +19,6 @@ import com.trufla.androidtruforms.models.DataEnumNames;
 import com.trufla.androidtruforms.models.NumericInstance;
 import com.trufla.androidtruforms.models.ObjectInstance;
 import com.trufla.androidtruforms.models.ObjectProperties;
-import com.trufla.androidtruforms.models.OneOfProperty;
 import com.trufla.androidtruforms.models.OneOfPropertyWrapper;
 import com.trufla.androidtruforms.models.SchemaDocument;
 import com.trufla.androidtruforms.models.SchemaInstance;
