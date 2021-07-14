@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.annotation.Keep;
 
 import com.google.gson.annotations.SerializedName;
+import com.trufla.androidtruforms.truviews.SchemaBaseView;
+import com.trufla.androidtruforms.truviews.TruTextAreaView;
 import com.trufla.androidtruforms.truviews.TruTimePickerView;
 import com.trufla.androidtruforms.utils.TruUtils;
 import com.trufla.androidtruforms.truviews.TruDatePickerView;
@@ -49,7 +51,7 @@ public class StringInstance extends SchemaInstance {
     }
 
     @Override
-    public TruStringView getViewBuilder(Context context)
+    public SchemaBaseView<StringInstance> getViewBuilder(Context context)
     {
         if (TruUtils.isEmpty(format))
             return new TruStringView(context, this, "");
@@ -66,6 +68,8 @@ public class StringInstance extends SchemaInstance {
                 return new TruLocationView(context, this);
             case SchemaKeywords.StringFormats.EMAIL:
                 return new TruStringView(context, this, "email");
+            case SchemaKeywords.StringFormats.TEXT_AREA:
+                return new TruTextAreaView(context,this);
             default:
                 return new TruStringView(context,this, "");
         }

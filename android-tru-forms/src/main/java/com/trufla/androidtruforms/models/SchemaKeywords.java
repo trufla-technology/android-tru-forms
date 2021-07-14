@@ -27,6 +27,7 @@ public interface SchemaKeywords {
         String TIME = "time";
         String EMAIL = "email";
         String PHONE = "tel";
+        String TEXT_AREA = "textarea";
     }
 
     interface TruVocabulary {
