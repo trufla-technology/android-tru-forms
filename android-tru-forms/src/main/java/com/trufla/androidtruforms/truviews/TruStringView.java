@@ -79,9 +79,12 @@ public class TruStringView extends SchemaBaseView<StringInstance> {
 
     @Override
     protected void setInstanceData() {
-        input_title.setText(instance.getPresentationTitle());
-        if(instance.getPlaceholder() != null)
-            editText.setHint(instance.getPlaceholder());
+        if(instance != null) {
+            if (instance.getPresentationTitle() != null && input_title != null)
+                input_title.setText(instance.getPresentationTitle());
+            if (instance.getPlaceholder() != null)
+                editText.setHint(instance.getPlaceholder());
+        }
     }
 
     @Override

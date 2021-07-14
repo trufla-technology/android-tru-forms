@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -21,18 +22,21 @@ public class TruTimePickerView extends TruStringView {
     private Calendar cal = Calendar.getInstance();
 
     private TextInputLayout inputLayout;
+    TextView input_title ;
 
     public TruTimePickerView(Context context, StringInstance instance) {
         super(context, instance);
     }
 
+
     @Override
     protected void setInstanceData()
     {
-        inputLayout.setHint(instance.getPresentationTitle());
-        inputLayout.setHelperTextEnabled(true);
-        inputLayout.setHelperText(getDateHint());
-//        ((TextView) (mView.findViewById(R.id.input_data))).setHint(getDateHint());
+    //    inputLayout.setHint(instance.getPresentationTitle());
+   //     inputLayout.setHelperTextEnabled(true);
+  //      inputLayout.setHelperText(getDateHint());
+        if(input_title!=null && instance !=null)
+            input_title.setText(instance.getPresentationTitle());
     }
 
     @NonNull
@@ -70,6 +74,7 @@ public class TruTimePickerView extends TruStringView {
         super.buildSubview();
 
         inputLayout = mView.findViewById(R.id.input_label);
+        input_title = mView.findViewById(R.id.input_title);
         mView.findViewById(R.id.input_data).setOnClickListener(this::onTimeViewClicked);
         mView.setOnClickListener(this::onTimeViewClicked);
     }
