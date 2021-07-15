@@ -6,6 +6,7 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -26,6 +27,7 @@ public class TruTextAreaView extends SchemaBaseView<StringInstance> {
 
     private TextInputLayout textInputLayout;
     private TextInputEditText editText;
+    TextView input_title ;
 
 
     public TruTextAreaView(Context context, StringInstance instance) {
@@ -40,6 +42,8 @@ public class TruTextAreaView extends SchemaBaseView<StringInstance> {
     @Override
     protected void buildSubview() {
         textInputLayout = mView.findViewById(R.id.input_view_container);
+        input_title = mView.findViewById(R.id.input_title);
+
         editText = mView.findViewById(R.id.input_data);
 
 
@@ -66,7 +70,7 @@ public class TruTextAreaView extends SchemaBaseView<StringInstance> {
 
     @Override
     protected void setInstanceData() {
-        textInputLayout.setHint(instance.getPresentationTitle());
+        input_title.setText(instance.getPresentationTitle());
     }
 
     @Override
