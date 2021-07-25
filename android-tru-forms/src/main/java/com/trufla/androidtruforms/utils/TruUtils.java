@@ -70,9 +70,9 @@ public class TruUtils {
         return format.format(date);
     }
 
-    public static String convertDateFormat(String date, String dateFormat) {
-        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        SimpleDateFormat output = new SimpleDateFormat(dateFormat, Locale.getDefault());
+    public static String convertDateFormat(String date,String inputDateFormat, String outDateFormat) {
+        SimpleDateFormat input = new SimpleDateFormat(inputDateFormat, Locale.getDefault());
+        SimpleDateFormat output = new SimpleDateFormat(outDateFormat, Locale.getDefault());
         String convertedDate = null;
 
         try {

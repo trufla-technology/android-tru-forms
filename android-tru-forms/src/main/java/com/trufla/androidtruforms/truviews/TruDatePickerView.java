@@ -49,7 +49,7 @@ public class TruDatePickerView extends TruStringView {
     @NonNull
     @Override
     protected String extractData() {
-        return ((TextInputEditText) mView.findViewById(R.id.input_data)).getText().toString().trim();
+        return TruUtils.convertDateFormat(((TextInputEditText) mView.findViewById(R.id.input_data)).getText().toString().trim(),getFormat(),"yyyy-MM-dd");
     }
 
     @Override
@@ -147,7 +147,7 @@ public class TruDatePickerView extends TruStringView {
     @Override
     protected void setNonEditableValues(Object constItem) {
         if (constItem instanceof String)
-            ((TextInputEditText) mView.findViewById(R.id.input_data)).setText(TruUtils.convertDateFormat(constItem.toString(),getFormat()));
+            ((TextInputEditText) mView.findViewById(R.id.input_data)).setText(TruUtils.convertDateFormat(constItem.toString(),"yyyy-MM-dd",getFormat()));
 
         mView.findViewById(R.id.input_data).setEnabled(false);
         mView.setEnabled(false);
