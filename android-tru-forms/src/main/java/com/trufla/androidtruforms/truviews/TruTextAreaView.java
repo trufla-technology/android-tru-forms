@@ -114,7 +114,7 @@ public class TruTextAreaView extends SchemaBaseView<StringInstance> {
     {
         String editTextValue = Objects.requireNonNull((textInputLayout)
                 .getEditText()).getText().toString().trim();
-        return editTextValue.replaceAll("\n","&lt;br&gt;");
+        return editTextValue.replaceAll("\n"," ");
 
 //        return Objects.requireNonNull((textInputLayout)
 //                .getEditText()).getText().toString().trim();
