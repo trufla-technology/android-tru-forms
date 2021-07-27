@@ -114,7 +114,7 @@ public class TruTextAreaView extends SchemaBaseView<StringInstance> {
     {
         String editTextValue = Objects.requireNonNull((textInputLayout)
                 .getEditText()).getText().toString().trim();
-        return editTextValue.replaceAll("\n","&lt;br&gt;");
+        return editTextValue.replaceAll("\n"," ");
 
 //        return Objects.requireNonNull((textInputLayout)
 //                .getEditText()).getText().toString().trim();
@@ -157,9 +157,20 @@ public class TruTextAreaView extends SchemaBaseView<StringInstance> {
             setRequiredError();
             return false;
         }
+        if (TruUtils.isEmpty(instance.getPattern()) || !isFilled())
+            return super.validate();
+        try {
+            Pattern patternObj = Pattern.compile(instance.getPattern());
+            Matcher matcher = patternObj.matcher(extractData());
+            if (matcher.matches())
+                return true;
 
-        //setValidationError();
-        return true;
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+
+        setValidationError();
+        return false;
     }
 
     private void setRequiredError() {
