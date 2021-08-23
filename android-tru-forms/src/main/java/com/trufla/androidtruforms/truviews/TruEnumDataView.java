@@ -51,7 +51,7 @@ public class TruEnumDataView extends TruEnumView {
         if (selectedPosition >= 0 && instance.enumExists()) {
             String choosedItemTitle = "";
 
-            if(!listNames.isEmpty())
+            if(listNames.size() > 0)
                 choosedItemTitle = String.valueOf(listNames.get(selectedPosition));
 
             else if (instance.getEnumDisplayedNames().size() > 0)
