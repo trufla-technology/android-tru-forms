@@ -106,7 +106,8 @@ public class TruEnumView extends SchemaBaseView<EnumInstance> {
     @Override
     protected void setInstanceData() {
         setupAdapter(instance);
-        input_title.setText(instance.getPresentationTitle());
+        if (instance.getPresentationTitle() != null)
+            input_title.setText(instance.getPresentationTitle());
     }
 
     @Override
