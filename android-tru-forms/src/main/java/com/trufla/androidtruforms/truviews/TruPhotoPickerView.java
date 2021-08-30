@@ -157,7 +157,11 @@ public class TruPhotoPickerView extends TruStringView {
 
     private void startPhotoViewer( Context context) {
 
+        ImageView image = ((ImageView) mView.findViewById(R.id.photo));
+        image.buildDrawingCache();
+        Bitmap bitmap = image.getDrawingCache();
         Intent intent = new Intent(context, PhotoViewerActivity.class);
+        intent.putExtra("bitmap",bitmap);
         context.startActivity(intent);
     }
 

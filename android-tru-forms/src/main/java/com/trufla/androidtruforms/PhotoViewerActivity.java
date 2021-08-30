@@ -19,9 +19,11 @@ public class PhotoViewerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_viewer);
 
-        String base64 = SharedData.getInstance().getBase64_image();
+        Bitmap bitmap = (Bitmap) getIntent().getParcelableExtra("bitmap");
+
+        //String base64 = SharedData.getInstance().getBase64_image();
         PhotoView photoView = (PhotoView) findViewById(R.id.photo_view);
-        Bitmap bitmap = BitmapUtils.decodeBase64ToBitmap(base64);
+       // Bitmap bitmap = BitmapUtils.decodeBase64ToBitmap(base64);
         photoView.setImageBitmap(bitmap);
 
     }
