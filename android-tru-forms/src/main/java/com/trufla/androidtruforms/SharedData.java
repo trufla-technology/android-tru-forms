@@ -2,6 +2,8 @@ package com.trufla.androidtruforms;
 
 import com.trufla.androidtruforms.utils.TruUtils;
 
+import java.util.HashMap;
+
 /**
  * Created by Mohamed Salah on 10,March,2020
  * Trufla Technology,
@@ -18,13 +20,26 @@ public class SharedData
     private String base64_pdf ;
     private String base64_image ;
 
+
+    public HashMap<String, String> getBase64() {
+        return base64;
+    }
+
+    public void setBase64(HashMap<String, String> base64) {
+        this.base64 = base64;
+    }
+
+    private  HashMap<String,String> base64 ;
+
     // Restrict the constructor from being instantiated
     private SharedData() {
+        base64 = new HashMap<>();
     }
 
     public static synchronized SharedData getInstance() {
         if (instance == null) {
             instance = new SharedData();
+
         }
         return instance;
     }
