@@ -30,7 +30,9 @@ public class PDFViewerActivity extends Activity {
 
         setContentView(R.layout.pdfviewer);
         pdfView =  findViewById(R.id.doc_pdf_viewer);
-        String base64 = SharedData.getInstance().getBase64_pdf();
+        String key =  getIntent().getStringExtra("bitmap");
+
+        String base64 = SharedData.getInstance().getBase64().get(key);
         storage = new Storage(this);
         loadPDF(base64);
 
