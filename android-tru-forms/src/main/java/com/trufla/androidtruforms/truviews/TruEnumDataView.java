@@ -170,6 +170,7 @@ public class TruEnumDataView extends TruEnumView {
   //      if (TextUtils.isEmpty(constStr))
  //           pickBtn.setText(context.getString(R.string.non_selected));
   //      else
+        if (instance.getEnumVals() != null)
             pickBtn.setText(constStr.toString());
         pickBtn.setEnabled(false);
     }
