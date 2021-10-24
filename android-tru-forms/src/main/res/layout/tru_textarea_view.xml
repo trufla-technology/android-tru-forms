@@ -7,6 +7,7 @@
 
 
     <TextView
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/input_title"
@@ -35,6 +36,7 @@
             android:inputType="textMultiLine"
             android:scrollbars="vertical"
             android:scrollbarSize="5dp"
+            android:layout_marginBottom="6dp"
             tools:text="" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

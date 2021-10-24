@@ -8,13 +8,13 @@
 
 
     <TextView
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/input_title"
         android:text="title"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:visibility="visible"
         android:textColor="@color/title_text_color"/>
 
@@ -27,7 +27,9 @@
         android:visibility="visible"
         app:hintAnimationEnabled="false"
         app:hintEnabled="false"
-        android:layout_margin="10dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -36,6 +38,7 @@
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             tools:hint="this is hint"
+            android:layout_marginBottom="6dp"
             tools:text="" />
 
     </com.google.android.material.textfield.TextInputLayout>
