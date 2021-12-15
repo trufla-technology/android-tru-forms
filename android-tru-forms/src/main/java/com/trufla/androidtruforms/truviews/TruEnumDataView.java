@@ -47,7 +47,10 @@ public class TruEnumDataView extends TruEnumView {
     @Override
     protected void setInstanceData()
     {
-       input_title.setText(instance.getPresentationTitle());
+        if (instance.isRequiredField())
+            input_title.setText(instance.getPresentationTitle().concat("*"));
+        else
+            input_title.setText(instance.getPresentationTitle());
         if (selectedPosition >= 0 && instance.enumExists()) {
             String choosedItemTitle = "";
 
