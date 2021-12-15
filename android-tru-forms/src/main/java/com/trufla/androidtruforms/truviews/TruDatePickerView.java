@@ -31,7 +31,10 @@ public class TruDatePickerView extends TruStringView {
 
     @Override
     protected void setInstanceData() {
-        input_title.setText(instance.getPresentationTitle());
+        if (instance.isRequiredField())
+            input_title.setText(instance.getPresentationTitle().concat("*"));
+        else
+            input_title.setText(instance.getPresentationTitle());
         inputLayout.setHelperTextEnabled(true);
         inputLayout.setHelperText("");
     }

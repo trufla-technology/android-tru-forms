@@ -58,7 +58,8 @@ public class TruUtils {
 
     public static String removeUnderscoresAndCapitalize(String value) {
         if (!isEmpty(value)) {
-            return WordUtils.capitalize(value.replaceAll("_", " "), null);
+            return value.replaceAll("_", " ");
+            //return WordUtils.capitalize(value.replaceAll("_", " "), null);
 //            return value.replaceAll("_", " ");
         }
         return value;
