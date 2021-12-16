@@ -70,7 +70,10 @@ public class TruTextAreaView extends SchemaBaseView<StringInstance> {
 
     @Override
     protected void setInstanceData() {
-        input_title.setText(instance.getPresentationTitle());
+        if (instance.isRequiredField())
+            input_title.setText(instance.getPresentationTitle().concat("*"));
+        else
+            input_title.setText(instance.getPresentationTitle());
     }
 
     @Override
