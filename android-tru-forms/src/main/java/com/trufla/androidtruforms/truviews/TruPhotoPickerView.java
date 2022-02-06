@@ -55,8 +55,8 @@ public class TruPhotoPickerView extends TruStringView {
     @Override
     protected void setInstanceData() {
      //  String title = mView.getResources().getString(R.string.add_photo_label, instance.getPresentationTitle());
-        String title = " *.PDF , JPG , PNG"; //instance.getPresentationTitle() +
-        ((TextView) mView.findViewById(R.id.title)).setText(title);
+       // String title = " *.PDF , JPG , PNG"; //instance.getPresentationTitle() +
+        ((TextView) mView.findViewById(R.id.title)).setText(mContext.getString(R.string.available_formats));
     }
 
     @NonNull

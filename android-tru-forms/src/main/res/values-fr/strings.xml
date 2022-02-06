@@ -30,6 +30,7 @@
     <string name="submit">Soumettre</string>
     <string name="pdf_document">pdf</string>
     <string name="close">Fermer</string>
+    <string name="available_formats">Formats de fichiers autorisés: pdf, jpg, png</string>
 
 
 </resources>
