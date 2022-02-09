@@ -21,29 +21,29 @@ import java.util.Scanner;
  */
 
 public class TestViewsHierarcy {
-    Gson gson;
-    StringBuilder claimsJson;
-
-    @Before
-    public void buildSetup() {
-        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer()).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).create();
-
-        buildClaimsJson();
-
-    }
-    private void buildClaimsJson() {
-        claimsJson = new StringBuilder();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("claims");
-        Scanner scanner = new Scanner(inputStream);
-        while (scanner.hasNext()) {
-            claimsJson.append(scanner.nextLine());
-        }
-    }
-    @Test
-    public void testClaimsJsonViews() {
-        SchemaInstance schemaObjInstance = gson.fromJson(claimsJson.toString(), SchemaInstance.class);
-        System.out.println(String.format("%s :: %s", "form json", gson.toJson(schemaObjInstance).toString()));
-        Assert.assertTrue(schemaObjInstance instanceof ObjectInstance);
-
-    }
+//    Gson gson;
+//    StringBuilder claimsJson;
+//
+//    @Before
+//    public void buildSetup() {
+//        gson = new GsonBuilder().registerTypeAdapter(SchemaInstance.class, new SchemaInstanceDeserializer()).registerTypeAdapter(ObjectProperties.class, new ObjectPropertiesDeserializer()).create();
+//
+//        buildClaimsJson();
+//
+//    }
+//    private void buildClaimsJson() {
+//        claimsJson = new StringBuilder();
+//        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("claims");
+//        Scanner scanner = new Scanner(inputStream);
+//        while (scanner.hasNext()) {
+//            claimsJson.append(scanner.nextLine());
+//        }
+//    }
+//    @Test
+//    public void testClaimsJsonViews() {
+//        SchemaInstance schemaObjInstance = gson.fromJson(claimsJson.toString(), SchemaInstance.class);
+//        System.out.println(String.format("%s :: %s", "form json", gson.toJson(schemaObjInstance).toString()));
+//        Assert.assertTrue(schemaObjInstance instanceof ObjectInstance);
+//
+//    }
 }
