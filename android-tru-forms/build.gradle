@@ -79,13 +79,25 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'androidx.exifinterface:exifinterface:1.2.0-beta01'
 }
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
+}
+
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 groupId = 'com.github.trufla-technology' //your git id
                 artifactId = 'android-tru-forms' //your-repository
-                version = 'v2.21-alpha101' // As same as the Tag
+                version = 'v2.21-alpha102' // As same as the Tag
+                artifact(sourceJar)
+                artifact("$buildDir/outputs/aar/android-tru-forms-release.aar")
+            }
+        }
+        repositories {
+            maven {
+                url "$buildDir/repo"
             }
         }
     }
