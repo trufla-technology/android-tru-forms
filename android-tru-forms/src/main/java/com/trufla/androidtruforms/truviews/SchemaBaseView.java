@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.TruFormFragment;
+import com.trufla.androidtruforms.interfaces.DataContract;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
@@ -118,6 +119,24 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
         return contract;
     }
 
+    protected DataContract getDataContract(View v)
+    {
+        Activity hostActivity;
+        if (mContext instanceof DataContract)
+            return (DataContract) mContext;
+        hostActivity = TruUtils.getHostActivity(v);
+        if (hostActivity instanceof DataContract)
+            return (DataContract) hostActivity;
+        return getFragmentDataContract((AppCompatActivity) hostActivity);
+    }
+    private DataContract getFragmentDataContract(AppCompatActivity hostActivity)
+    {
+        DataContract contract = (DataContract) ((AppCompatActivity) mContext).getSupportFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
+        if (contract != null)
+            return contract;
+        contract = (DataContract) hostActivity.getFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
+        return contract;
+    }
     public LinearLayout.LayoutParams getLayoutParams() {
         return new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
