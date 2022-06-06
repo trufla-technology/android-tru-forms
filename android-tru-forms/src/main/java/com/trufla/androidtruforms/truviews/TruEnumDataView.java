@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.interfaces.DataContract;
 import com.trufla.androidtruforms.interfaces.FormContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.DataInstance;
@@ -83,14 +84,24 @@ public class TruEnumDataView extends TruEnumView {
 
     private View.OnClickListener getLoadItemsAction() {
         return (v) -> {
-            FormContract formActivity = getFormContract(v);
-            if (formActivity != null) {
-                DataInstance dataInstance = instance.getDataInstance();
-                formActivity.onRequestData(getDataLoadedListener(), dataInstance.getIdentifierColumn(), dataInstance.getNames(), dataInstance.getUrl());
+            if (!hasConstValue()) {
+                FormContract formActivity = getFormContract(v);
+                if (formActivity != null) {
+                    DataInstance dataInstance = instance.getDataInstance();
+                    formActivity.onRequestData(getDataLoadedListener(), dataInstance.getIdentifierColumn(), dataInstance.getNames(), dataInstance.getUrl());
+                }
+            }else{
+                DataContract dataContract = getDataContract(v);
+                if (dataContract != null){
+                    dataContract.onRequestData(getTitleLoadedListener());
+                }
             }
         };
     }
-
+    @NonNull
+    private TruConsumer<String> getTitleLoadedListener() {
+        return this::setNonEditableValues;
+    }
     @NonNull
     private TruConsumer<ArrayList<Pair<Object, String>>> getDataLoadedListener() {
         return (pairArrayList) -> {
@@ -173,6 +184,10 @@ public class TruEnumDataView extends TruEnumView {
   //      if (TextUtils.isEmpty(constStr))
  //           pickBtn.setText(context.getString(R.string.non_selected));
   //      else
+
+        if (constItem instanceof String){
+            pickBtn.setText(constStr);
+        }
         if (instance.getEnumVals() != null)
             pickBtn.setText(constStr.toString());
         pickBtn.setEnabled(false);
