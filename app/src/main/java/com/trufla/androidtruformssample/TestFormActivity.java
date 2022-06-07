@@ -106,7 +106,7 @@ public class TestFormActivity extends AppCompatActivity implements TruFormFragme
 
     @Override
     public void showDialog() {
-
+        showDialog();
     }
 
     @Override
