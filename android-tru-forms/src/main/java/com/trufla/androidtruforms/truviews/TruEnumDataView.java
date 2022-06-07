@@ -1,8 +1,9 @@
 package com.trufla.androidtruforms.truviews;
 
 import androidx.appcompat.app.AlertDialog;
+
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
@@ -12,14 +13,19 @@ import androidx.annotation.NonNull;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trufla.androidtruforms.R;
+import com.trufla.androidtruforms.TruFormActivity;
+import com.trufla.androidtruforms.TruFormFragment;
 import com.trufla.androidtruforms.interfaces.DataContract;
-import com.trufla.androidtruforms.interfaces.FormContract;
+import com.trufla.androidtruforms.interfaces.TitlesListContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.DataInstance;
 import com.trufla.androidtruforms.models.EnumInstance;
+import com.trufla.androidtruforms.utils.EnumDataFormatter;
+import com.trufla.androidtruforms.utils.TruUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TruEnumDataView extends TruEnumView {
     private int selectedPosition = -1;
@@ -27,6 +33,7 @@ public class TruEnumDataView extends TruEnumView {
     private Context context;
     private static ArrayList<String> listNames = new ArrayList<>();
     TextView input_title ;
+    private ProgressDialog progressDialog;
 
     public TruEnumDataView(Context context, EnumInstance instance) {
         super(context, instance);
@@ -81,14 +88,27 @@ public class TruEnumDataView extends TruEnumView {
             pickBtn.setOnClickListener((v) -> showAPiDataDialog(listNames));
 //            pickBtn.setOnClickListener((v) -> showChooserDialogAction());
     }
+    private void showProgressDialog(View view) {
 
+        if (progressDialog != null && progressDialog.isShowing())
+            return;
+        progressDialog = new ProgressDialog(mContext);
+        progressDialog.setTitle(Objects.requireNonNull(TruUtils.getHostActivity(view)).getString(R.string.loading));
+        progressDialog.show();
+    }
+    private void hideProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
     private View.OnClickListener getLoadItemsAction() {
         return (v) -> {
+            showProgressDialog(v);
             if (!hasConstValue()) {
-                FormContract formActivity = getFormContract(v);
-                if (formActivity != null) {
+                TitlesListContract titlesListContract= getTitlesListContract(v);
+                if (titlesListContract != null){
                     DataInstance dataInstance = instance.getDataInstance();
-                    formActivity.onRequestData(getDataLoadedListener(), dataInstance.getIdentifierColumn(), dataInstance.getNames(), dataInstance.getUrl());
+                    titlesListContract.onRequestTitlesList(getTitlesLoadedListener(dataInstance.getIdentifierColumn(),dataInstance.getNames()),dataInstance.getUrl());
+
                 }
             }else{
                 DataContract dataContract = getDataContract(v);
@@ -100,7 +120,33 @@ public class TruEnumDataView extends TruEnumView {
     }
     @NonNull
     private TruConsumer<String> getTitleLoadedListener() {
+        hideProgressDialog();
         return this::setNonEditableValues;
+    }
+
+    @NonNull
+    private TruConsumer<String> getTitlesLoadedListener(final String selector, final ArrayList<String> names) {
+        return (responseBody) -> {
+            hideProgressDialog();
+            ArrayList<Pair<Object, String>> pairArrayList = EnumDataFormatter.getPairList(responseBody, selector, names);
+            ArrayList<Object> ids = new ArrayList<>();
+            ArrayList<String> titles = new ArrayList<>();
+            for (Pair<Object, String> pair : pairArrayList) {
+                ids.add(pair.first);
+                titles.add(pair.second);
+            }
+
+            if(listNames.isEmpty())
+                listNames.addAll(titles);
+
+            instance.setEnumVals(ids);
+            instance.setMyEnumNa(titles);
+            if (!hasConstValue()) {
+                setButtonClickListener();
+                showAPiDataDialog(titles);
+                //showChooserDialogAction();
+            }
+        };
     }
     @NonNull
     private TruConsumer<ArrayList<Pair<Object, String>>> getDataLoadedListener() {

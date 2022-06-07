@@ -16,6 +16,7 @@ import com.trufla.androidtruforms.R;
 import com.trufla.androidtruforms.TruFormFragment;
 import com.trufla.androidtruforms.interfaces.DataContract;
 import com.trufla.androidtruforms.interfaces.FormContract;
+import com.trufla.androidtruforms.interfaces.TitlesListContract;
 import com.trufla.androidtruforms.models.SchemaInstance;
 import com.trufla.androidtruforms.utils.TruUtils;
 
@@ -99,6 +100,37 @@ public abstract class SchemaBaseView<T extends SchemaInstance> {
     protected @LayoutRes
     abstract int getLayoutId();
 
+
+    protected TruFormFragment getTruFormFragment(View v){
+        Activity hostActivity = TruUtils.getHostActivity(v);
+        TruFormFragment fragment = (TruFormFragment) ((AppCompatActivity) mContext).getSupportFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
+        if (fragment != null)
+            return fragment;
+
+        AppCompatActivity compatActivity = (AppCompatActivity) hostActivity;
+        if (compatActivity != null)
+            fragment = (TruFormFragment) compatActivity.getSupportFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
+        return fragment;
+    }
+    protected TitlesListContract getTitlesListContract(View v)
+    {
+        Activity hostActivity;
+        if (mContext instanceof TitlesListContract)
+            return (TitlesListContract) mContext;
+        hostActivity = TruUtils.getHostActivity(v);
+        if (hostActivity instanceof TitlesListContract)
+            return (TitlesListContract) hostActivity;
+        return getFragmentTitlesListContract((AppCompatActivity) hostActivity);
+    }
+
+    private TitlesListContract getFragmentTitlesListContract(AppCompatActivity hostActivity)
+    {
+        TitlesListContract contract = (TitlesListContract) ((AppCompatActivity) mContext).getSupportFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
+        if (contract != null)
+            return contract;
+        contract = (TitlesListContract) hostActivity.getFragmentManager().findFragmentByTag(TruFormFragment.FRAGMENT_TAG);
+        return contract;
+    }
     protected FormContract getFormContract(View v)
     {
         Activity hostActivity;

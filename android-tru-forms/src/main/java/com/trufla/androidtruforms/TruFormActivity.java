@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.trufla.androidtruforms.interfaces.DataContract;
 import com.trufla.androidtruforms.interfaces.FormContract;
+import com.trufla.androidtruforms.interfaces.TitlesListContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
 import com.trufla.androidtruforms.models.ImageModel;
 import com.trufla.androidtruforms.truviews.TruFormView;
@@ -50,7 +51,7 @@ import okhttp3.Callback;
  * Created by ohefny on 8/13/18.
  */
 
-public class TruFormActivity extends AppCompatActivity implements FormContract, DataContract
+public class TruFormActivity extends AppCompatActivity implements FormContract, DataContract, TitlesListContract
 {
     private static final int PICK_IMAGE_CODE = 1;
     private static final int CAPTURE_IMAGE_CODE = 2;
@@ -390,6 +391,9 @@ public class TruFormActivity extends AppCompatActivity implements FormContract, 
 
     @Override
     public void onRequestData(TruConsumer<String> titleLoadedListener) {
+    }
 
+    @Override
+    public void onRequestTitlesList(TruConsumer<String> titlesLoadedListener, String type) {
     }
 }
