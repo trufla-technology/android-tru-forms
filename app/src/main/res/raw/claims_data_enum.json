@@ -1,0 +1,355 @@
+{
+  "title": [
+    {
+      "language": "en",
+      "value": "Auto Claim - Vehicle Accident"
+    },
+    {
+      "language": "fr",
+      "value": "Réclamation d’assurance auto – accident de véhicule automobile "
+    }
+  ],
+  "type": "object",
+  "properties": {
+    "vehicle": {
+      "type": "number",
+      "title": [
+        {
+          "language": "en",
+          "value": "Select vehicle"
+        },
+        {
+          "language": "fr",
+          "value": "Sélectioner un véhicule"
+        }
+      ],
+      "_data": {
+        "href": "https://api.publicapis.org/entries",
+        "enum": "id",
+        "enumNames": [
+          [
+            {
+              "language": "en",
+              "value": "vehicle_make"
+            },
+            {
+              "language": "fr",
+              "value": "vehicle_make"
+            }
+          ],
+          [
+            {
+              "language": "en",
+              "value": "vehicle_model"
+            },
+            {
+              "language": "fr",
+              "value": "vehicle_model"
+            }
+          ]
+        ]
+      }
+    },
+    "driver_information": {
+      "type": "object",
+      "title": [
+        {
+          "language": "en",
+          "value": "Driver information"
+        },
+        {
+          "language": "fr",
+          "value": "Informations du conducteur/de la conductrice"
+        }
+      ],
+      "properties": {
+        "date_time_of_accident": {
+          "title": [
+            {
+              "language": "en",
+              "value": "Date and time of accident"
+            },
+            {
+              "language": "fr",
+              "value": "Date et heure de l’accident"
+            }
+          ],
+          "type": "object",
+          "properties": {
+            "date": {
+              "title": [
+                {
+                  "language": "en",
+                  "value": "Date of accident"
+                },
+                {
+                  "language": "fr",
+                  "value": "Date de l’accident"
+                }
+              ],
+              "type": "string",
+              "format": "date"
+            },
+            "time": {
+              "title": [
+                {
+                  "language": "en",
+                  "value": "Time of accident"
+                },
+                {
+                  "language": "fr",
+                  "value": "Heure de l’accident"
+                }
+              ],
+              "type": "string",
+              "format": "time"
+            }
+          },
+          "required": [
+            "date",
+            "time"
+          ]
+        },
+        "location_of_accident": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "Location of accident"
+            },
+            {
+              "language": "fr",
+              "value": "Lieu de l’accident"
+            }
+          ],
+          "format": "map_lat_long",
+          "pattern": "^[\r\n0-9a-zA-ZÀ-ÿ /_:,.?@;-]*$"
+        },
+        "description_of_accident": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "Description of accident"
+            },
+            {
+              "language": "fr",
+              "value": "Description de l’accident"
+            }
+          ],
+          "format": "textarea",
+          "pattern": "^[\r\n0-9a-zA-ZÀ-ÿ /_:\\+=\\|\\$'\"#%&\\[\\]\\(\\),!.?@;-]*$"
+        },
+        "were_you_driving": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "Were you driving?"
+            },
+            {
+              "language": "fr",
+              "value": "Étiez-vous au volant?"
+            }
+          ],
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "enumNames": [
+            [
+              {
+                "language": "en",
+                "value": "Yes"
+              },
+              {
+                "language": "fr",
+                "value": "Oui"
+              }
+            ],
+            [
+              {
+                "language": "en",
+                "value": "No"
+              },
+              {
+                "language": "fr",
+                "value": "Non"
+              }
+            ]
+          ]
+        },
+        "who_was_driving": {
+          "type": "string",
+          "title": [
+            {
+              "language": "en",
+              "value": "Who was driving"
+            },
+            {
+              "language": "fr",
+              "value": "Qui conduisait"
+            }
+          ],
+          "pattern": "^[\r\n0-9a-zA-ZÀ-ÿ /_:,.?@;-]*$"
+        },
+        "your_damage_photos": {
+          "type": "array",
+          "maxItems": 5,
+          "title": [
+            {
+              "language": "en",
+              "value": "Photos of damage"
+            },
+            {
+              "language": "fr",
+              "value": "Dommages"
+            }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "photo": {
+                "type": "string",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "Photo"
+                  },
+                  {
+                    "language": "fr",
+                    "value": "Photo"
+                  }
+                ],
+                "format": "photo",
+                "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "description_of_accident",
+        "were_you_driving",
+        "date_time_of_accident"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "were_you_driving": {
+              "enum": [
+                "Yes"
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "were_you_driving": {
+              "enum": [
+                "No"
+              ]
+            }
+          },
+          "required": [
+            "who_was_driving"
+          ]
+        }
+      ]
+    },
+    "other_driver_information": {
+      "type": "object",
+      "title": [
+        {
+          "language": "en",
+          "value": "other driver information"
+        },
+        {
+          "language": "fr",
+          "value": "Informations de l’autre conducteur/conductrice"
+        }
+      ],
+      "properties": {
+        "other_driver_information": {
+          "type": "array",
+          "maxItems": 5,
+          "title": [
+            {
+              "language": "en",
+              "value": "Other driver information"
+            },
+            {
+              "language": "fr",
+              "value": "Informations de l’autre conducteur/conductrice"
+            }
+          ],
+          "items": {
+            "type": "object",
+            "properties": {
+              "document_photos": {
+                "type": "object",
+                "title": [
+                  {
+                    "language": "en",
+                    "value": "Description"
+                  },
+                  {
+                    "language": "fr",
+                    "value": "Description "
+                  }
+                ],
+                "properties": {
+                  "pink_card": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "Pink card"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Certificat d’assurance auto"
+                      }
+                    ],
+                    "format": "photo",
+                    "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
+                  },
+                  "drivers_license": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "Drivers license"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Numéro de permis de conduire"
+                      }
+                    ],
+                    "format": "photo",
+                    "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
+                  },
+                  "license_plate": {
+                    "type": "string",
+                    "title": [
+                      {
+                        "language": "en",
+                        "value": "License plate"
+                      },
+                      {
+                        "language": "fr",
+                        "value": "Plaque d'immatriculation"
+                      }
+                    ],
+                    "format": "photo",
+                    "pattern": "^data:([a-zA-Z0-9]+/[a-zA-Z0-9-.+]+).base64,.*"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,20 +1,21 @@
 package com.trufla.androidtruforms.truviews;
 
-import androidx.appcompat.app.AlertDialog;
-
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.trufla.androidtruforms.R;
-import com.trufla.androidtruforms.TruFormActivity;
-import com.trufla.androidtruforms.TruFormFragment;
 import com.trufla.androidtruforms.interfaces.DataContract;
 import com.trufla.androidtruforms.interfaces.TitlesListContract;
 import com.trufla.androidtruforms.interfaces.TruConsumer;
@@ -32,12 +33,26 @@ public class TruEnumDataView extends TruEnumView {
     private MaterialButton pickBtn;
     private Context context;
     private static ArrayList<String> listNames = new ArrayList<>();
-    TextView input_title ;
+    TextView input_title;
+    private MaterialButton inputLayout;
     private ProgressDialog progressDialog;
+    private TextView tvRequired;
 
     public TruEnumDataView(Context context, EnumInstance instance) {
         super(context, instance);
         this.context = context;
+    }
+
+
+    @Override
+    protected void setViewError(String errorMsg) {
+        if (inputLayout != null) {
+            tvRequired.setVisibility(View.VISIBLE);
+            inputLayout.setIconGravity(MaterialButton.ICON_GRAVITY_END);
+            inputLayout.setIconTint(ColorStateList.valueOf(context.getResources().getColor(R.color.design_default_color_error)));
+            inputLayout.setIcon(context.getResources().getDrawable(R.drawable.ic_error_1));
+            inputLayout.setStrokeColor(ColorStateList.valueOf(context.getResources().getColor(R.color.design_default_color_error)));
+        }
     }
 
     @Override
@@ -52,9 +67,31 @@ public class TruEnumDataView extends TruEnumView {
         return R.layout.tru_enum_data_view;
     }
 
+
     @Override
-    protected void setInstanceData()
-    {
+    protected void setInstanceData() {
+        inputLayout.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0) {
+                    setViewError("");
+                    selectedPosition = -1;
+
+                } else {
+                    disableError();
+                }
+            }
+        });
         if (instance.isRequiredField())
             input_title.setText(instance.getPresentationTitle().concat("*"));
         else
@@ -72,10 +109,23 @@ public class TruEnumDataView extends TruEnumView {
         }
     }
 
+
+    private void disableError() {
+        if (inputLayout != null) {
+            tvRequired.setVisibility(View.GONE);
+            inputLayout.setIconGravity(MaterialButton.ICON_GRAVITY_END);
+            inputLayout.setIcon(context.getResources().getDrawable(R.drawable.ic_arrow_drop_down_black_24dp));
+            inputLayout.setIconTint(ColorStateList.valueOf(context.getResources().getColor(R.color.dark_grey)));
+            inputLayout.setStrokeColor(ColorStateList.valueOf(context.getResources().getColor(R.color.light_grey)));
+        }
+    }
+
     @Override
     protected void onViewCreated() {
         pickBtn = mView.findViewById(R.id.pick_item_btn);
         input_title = mView.findViewById(R.id.input_title);
+        inputLayout = mView.findViewById(R.id.pick_item_btn);
+        tvRequired = mView.findViewById(R.id.tv_required);
         setInstanceData();
         setButtonClickListener();
         super.onViewCreated();
@@ -227,9 +277,9 @@ public class TruEnumDataView extends TruEnumView {
         if (pickBtn.isEnabled())
             pickBtn.performClick();
         String constStr = String.valueOf(constItem);
-  //      if (TextUtils.isEmpty(constStr))
- //           pickBtn.setText(context.getString(R.string.non_selected));
-  //      else
+        //      if (TextUtils.isEmpty(constStr))
+        //           pickBtn.setText(context.getString(R.string.non_selected));
+        //      else
 
         if (constItem instanceof String){
             pickBtn.setText(constStr);

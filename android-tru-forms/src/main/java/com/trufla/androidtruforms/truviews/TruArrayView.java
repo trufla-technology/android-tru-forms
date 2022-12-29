@@ -36,10 +36,12 @@ public class TruArrayView extends SchemaBaseView<ArrayInstance> {
     }
 
     private void initPrimaryItem() {
-        primaryItem = instance.getItems().getViewBuilder(mContext);
-        View primaryItemView = primaryItem.build();
-        setLayoutParams(primaryItemView, primaryItem);
-        addNewItem(primaryItemView, primaryItem);
+        if(instance.getItems() != null) {
+            primaryItem = instance.getItems().getViewBuilder(mContext);
+            View primaryItemView = primaryItem.build();
+            setLayoutParams(primaryItemView, primaryItem);
+            addNewItem(primaryItemView, primaryItem);
+        }
     }
 
     private View onAddNewView() {
